@@ -1,1 +1,11 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+  src: url("./assets/fonts/RobotoCondensed-Regular.ttf") format("truetype");
+  font-family: "RobotoCondensed-Regular";
+}
+  
+@font-face {
+  src: url("./assets/fonts/RobotoCondensed-Bold.ttf") format("truetype");
+  font-family: "RobotoCondensed-Bold";
+}
+
+@import url("./assets/css/bootstrap.min.css");
