@@ -1,51 +1,67 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
-import { Http, Headers } from '@angular/http';
-
+import { Http, Headers, Response } from '@angular/http';
 import { JwtHelper } from 'angular2-jwt';
+
+import { Observable } from 'rxjs/Observable';
+
 import { GlobalService } from './global.service';
 
 
 @Injectable()
 export class UserService {
-  
-  private jwtHelper = new JwtHelper();
 
-  public constructor(
-    private http :Http,
-    private globalService :GlobalService,
-  ) {}
+   private jwtHelper = new JwtHelper();
 
-  public login() {
+   public redirectUrl: string;
 
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json; charset=UTF-8');
+   public constructor(
+      private http: Http,
+      private globalService: GlobalService,
+   ) { }
 
-    this.http
-      .post(
-          this.globalService.apiHost + '/user/login',
-          JSON.stringify({
-            "LoginForm" : {
-            "username" : "admin",
-            "password" : "admin"
-          }}),
-          {headers: headers}
-      )
-      .map( (response) => response.json())
-      .subscribe(
-        res => {
-          console.log(res);
-          console.log(this.jwtHelper.decodeToken(res.accessToken));
-        },
-        err => {
-          console.log(err);
-        }
-      )
-  }
+   public login(username: string, password: string) {
 
-  public logout () {
-    
-  }
+      let headers = new Headers();
+      headers.append('Content-Type', 'application/json; charset=UTF-8');
 
+      return this.http
+         .post(
+         this.globalService.apiHost + '/user/login',
+         JSON.stringify({
+            LoginForm: {
+               username: username,
+               password: password
+            }
+         }),
+         { headers: headers }
+         )
+         .map((response: Response) => response.json())
+         .catch(this.handleError);
+   }
+
+   public logout() {
+
+   }
+
+   public isLoggedIn() {
+      // TODO: !!!
+      return false;
+   }
+
+   private handleError(error: Response | any) {
+      let errorMessage: any;
+
+      if (error.status == 0) {
+         errorMessage = {
+            success: false,
+            status: 0,
+            data: "Sorry, there was a connection error occured. Please try later",
+         };
+      } else {
+         errorMessage = error.json();
+      }
+
+      return Observable.throw(errorMessage);
+   }
 }
