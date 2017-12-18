@@ -1,57 +1,66 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from "@angular/router";
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
-import { UserService } from '../_services/index';
+import { AuthService } from '../_services/index';
+import {  } from '@angular/forms/src/model';
 
 @Component({
-   selector: 'app-login',
+   selector:      'app-login',
    templateUrl: './login.component.html',
    styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-   public  loginForm: FormGroup;
-   public  formErrors :any;
-   public  formErrorsDefault :any;
-   public isSubmitted: boolean = false;
-   private errorMessage: string = '';
-   private returnUrl: string = '/';
+   public  loginForm         :FormGroup;
+   public  formErrors        :any;
+   public  serverFormErrors  :any;
 
-   public constructor(
-      private userService: UserService,
+   public  isSubmitted       :boolean;
+   protected errorMessage    :string;
+   protected returnUrl       :string;
+
+   public constructor (
+      private authService :AuthService,
       private router: Router,
       private activatedRoute: ActivatedRoute,
       private formBuilder: FormBuilder,
       
-   ) {
+   ) {      
       this.loginForm = formBuilder.group({
          username: ['', Validators.required],
-         password: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
+         password: ['', Validators.compose([Validators.required, Validators.minLength(4)])]
       });
 
-      this.formErrorsDefault = {
+      this.formErrors = {
          username: {
+            valid: true,
             message: 'Username is required'
          },
          password: {
-            message: 'Password must contain at least 6 letters'
+            valid: true,
+            message: 'Password must contain at least 4 letters'
          }
-      }
+      };
+
+      this.loginForm.valueChanges
+         .subscribe( data => {
+            this.resetErrorsFromServer();
+            this.errorMessage = '';
+      });
    }
 
 
    public ngOnInit() {
-      this.resetFormErrors();
-      this.userService.logout();
+      this.resetErrorsFromServer();
+      this.authService.logout();
 
-      // get return url from route parameters or default to '/'
       this.returnUrl = this.activatedRoute.snapshot.queryParams['r'] || '/';
    }
 
 
    public onSubmit(elementValues: any) {
       this.isSubmitted = true;
-      this.userService.login(elementValues.username, elementValues.password)
+      this.authService.login(elementValues.username, elementValues.password)
          .subscribe(
             result => {
                if (result.success) {
@@ -64,11 +73,12 @@ export class LoginComponent {
             error => {
                this.isSubmitted = false;
                // Validation error
-               if (error.status == 422) {
-                  this.resetFormErrors();
-                  // this._errorMessage = "There was an error on submission. Please check again.";
+               if (error.status == 422) {     
+
+                  this.errorMessage = "Some errors in form. Please check again.";
+
                   let errorFields = JSON.parse(error.data.message);
-                  this.setFormErrors(errorFields);
+                  this.setErrorsFromServer(errorFields);
                } else {
                   this.errorMessage = error.data;
                }
@@ -92,19 +102,28 @@ export class LoginComponent {
    }
 
 
-   private resetFormErrors() {
-      this.formErrors = Object.assign({}, this.formErrorsDefault);
+   private resetErrorsFromServer() {
+      this.serverFormErrors = {
+         username: {
+            valid: true,
+            message: '',
+         },
+         password: {
+            valid: true,
+            message: '',
+         }
+      }
    }
 
 
-   private setFormErrors(errorFields: any) {
+   private setErrorsFromServer (errorFields: any) {
       for (let key in errorFields) {
          // skip loop if the property is from prototype
          if (!errorFields.hasOwnProperty(key)) continue;
 
          let message = errorFields[key];
-         this.formErrors[key].valid = false;
-         this.formErrors[key].message = message;
+         this.serverFormErrors[key].valid = false;
+         this.serverFormErrors[key].message = message;
       }
    }
 }

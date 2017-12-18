@@ -22,6 +22,7 @@ import { SERVICES } from './_services/index';
 
 
 // RxJs
+import 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/catch';

@@ -1,33 +1,37 @@
 <div class="form-container">
 
-   <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)"
-         class="form col-sm-10 col-md-6 col-xl-4">
+   <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)" class="form col-sm-10 col-md-6 col-xl-4">
       <h2>Login</h2>
 
       <div class="form-group">
          <label for="username">Username:</label>
-         <input [formControl]="loginForm.controls['username']" 
-                [ngClass]="{'is-invalid': !isValid('username')}" 
-                type="text" class="form-control" name="username" >
-         <div class="invalid-feedback">{{formErrors.username.message}}</div>
-      </div> 
-      
+         <input [formControl]="loginForm.controls['username']" [ngClass]="{'is-invalid': !isValid('username') || !serverFormErrors.username.valid}" type="text" class="form-control"
+            name="username">
+         <div *ngIf="!isValid('username')" class="invalid-feedback">{{formErrors.username.message}}</div>
+         <div *ngIf="!serverFormErrors.username.valid" class="invalid-feedback">{{serverFormErrors.username.message}}</div>
+      </div>
+
       <div class="form-group">
          <label for="password">Password:</label>
-         <input [formControl]="loginForm.controls['password']"
-                [ngClass]="{'is-invalid': !isValid('password')}"
-                type="password" class="form-control" name="password">
-         <div class="invalid-feedback">{{formErrors.password.message}}</div>
+         <input [formControl]="loginForm.controls['password']" [ngClass]="{'is-invalid': !isValid('password') || !serverFormErrors.password.valid}" type="password" class="form-control"
+            name="password">
+         <div *ngIf="!isValid('password')" class="invalid-feedback">{{formErrors.password.message}}</div>
+         <div *ngIf="!serverFormErrors.password.valid" class="invalid-feedback">{{serverFormErrors.password.message}}</div>
+      </div>
+
+      <div *ngIf="errorMessage" class="form-group">
+         <div class="alert alert-danger">{{errorMessage}}</div>
       </div>
 
       <div class="row">
-            <div  class="col-6">
-               <button [disabled]="!loginForm.valid || isSubmitted" class="btn btn-primary" type="submit">Submit</button>
-            </div>
-            <div *ngIf="isSubmitted" class="col-xs-6">
-               <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
-            </div>
+         <div class="col-6">
+            <button [disabled]="!loginForm.valid || isSubmitted" class="btn btn-primary" type="submit">Submit</button>
+            <i *ngIf="isSubmitted" class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+         </div>
+         <div class="col-6 text-right">
+            <button [disabled]="isSubmitted" class="btn btn-warning" type="reset">Clear</button>
+         </div>
       </div>
    </form>
 
-</div> 
+</div>

@@ -6,3 +6,12 @@
    align-items: center;
    vertical-align: middle;
 }
+
+form {
+   margin: auto;
+}
+
+i {
+   margin: auto;
+   font-size: 16px;
+}
