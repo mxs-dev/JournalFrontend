@@ -1,17 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserService, AuthService } from '../_services/index';
+import { User } from '../_models/user';
+
+
+import { Subject } from 'rxjs';
 
 @Component({
-   selector: 'app-layout',
-   templateUrl: './main-layout.component.html',
+  selector: 'app-layout',
+  templateUrl: './main-layout.component.html',
 })
-export class MainLayoutComponent implements OnInit {
+export class MainLayoutComponent implements OnInit, OnDestroy {
 
-   public isNavbarCollapsed :boolean = true;
+  public isNavbarCollapsed: boolean = true;
+  public currentUser: any  = false;
 
-   public constructor (private authService :AuthService) {}
+  private componetDestroyed = new Subject();
 
-   public ngOnInit () {
-      console.log(this.authService.isLoggedIn());
-   }
+  public constructor(public authService: AuthService) { }
+
+  public ngOnInit() {
+    this.authService.onLogin
+    .takeUntil(this.componetDestroyed)
+    .subscribe(
+      (user :User) => {
+        this.currentUser = user;
+      }
+    );
+  }
+
+  public ngOnDestroy() {
+    this.componetDestroyed.next(true);
+    this.componetDestroyed.unsubscribe();
+  }
 }

@@ -19,7 +19,7 @@ import { P404Component } from './_pages/404.component';
 
 
 import { SERVICES } from './_services/index';
-
+import { GUARDS } from './_guards/index';
 
 // RxJs
 import 'rxjs/Observable';
@@ -41,7 +41,7 @@ import 'rxjs/add/operator/catch';
       MainLayoutComponent,
       P404Component,
    ],
-   providers: [ SERVICES ],
+   providers: [ SERVICES, GUARDS ],
    bootstrap: [ AppComponent ]
 })
 export class AppModule { }

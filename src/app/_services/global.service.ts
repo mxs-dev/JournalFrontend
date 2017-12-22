@@ -12,9 +12,11 @@ export class GlobalService {
         } else {
             this.apiHost = 'http://192.168.33.10/v1';
         }
+
+        this.loadGlobalSettings();
     }
 
-    public loadGlobalSettings () :void {
+    protected loadGlobalSettings () :void {
         if (sessionStorage.getItem('frontend-settings') != null){
             this.settings = JSON.parse(sessionStorage.getItem('frontend-setting'));
         }

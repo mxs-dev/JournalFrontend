@@ -12,10 +12,21 @@ export const routes :Routes = [
    {
       path: '',
       component: MainLayoutComponent,
+      canActivate: [AuthGuard],
+      children: [
+        {
+          path: 'admin',
+          loadChildren: 'app/admin/admin.module#AdminModule'
+        } 
+      ]
+   },
+   {
+      path: '',
+      component: MainLayoutComponent,
       children: [
          {
             path: 'login',
-            loadChildren: 'app/login/login.module#LoginModule'
+            loadChildren: 'app/login/login.module#LoginModule',
          }
       ]
    },
