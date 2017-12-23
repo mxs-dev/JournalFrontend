@@ -21,7 +21,6 @@ export class User {
     public status :number;
 
     public authKey     :string;
-    public accessToken :string;
 
     public createdAt :Date;
     public createdBy :number;
@@ -29,4 +28,29 @@ export class User {
     public updatedBy :number;
 
     public lastLoginAt :Date;
+
+
+    public isAdmin () {
+        return (this.role === User.ROLE_ADMIN);
+    }
+
+    public isTeacher () {
+        return (this.role === User.ROLE_TEACHER);
+    }
+
+    public isStudent () {
+        return (this.role === User.ROLE_STUDENT);
+    }
+
+    public get FullName () {
+        return `${this.name} ${this.surname} ${this.patronymic}`;
+    }
+
+    public get shortFullName () {
+        let n = (this.name[0]).toUpperCase();
+        let p = (this.patronymic[0]).toUpperCase();
+        
+
+        return `${this.surname} ${n}.${p}.`;
+    }
 }

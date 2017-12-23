@@ -1,7 +1,8 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 
 import { User, iApiData } from '../_models/index';
+import { UserFactory } from '../_factories/index';
 
 import { GlobalService } from './global.service';
 import { AuthService }   from './auth.service';
@@ -10,8 +11,9 @@ import { ApiService }    from './api.service';
 import { Observable, Subject } from 'rxjs';
 
 
+
 @Injectable()
-export class UserService implements OnInit{
+export class UserService {
   public isLoggedIn  :boolean = false;
   public onLogin = new Subject<User | boolean> ();
 
@@ -21,35 +23,23 @@ export class UserService implements OnInit{
     private http: Http,
     private apiService :ApiService,
     private authService :AuthService,
+    private userFactory :UserFactory
   ) { 
-   
-  }
-
-  public async ngOnInit() {
     this.isLoggedIn   = this.authService.isLoggedIn();
-    this._currentUser = await this.authService.getCurrentUser();
+    this.authService.getCurrentUser()
+      .then( (user :User) => {
+        this._currentUser = user;
+      })
+      .catch( (err) => {
+        console.log(err);
+      });
   }
 
-  public get(id: number) {
-    return this.apiService.get(`/user/${id}`);
+
+  public async get(id: number) {
+    let data = await this.apiService.get(`/user/${id}`);
+
+    return this.userFactory.getUserFromData(data);
   }
-
-
-  private handleError(error: Response | any) {
-    let errorMessage: any;
-
-    if (error.status == 0) {
-      errorMessage = {
-        success: false,
-        status: 0,
-        data: "Sorry, there was a connection error occured. Please try later",
-      };
-    } else {
-      errorMessage = error.json();
-    }
-
-    return Observable.throw(errorMessage);
-  }
-
- 
+  
 }

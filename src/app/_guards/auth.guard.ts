@@ -6,7 +6,7 @@ import {AuthService} from '../_services/index';
 export class AuthGuard implements CanActivate, CanActivateChild {
 
    constructor(
-      private userService :AuthService,
+      private authService :AuthService,
       private router :Router
    ){}
 
@@ -20,10 +20,10 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 
    public checkLogin (url :string) :boolean {
 
-      if (this.userService.isLoggedIn()) return true;
+      if (this.authService.isLoggedIn()) return true;
 
 
-      this.userService.redirectUrl = url;
+      this.authService.redirectUrl = url;
 
       this.router.navigate(['/login'], {queryParams: { r: url}});
       return false;

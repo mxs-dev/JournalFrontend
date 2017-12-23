@@ -19,13 +19,19 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
   public constructor(public authService: AuthService) { }
 
   public ngOnInit() {
+    console.log(`MainLayout init!`);
+    console.log(
     this.authService.onLogin
     .takeUntil(this.componetDestroyed)
     .subscribe(
       (user :User) => {
+        console.log(`MainLayoutComponent`, user);
         this.currentUser = user;
+      }, 
+      (error :any) => {
+        console.log(`Error`, error);
       }
-    );
+    ));
   }
 
   public ngOnDestroy() {

@@ -1,11 +1,14 @@
 import { AuthGuard } from './auth.guard';
+import { AdminGuard } from './admin.guard';
 
 const GUARDS = [
-  AuthGuard
+  AuthGuard,
+  AdminGuard,
 ];
 
 export {
   GUARDS,
 
   AuthGuard,
+  AdminGuard,
 };

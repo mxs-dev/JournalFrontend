@@ -10,12 +10,16 @@
         <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" [routerLink]="['/']">Home
+                    <a class="nav-link" [routerLink]="['/']">
+                        Home
                         <span class="sr-only">(current)</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
+                <li class="nav-item" *ngIf="currentUser && currentUser.isAdmin()">
+                    <a [routerLink]="['/admin']" class="nav-link" href="#">Admin</a>
+                </li>
+                <li class="nav-item" *ngIf="currentUser && (currentUser.isTeacher() || currentUser.isStudent())">
+                    <a class="nav-link">Subjects</a>
                 </li>
                 <li ngbDropdown class="nav-item dropdown">
                     <a ngbDropdownToggle class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -35,8 +39,8 @@
             
             <div *ngIf="currentUser" ngbDropdown placement="bottom-right" class="nav-item dropdown">
                 <a ngbDropdownToggle class="btn btn-primary" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{currentUser.name}} {{currentUser.surname}} {{currentUser.patronymic}}
-                </a>
+                    {{currentUser.shortFullName}}
+                </a> 
                 <div ngbDropdownMenu  class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" routerLink="/profile">View Profile</a>
                         <div class="dropdown-divider"></div>

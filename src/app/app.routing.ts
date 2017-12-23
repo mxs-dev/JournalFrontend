@@ -5,7 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { MainLayoutComponent } from './_layouts/main-layout.component';
 import { P404Component } from './_pages/404.component';
 
-import { AuthGuard } from './_guards/auth.guard';
+import { AuthGuard, AdminGuard } from './_guards/index';
 
 
 export const routes :Routes = [
@@ -16,6 +16,7 @@ export const routes :Routes = [
       children: [
         {
           path: 'admin',
+          canActivate: [AdminGuard],
           loadChildren: 'app/admin/admin.module#AdminModule'
         } 
       ]

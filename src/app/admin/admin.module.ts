@@ -14,7 +14,7 @@ import { AdminRoutingModule } from './admin-routing.module';
     AdminRoutingModule
   ],
   declarations: [
-    AdminComponent
+    AdminComponent,
   ]
 })
 export class AdminModule { }

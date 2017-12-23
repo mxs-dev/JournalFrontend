@@ -55,7 +55,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     
     this.loginForm.valueChanges
-    .takeUntil(this.componentDestroyed)
     .subscribe(
       data => {
           this.resetErrorsFromServer();

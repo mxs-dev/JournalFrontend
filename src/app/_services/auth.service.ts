@@ -1,16 +1,16 @@
-import { Injectable,  OnInit } from '@angular/core';
+import { Injectable,  OnInit, OnDestroy } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { JwtHelper, tokenNotExpired } from 'angular2-jwt';
 
+import { UserFactory } from '../_factories/index';
 import { iApiData, iJWT, User } from '../_models/index';
 import { GlobalService } from './global.service';
 
 import { Observable, Subject } from 'rxjs';
-import { P404Component } from '../_pages/404.component';
 
 
 @Injectable()
-export class AuthService {
+export class AuthService implements OnDestroy{
 
   public static readonly ACCESS_TOKEN_LS_KEY = `Journal.accessToken`;
   
@@ -22,7 +22,8 @@ export class AuthService {
   public redirectUrl: string;
   public onLogin = new Subject<User|boolean>();
 
-  public constructor(private http: Http, private globalService: GlobalService) {
+
+  public constructor(private http: Http, private globalService: GlobalService, private userFactory :UserFactory) {
 
     this._logginedIn = this.isValidToken();
 
@@ -48,7 +49,7 @@ export class AuthService {
   }
 
 
-  public login(username: string, password: string): Observable<any> {
+  public login (username: string, password: string): Observable<any> {
     return this.http
       .post(
         this.globalService.apiHost + '/user/login',
@@ -80,7 +81,7 @@ export class AuthService {
   }
 
 
-  public logout() {
+  public logout () {
     this.removeAccessToken();
     this._logginedIn = false;
 
@@ -88,17 +89,17 @@ export class AuthService {
   }
 
 
-  public confirmRegistration() {
+  public confirmRegistration () {
 
   }
 
 
-  public isValidToken(): boolean {
+  public isValidToken (): boolean {
     return tokenNotExpired(null, this.getAccessToken());
   }
 
 
-  public getJWT() :iJWT{
+  public getJWT () :iJWT{
     let token = this.getAccessToken();
 
     if (token) {
@@ -109,7 +110,7 @@ export class AuthService {
   }
 
 
-  public getAccessToken(): string {
+  public getAccessToken (): string {
     return localStorage.getItem(AuthService.ACCESS_TOKEN_LS_KEY);
   }
 
@@ -128,7 +129,7 @@ export class AuthService {
         }
       )
       .map( (response :Response) => response.json())
-      .map( (response :iApiData) => <User>response.data)
+      .map( (response :iApiData) => this.userFactory.getUserFromData(response.data))
       .toPromise();
     
     console.log(`loadCurrentUser`, user);
@@ -145,11 +146,11 @@ export class AuthService {
     this.onLogin.next(false);
   }
 
-  protected setAccessToken(token: string) :void {
+  protected setAccessToken (token: string) :void {
     localStorage.setItem(AuthService.ACCESS_TOKEN_LS_KEY, token);
   }
 
-  protected removeAccessToken() :void{
+  protected removeAccessToken () :void{
     localStorage.removeItem(AuthService.ACCESS_TOKEN_LS_KEY);
   }
 
@@ -160,7 +161,7 @@ export class AuthService {
     });
   }
 
-  protected handleError(error: Response | any) {
+  protected handleError (error: Response | any) {
     let errorMessage: any;
 
     if (error.status == 0) {
@@ -174,5 +175,9 @@ export class AuthService {
     }
 
     return Observable.throw(errorMessage);
+  }
+
+  public ngOnDestroy () {
+    this.onLogin.unsubscribe();
   }
 }

@@ -17,9 +17,9 @@ import { LoginModule } from './login/login.module';
 import { MainLayoutComponent } from './_layouts/main-layout.component';
 import { P404Component } from './_pages/404.component';
 
-
-import { SERVICES } from './_services/index';
-import { GUARDS } from './_guards/index';
+import { FACTORIES }  from './_factories/index';
+import { SERVICES }   from './_services/index';
+import { GUARDS }     from './_guards/index';
 
 // RxJs
 import 'rxjs/Observable';
@@ -41,7 +41,7 @@ import 'rxjs/add/operator/catch';
       MainLayoutComponent,
       P404Component,
    ],
-   providers: [ SERVICES, GUARDS ],
+   providers: [ SERVICES, GUARDS, FACTORIES ],
    bootstrap: [ AppComponent ]
 })
 export class AppModule { }
