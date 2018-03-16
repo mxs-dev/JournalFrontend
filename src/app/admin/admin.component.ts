@@ -1,22 +1,23 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
+import { Observable, Subject } from 'rxjs';
+
 import { UserService, ApiService } from '../_services/index';
 
-import { Observable, Subject } from 'rxjs';
 
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.css']
+  styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent implements OnInit, OnDestroy {
 
   protected componentDestroyed = new Subject();
 
   public constructor (
-    private userService :UserService,
-    private apiService :ApiService
+    private userService: UserService,
+    private apiService:  ApiService
   ) {}
 
   public ngOnInit () {

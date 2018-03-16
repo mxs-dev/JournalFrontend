@@ -1,0 +1,7 @@
+<i *ngIf="isLoadingGroupsList" class="fa fa-spin" aria-hidden="true"></i>
+
+<div *ngIf="!isLoadingGroupsList" class="row">
+  <ul>
+    <li *ngFor="let group of this.groups">{{group.title}}</li>
+  </ul>
+</div>

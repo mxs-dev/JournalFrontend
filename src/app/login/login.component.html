@@ -4,11 +4,11 @@
       <h2>Login</h2>
 
       <div class="form-group">
-         <label for="username">Username:</label>
-         <input [formControl]="loginForm.controls['username']" [ngClass]="{'is-invalid': !isValid('username') || !serverFormErrors.username.valid}" type="text" class="form-control"
-            name="username">
-         <div *ngIf="!isValid('username')" class="invalid-feedback">{{formErrors.username.message}}</div>
-         <div *ngIf="!serverFormErrors.username.valid" class="invalid-feedback">{{serverFormErrors.username.message}}</div>
+         <label for="username">Email:</label>
+         <input [formControl]="loginForm.controls['email']" [ngClass]="{'is-invalid': !isValid('email') || !serverFormErrors.email.valid}" type="text" class="form-control"
+            name="email">
+         <div *ngIf="!isValid('email')" class="invalid-feedback">{{formErrors.email.message}}</div>
+         <div *ngIf="!serverFormErrors.email.valid" class="invalid-feedback">{{serverFormErrors.email.message}}</div>
       </div>
 
       <div class="form-group">

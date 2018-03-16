@@ -1,17 +1,17 @@
-export interface iApiData {
+export interface IApiData {
 
-   /** The result of the api method
-    * @var success true | false
-    */ 
-   success :string;
+    /** The result of the api method
+     * @var success true | false
+     */
+    success: string;
 
-   /** HTTP status
-    * @var status 
-    */
-   status :number;
+    /** HTTP status
+     * @var status
+     */
+    status: number;
 
-   /** Server response 
-    * @var data 
-    */
-   data :any;
+    /** Server response
+     * @var data
+     */
+    data: any;
 }

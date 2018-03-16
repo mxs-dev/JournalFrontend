@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router, ActivatedRoute       } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 import { AuthService } from '../_services/index';
@@ -9,7 +9,7 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
   public loginForm: FormGroup;
@@ -38,14 +38,14 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
     this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
+      email: ['', Validators.required],
       password: ['', Validators.compose([Validators.required, Validators.minLength(4)])]
     });
 
     this.formErrors = {
-      username: {
+      email: {
         valid: true,
-        message: 'Username is required'
+        message: 'Email is required'
       },
       password: {
         valid: true,
@@ -53,18 +53,16 @@ export class LoginComponent implements OnInit, OnDestroy {
       }
     };
 
-    
     this.loginForm.valueChanges
-    .subscribe(
+      .subscribe(
       data => {
-          this.resetErrorsFromServer();
-          this.errorMessage = '';
-    });
-  
+        this.resetErrorsFromServer();
+        this.errorMessage = '';
+      });
   }
 
-  
-  public ngOnDestroy () {
+
+  public ngOnDestroy() {
     this.componentDestroyed.next();
     this.componentDestroyed.unsubscribe();
   }
@@ -72,24 +70,24 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public onSubmit(elementValues: any) {
     this.isSubmitted = true;
-    this.authService.login(elementValues.username, elementValues.password)
+    this.authService.login(elementValues.email, elementValues.password)
       .subscribe(
       result => {
         if (result.success) {
           this.router.navigate([this.returnUrl]);
         } else {
-          this.errorMessage = 'Username or password is incorrect.';
+          this.errorMessage = 'Email or password is incorrect.';
           this.isSubmitted = false;
         }
       },
       error => {
         this.isSubmitted = false;
         // Validation error
-        if (error.status == 422) {
+        if (Number(error.status) === 422) {
 
-          this.errorMessage = "Some errors in form. Please check again.";
+          this.errorMessage = 'Some errors in form. Please check again.';
 
-          let errorFields = JSON.parse(error.data.message);
+          const errorFields = JSON.parse(error.data.message);
           this.setErrorsFromServer(errorFields);
         } else {
           this.errorMessage = error.data;
@@ -100,13 +98,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
   private isValid(field: string): boolean {
-    let isValid: boolean = false;
+    let isValid = false;
 
-    if (this.loginForm.controls[field].touched == false) {
+    if (this.loginForm.controls[field].touched === false) {
       isValid = true;
     } else
 
-      if (this.loginForm.controls[field].valid == true) {
+      if (this.loginForm.controls[field].valid === true) {
         isValid = true;
       }
 
@@ -116,7 +114,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private resetErrorsFromServer() {
     this.serverFormErrors = {
-      username: {
+      email: {
         valid: true,
         message: '',
       },
@@ -129,11 +127,14 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
   private setErrorsFromServer(errorFields: any) {
-    for (let key in errorFields) {
-      // skip loop if the property is from prototype
-      if (!errorFields.hasOwnProperty(key)) continue;
+    for (const key in errorFields) {
 
-      let message = errorFields[key];
+      // skip loop if the property is from prototype
+      if (!errorFields.hasOwnProperty(key)) {
+        continue;
+      }
+
+      const message = errorFields[key];
       this.serverFormErrors[key].valid = false;
       this.serverFormErrors[key].message = message;
     }

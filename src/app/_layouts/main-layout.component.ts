@@ -1,9 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+
+
 import { UserService, AuthService } from '../_services/index';
+
 import { User } from '../_models/user';
 
-
 import { Subject } from 'rxjs';
+
 
 @Component({
   selector: 'app-layout',
@@ -11,8 +14,8 @@ import { Subject } from 'rxjs';
 })
 export class MainLayoutComponent implements OnInit, OnDestroy {
 
-  public isNavbarCollapsed: boolean = true;
-  public currentUser: any  = false;
+  public isNavbarCollapsed = true;
+  public currentUser: User = null;
 
   private componetDestroyed = new Subject();
 
@@ -24,11 +27,11 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
     this.authService.onLogin
     .takeUntil(this.componetDestroyed)
     .subscribe(
-      (user :User) => {
+      (user: User) => {
         console.log(`MainLayoutComponent`, user);
         this.currentUser = user;
-      }, 
-      (error :any) => {
+      },
+      (error: any) => {
         console.log(`Error`, error);
       }
     ));

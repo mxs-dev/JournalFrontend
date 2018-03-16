@@ -1,0 +1,38 @@
+@font-face {
+  src: url("./assets/fonts/RobotoCondensed-Regular.ttf") format("truetype");
+  font-family: "RobotoCondensed-Regular";
+}
+  
+@font-face {
+  src: url("./assets/fonts/RobotoCondensed-Bold.ttf") format("truetype");
+  font-family: "RobotoCondensed-Bold";
+}
+
+@import './assets/styles/index';
+@import './assets/css/font-awesome.min.css';
+
+
+html, body {
+  height: 100vh;
+}
+
+app-layout {
+  display: flex;
+  width: 100%;
+  height: 100%;
+
+  flex-direction: column;
+}
+
+.app-body{
+  flex: 1;
+}
+
+.app-footer{
+  padding: .5rem 1rem;
+  display: flex;
+}
+
+.main {
+  height: 100%;
+}

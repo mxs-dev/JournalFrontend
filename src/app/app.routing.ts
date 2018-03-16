@@ -1,14 +1,17 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+
 // Layouts
 import { MainLayoutComponent } from './_layouts/main-layout.component';
-import { P404Component } from './_pages/404.component';
+import { P404Component       } from './_pages/404.component';
 
+
+// Guards
 import { AuthGuard, AdminGuard } from './_guards/index';
 
 
-export const routes :Routes = [
+export const routes: Routes = [
    {
       path: '',
       component: MainLayoutComponent,
@@ -16,9 +19,9 @@ export const routes :Routes = [
       children: [
         {
           path: 'admin',
-          canActivate: [AdminGuard],
+          // canActivate: [AdminGuard],
           loadChildren: 'app/admin/admin.module#AdminModule'
-        } 
+        }
       ]
    },
    {
@@ -38,4 +41,4 @@ export const routes :Routes = [
    imports: [RouterModule.forRoot(routes)],
    exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

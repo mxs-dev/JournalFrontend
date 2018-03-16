@@ -3,14 +3,14 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class GlobalService {
-    public apiHost :string;
+    public apiHost: string;
     public settings = {};
 
     public constructor () {
-        if (environment.production == true) {
-            this.apiHost = 'http://192.168.33.10/v1';
+        if (environment.production === true) {
+            this.apiHost = 'http://journal.me/v1';
         } else {
-            this.apiHost = 'http://192.168.33.10/v1';
+            this.apiHost = 'http://journal.me/v1';
         }
 
         this.loadGlobalSettings();

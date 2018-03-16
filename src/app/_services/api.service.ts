@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 
-import { iApiData } from '../_models/index';
+import { IApiData } from '../_models/index';
 
 import { AuthService } from './auth.service';
 import { GlobalService } from './global.service';
@@ -10,61 +10,61 @@ import { Observable } from 'rxjs';
 
 
 @Injectable()
-export class ApiService{
+export class ApiService {
 
-  public constructor (
-    public http :Http,
-    public authService :AuthService,
-    public globalService :GlobalService,
-  ) {}
+  public constructor(
+    public http: Http,
+    public authService: AuthService,
+    public globalService: GlobalService,
+  ) { }
 
-  public get(url :string) :Observable<iApiData>{
+  public get(url: string): Observable<IApiData> {
     return this.http.get(
-        this.globalService.apiHost + url,
-        {
-          headers: this.getHeaders()
-        }
-      )
-      .map( (response :Response) => response.json())
-      .catch(this.handleError)
+      this.globalService.apiHost + url,
+      {
+        headers: this.getHeaders()
+      }
+    )
+      .map((response: Response) => response.json())
+      .catch(this.handleError);
   }
 
-  public post(url :string, data :any) :Observable<iApiData>{
+  public post(url: string, data: any): Observable<IApiData> {
     return this.http.post(
-        this.globalService.apiHost + url,
-        JSON.stringify(data),
-        {
-          headers: this.getHeaders()
-        }
-      )
-      .map( (response :Response) => response.json())
+      this.globalService.apiHost + url,
+      JSON.stringify(data),
+      {
+        headers: this.getHeaders()
+      }
+    )
+      .map((response: Response) => response.json())
       .catch(this.handleError);
   }
 
 
-  
-  protected getHeaders () {
+
+  protected getHeaders() {
     return new Headers({
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${this.authService.getAccessToken()}`
-    })
+      'Content-Type' : 'application/json',
+      'Authorization': `Bearer ${this.authService.getAccessToken()}`
+    });
   }
 
-  protected handleError (error: Response | any) {
+  protected handleError(error: Response | any) {
     let errorMessage: any = {};
+    console.log(`Http error`, error);
 
-    console.log(`Http error`, error); 
-        // Connection error
-        if (error.status == 0) {
-            errorMessage = {
-                success: false,
-                status: 0,
-                data: "Sorry, there was a connection error occurred. Please try again.",
-            };
-        }
-        else {
-            errorMessage = error.json();
-        }
-        return Observable.throw(errorMessage);
+    // Connection error
+    if (Number(error.status) === 0) {
+      errorMessage = {
+        success: false,
+        status: 0,
+        data: 'Sorry, there was a connection error occurred. Please try again.',
+      };
+    } else {
+      errorMessage = error.json();
+    }
+
+    return Observable.throw(errorMessage);
   }
 }

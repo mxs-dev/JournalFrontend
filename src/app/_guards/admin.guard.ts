@@ -14,26 +14,23 @@ export class AdminGuard implements CanActivate, CanActivateChild {
     private router: Router
   ) { }
 
-  public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> {
+  public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Promise<boolean> {
     return this.checkLoginAdmin(state.url);
   }
 
-  public canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> {
+  public canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Promise<boolean> {
     return this.canActivate(route, state);
   }
 
-  public checkLoginAdmin(url: string): boolean | Observable<boolean> {
-    return this.authService.onLogin
-      .map((user: User) => {
+  public checkLoginAdmin(url: string): boolean | Promise<boolean> {
+    return new Promise( async (resolve, reject) => {
+      const user = await this.authService.getCurrentUser();
 
-        console.log(`AdminGuard got`, user);
+      if (user && user.isAdmin()) {
+        return resolve(true);
+      }
 
-        if (user && user.isAdmin()) {
-          return true;
-        }
-
-        this.router.navigate(['/']);
-        return false;
-      });
+      return  resolve(false);;
+    });
   }
 }

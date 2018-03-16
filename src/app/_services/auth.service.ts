@@ -1,29 +1,29 @@
-import { Injectable,  OnInit, OnDestroy } from '@angular/core';
+import { Injectable, OnInit, OnDestroy } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { JwtHelper, tokenNotExpired } from 'angular2-jwt';
 
 import { UserFactory } from '../_factories/index';
-import { iApiData, iJWT, User } from '../_models/index';
+import { IApiData, iJWT, User } from '../_models/index';
 import { GlobalService } from './global.service';
 
 import { Observable, Subject } from 'rxjs';
 
 
 @Injectable()
-export class AuthService implements OnDestroy{
+export class AuthService implements OnDestroy {
 
   public static readonly ACCESS_TOKEN_LS_KEY = `Journal.accessToken`;
-  
+
   protected jwtHelper = new JwtHelper();
-  protected _logginedIn  = false;
-  protected _currentUser :User|boolean;
-  protected _isLoadingCurrentUser :boolean = false;
+  protected _logginedIn = false;
+  protected _currentUser: User | boolean;
+  protected _isLoadingCurrentUser = false;
 
   public redirectUrl: string;
-  public onLogin = new Subject<User|boolean>();
+  public onLogin = new Subject<User | boolean>();
 
 
-  public constructor(private http: Http, private globalService: GlobalService, private userFactory :UserFactory) {
+  public constructor(private http: Http, private globalService: GlobalService, private userFactory: UserFactory) {
 
     this._logginedIn = this.isValidToken();
 
@@ -34,12 +34,14 @@ export class AuthService implements OnDestroy{
     }
   }
 
-  public isLoggedIn () :boolean{
+  public isLoggedIn(): boolean {
     return this._logginedIn;
   }
 
-  public async getCurrentUser () :Promise<User|boolean>{
-    if (!this._logginedIn) return Promise.resolve(false);
+  public async getCurrentUser(): Promise<User | any> {
+    if (!this._logginedIn) {
+      return Promise.resolve(null);
+    }
 
     if (!this._currentUser) {
       await this.loadCurrentUser();
@@ -49,24 +51,24 @@ export class AuthService implements OnDestroy{
   }
 
 
-  public login (username: string, password: string): Observable<any> {
+  public login(email: string, password: string): Observable<any> {
     return this.http
       .post(
-        this.globalService.apiHost + '/user/login',
-        JSON.stringify({
-          LoginForm: {
-            username: username,
-            password: password
-          }
-        }),
-        { headers: this.getHeaders() }
+      this.globalService.apiHost + '/user/login',
+      JSON.stringify({
+        LoginForm: {
+          email,
+          password
+        }
+      }),
+      { headers: this.getHeaders() }
       )
       .map((response: Response) => response.json())
-      .map((response: iApiData) => {
+      .map((response: IApiData) => {
         if (response.success) {
           this.setAccessToken(response.data.accessToken);
           this._logginedIn = true;
-          
+
           this.loadCurrentUser();
 
         } else {
@@ -81,7 +83,7 @@ export class AuthService implements OnDestroy{
   }
 
 
-  public logout () {
+  public logout() {
     this.removeAccessToken();
     this._logginedIn = false;
 
@@ -89,18 +91,17 @@ export class AuthService implements OnDestroy{
   }
 
 
-  public confirmRegistration () {
-
+  public confirmRegistration() {
   }
 
 
-  public isValidToken (): boolean {
+  public isValidToken(): boolean {
     return tokenNotExpired(null, this.getAccessToken());
   }
 
 
-  public getJWT () :iJWT{
-    let token = this.getAccessToken();
+  public getJWT(): iJWT {
+    const token = this.getAccessToken();
 
     if (token) {
       return this.jwtHelper.decodeToken(token);
@@ -110,28 +111,26 @@ export class AuthService implements OnDestroy{
   }
 
 
-  public getAccessToken (): string {
+  public getAccessToken(): string {
     return localStorage.getItem(AuthService.ACCESS_TOKEN_LS_KEY);
   }
 
-  /**
-   * 
-   */
-  protected async loadCurrentUser () :Promise<void> {
-    if (this._isLoadingCurrentUser) return;
+
+  protected async loadCurrentUser(): Promise<void> {
+    if (this._isLoadingCurrentUser) {
+      return;
+    }
 
     this._isLoadingCurrentUser = true;
-    let user = await this.http
+    const user = await this.http
       .get(
         this.globalService.apiHost + `/user/${this.getJWT().jti}`,
-        {
-          headers: this.getHeaders()
-        }
+        { headers: this.getHeaders() }
       )
-      .map( (response :Response) => response.json())
-      .map( (response :iApiData) => this.userFactory.getUserFromData(response.data))
+      .map((response: Response) => response.json())
+      .map((response: IApiData) => this.userFactory.getUserFromData(response.data))
       .toPromise();
-    
+
     console.log(`loadCurrentUser`, user);
 
     this._currentUser = user;
@@ -140,35 +139,35 @@ export class AuthService implements OnDestroy{
     this._isLoadingCurrentUser = false;
   }
 
-  protected resetCurrentUser () {
+  protected resetCurrentUser() {
     this._currentUser = false;
 
     this.onLogin.next(false);
   }
 
-  protected setAccessToken (token: string) :void {
+  protected setAccessToken(token: string): void {
     localStorage.setItem(AuthService.ACCESS_TOKEN_LS_KEY, token);
   }
 
-  protected removeAccessToken () :void{
+  protected removeAccessToken(): void {
     localStorage.removeItem(AuthService.ACCESS_TOKEN_LS_KEY);
   }
 
-  protected getHeaders () :Headers {
+  protected getHeaders(): Headers {
     return new Headers({
-      "Content-Type" : 'application/json; charset=UTF-8',
-      "Authorization": `Bearer ${this.getAccessToken()}`
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': `Bearer ${this.getAccessToken()}`
     });
   }
 
-  protected handleError (error: Response | any) {
+  protected handleError(error: Response | any) {
     let errorMessage: any;
 
-    if (error.status == 0) {
+    if (Number(error.status) === 0) {
       errorMessage = {
         success: false,
         status: 0,
-        data: "Sorry, there was a connection error occured. Please try later",
+        data: 'Sorry, there was a connection error occured. Please try later',
       };
     } else {
       errorMessage = error.json();
@@ -177,7 +176,7 @@ export class AuthService implements OnDestroy{
     return Observable.throw(errorMessage);
   }
 
-  public ngOnDestroy () {
+  public ngOnDestroy() {
     this.onLogin.unsubscribe();
   }
 }

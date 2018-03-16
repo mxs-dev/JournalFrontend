@@ -2,15 +2,14 @@ import { Injectable } from '@angular/core';
 
 import { ApiService } from '../_services/index';
 
-import { User, iApiData } from '../_models/index';
+import { User, IApiData } from '../_models/index';
 
 @Injectable()
 export class UserFactory {
-  public getUserFromData(data :any){
-    let u = new User();
-    
+  public getUserFromData(data: any) {
+    const u = new User();
+
     u.id = data.id;
-    u.username = data.username;
     u.password = data.password;
     u.email    = data.email;
 
@@ -21,8 +20,6 @@ export class UserFactory {
     u.role   = data.role;
     u.status = data.status;
 
-    u.authKey = data.authKey;
-    
     u.createdAt = data.createdAt;
     u.createdBy = data.createdBy;
     u.updatedAt = data.updatedAt;
