@@ -1,11 +1,13 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { AdminComponent      } from './admin.component';
-import { AdminRoutingModule  } from './admin-routing.module';
-import { GroupsListComponent } from './groups/groups-list.component';
+import { AdminComponent     } from './admin.component';
+import { AdminRoutingModule } from './admin-routing.module';
 
+import { GROUP } from './groups/index';
+import { StudentsListComponent } from './students/students-list.component';
+import { SubjectsListComponent } from './subjects/subjects-list.component';
 
 @NgModule({
   imports: [
@@ -16,7 +18,9 @@ import { GroupsListComponent } from './groups/groups-list.component';
   ],
   declarations: [
     AdminComponent,
-    GroupsListComponent
+    GROUP,
+    SubjectsListComponent,
+    StudentsListComponent,
   ]
 })
 export class AdminModule { }

@@ -20,4 +20,5 @@ export {
   UserService,
   AuthService,
   ApiService,
+  GroupService,
 };

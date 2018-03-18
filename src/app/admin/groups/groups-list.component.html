@@ -1,7 +1,28 @@
-<i *ngIf="isLoadingGroupsList" class="fa fa-spin" aria-hidden="true"></i>
+<div class="card">
+        <div class="card-header">
+            <div class="row">
+                <h4 class="col-6">Группы</h4>
+                <div class="col-6"><input class="form-control" type="text" placeholder="Поиск..."></div>
+            </div>
+        </div>
 
-<div *ngIf="!isLoadingGroupsList" class="row">
-  <ul>
-    <li *ngFor="let group of this.groups">{{group.title}}</li>
-  </ul>
-</div>
+        <div *ngIf="isLoadingGroupsList" class='card-body'>
+            <div class='loader'>Loading...</div>
+        </div>
+
+        <div *ngIf="!isLoadingGroupsList" class='card-body'>
+            <app-group-create></app-group-create>
+
+            <div *ngFor="let group of groups; let i = index" class="group row">
+                    <div class="col-1">#{{group.id}}</div>
+                    <div class="col-4"><h5>{{group.title}}</h5></div>
+                    <div class="col-3"><h6>{{group.createdAt | date}}</h6></div>
+                    <div class="col-3"><h6>{{group.updatedAt | date}}</h6></div>
+                    <div class="col-1">
+                        <button type="button" class="close" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                       </div>
+            </div><!-- Блок для списка групп -->
+        </div>
+    </div>

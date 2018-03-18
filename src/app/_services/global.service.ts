@@ -8,9 +8,9 @@ export class GlobalService {
 
     public constructor () {
         if (environment.production === true) {
-            this.apiHost = 'http://journal.me/v1';
+            this.apiHost = 'http://192.168.33.10/v1';
         } else {
-            this.apiHost = 'http://journal.me/v1';
+            this.apiHost = 'http://192.168.33.10/v1';
         }
 
         this.loadGlobalSettings();

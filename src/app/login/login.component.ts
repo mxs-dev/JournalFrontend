@@ -38,18 +38,18 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
     this.loginForm = this.formBuilder.group({
-      email: ['', Validators.required],
+      email:    ['', Validators.compose([Validators.required, Validators.email])],
       password: ['', Validators.compose([Validators.required, Validators.minLength(4)])]
     });
 
     this.formErrors = {
       email: {
         valid: true,
-        message: 'Email is required'
+        message: 'Введите корректный email'
       },
       password: {
         valid: true,
-        message: 'Password must contain at least 4 letters'
+        message: 'Пароль должен содержать не менее 6 символов'
       }
     };
 
@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
   public ngOnDestroy() {
-    this.componentDestroyed.next();
+    this.componentDestroyed.next(true);
     this.componentDestroyed.unsubscribe();
   }
 
@@ -72,43 +72,38 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.isSubmitted = true;
     this.authService.login(elementValues.email, elementValues.password)
       .subscribe(
-      result => {
-        if (result.success) {
-          this.router.navigate([this.returnUrl]);
-        } else {
-          this.errorMessage = 'Email or password is incorrect.';
+        result => {
+          if (result.success) {
+            this.router.navigate([this.returnUrl]);
+          } else {
+            this.errorMessage = 'Email or password is incorrect.';
+            this.isSubmitted = false;
+          }
+        },
+        error => {
           this.isSubmitted = false;
-        }
-      },
-      error => {
-        this.isSubmitted = false;
-        // Validation error
-        if (Number(error.status) === 422) {
+          // Validation error
+          if (Number(error.status) === 422) {
 
-          this.errorMessage = 'Some errors in form. Please check again.';
+            this.errorMessage = 'Some errors in form. Please check again.';
 
-          const errorFields = JSON.parse(error.data.message);
-          this.setErrorsFromServer(errorFields);
-        } else {
-          this.errorMessage = error.data;
+            const errorFields = JSON.parse(error.data.message);
+            this.setErrorsFromServer(errorFields);
+          } else {
+            this.errorMessage = error.data;
+          }
         }
-      }
       );
   }
 
 
-  private isValid(field: string): boolean {
-    let isValid = false;
-
-    if (this.loginForm.controls[field].touched === false) {
-      isValid = true;
-    } else
-
-      if (this.loginForm.controls[field].valid === true) {
-        isValid = true;
-      }
-
-    return isValid;
+  private isValid (field: string): boolean {
+   
+    if (!this.loginForm.controls[field].touched) {
+      return true;
+    }
+      
+    return this.loginForm.controls[field].valid;
   }
 
 
@@ -122,7 +117,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         valid: true,
         message: '',
       }
-    }
+    };
   }
 
 

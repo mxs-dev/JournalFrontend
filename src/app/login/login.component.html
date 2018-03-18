@@ -1,10 +1,10 @@
-<div class="form-container">
+<div class="d-flex h-100 justify-content-center">
 
    <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)" class="form col-sm-10 col-md-6 col-xl-4">
-      <h2>Login</h2>
+      <h2>Войти</h2>
 
       <div class="form-group">
-         <label for="username">Email:</label>
+         <label for="username">Email</label>
          <input [formControl]="loginForm.controls['email']" [ngClass]="{'is-invalid': !isValid('email') || !serverFormErrors.email.valid}" type="text" class="form-control"
             name="email">
          <div *ngIf="!isValid('email')" class="invalid-feedback">{{formErrors.email.message}}</div>
@@ -12,7 +12,7 @@
       </div>
 
       <div class="form-group">
-         <label for="password">Password:</label>
+         <label for="password">Пароль</label>
          <input [formControl]="loginForm.controls['password']" [ngClass]="{'is-invalid': !isValid('password') || !serverFormErrors.password.valid}" type="password" class="form-control"
             name="password">
          <div *ngIf="!isValid('password')" class="invalid-feedback">{{formErrors.password.message}}</div>
@@ -24,13 +24,12 @@
       </div>
 
       <div class="row">
-         <div class="col-6">
-            <button [disabled]="!loginForm.valid || isSubmitted" class="btn btn-primary" type="submit">Submit</button>
+        <div class='col-12 clearfix'>
+            <button [disabled]="!loginForm.valid || isSubmitted" class="btn btn-primary" type="submit">Войти</button>
             <i *ngIf="isSubmitted" class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
-         </div>
-         <div class="col-6 text-right">
-            <button [disabled]="isSubmitted" class="btn btn-warning" type="reset">Clear</button>
-         </div>
+        
+            <button [disabled]="isSubmitted" class="btn btn-warning float-right" type="reset">Отмена</button>
+        </div>
       </div>
    </form>
 

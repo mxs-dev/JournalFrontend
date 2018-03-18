@@ -15,26 +15,19 @@ import { Subject } from 'rxjs';
 export class MainLayoutComponent implements OnInit, OnDestroy {
 
   public isNavbarCollapsed = true;
-  public currentUser: User = null;
+  public currentUser: User | boolean = false;
 
   private componetDestroyed = new Subject();
 
   public constructor(public authService: AuthService) { }
 
   public ngOnInit() {
-    console.log(`MainLayout init!`);
-    console.log(
     this.authService.onLogin
-    .takeUntil(this.componetDestroyed)
-    .subscribe(
-      (user: User) => {
-        console.log(`MainLayoutComponent`, user);
-        this.currentUser = user;
-      },
-      (error: any) => {
-        console.log(`Error`, error);
-      }
-    ));
+      .takeUntil(this.componetDestroyed)
+      .subscribe(
+        (user: User) => {
+          this.currentUser = user;
+      });
   }
 
   public ngOnDestroy() {

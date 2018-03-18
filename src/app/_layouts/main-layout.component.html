@@ -1,7 +1,7 @@
 <header>
 
     <nav class="navbar navbar-expand-md navbar-light bg-light">
-        <a class="navbar-brand" href="#">Journal</a>
+        <a class="navbar-brand" href="#">journal.me</a>
         <button (click)="isNavbarCollapsed=!isNavbarCollapsed" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -11,19 +11,18 @@
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
                     <a class="nav-link" [routerLink]="['/']">
-                        Home
-                        <span class="sr-only">(current)</span>
+                        Главная
                     </a>
                 </li>
                 <li class="nav-item" *ngIf="currentUser && currentUser.isAdmin()">
-                    <a [routerLink]="['/admin']" class="nav-link" href="#">Admin</a>
+                    <a [routerLink]="['/admin']" class="nav-link" href="#">Админ-панель</a>
                 </li>
                 <li class="nav-item" *ngIf="currentUser && (currentUser.isTeacher() || currentUser.isStudent())">
                     <a class="nav-link">Subjects</a>
                 </li>
                 <li ngbDropdown class="nav-item dropdown">
-                    <a ngbDropdownToggle class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Dropdown
+                    <a ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Выпадающий список
                     </a>
                     <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="#">Action</a>
@@ -32,24 +31,21 @@
                         <a class="dropdown-item" href="#">Something else here</a>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
-                </li>
             </ul>
             
             <div *ngIf="currentUser" ngbDropdown placement="bottom-right" class="nav-item dropdown">
-                <a ngbDropdownToggle class="btn btn-primary" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a ngbDropdownToggle class="btn btn-outline-primary" #navbarDropdown role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{currentUser.shortFullName}}
                 </a> 
                 <div ngbDropdownMenu  class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" routerLink="/profile">View Profile</a>
+                    <a class="dropdown-item" routerLink="/profile">Перейти к профилю</a>
                         <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" routerLink="/login">Exit</a>
+                    <a class="dropdown-item" routerLink="/login">Выйти</a>
                 </div>
             </div>
 
             <div *ngIf="!currentUser">
-                <a class="btn btn-default" routerLink="/login">Login</a>
+                <a class="btn btn-outline-default" routerLink="/login">Войти</a>
             </div>
         </div>
     </nav>
