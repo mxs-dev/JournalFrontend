@@ -1,0 +1,15 @@
+<div class="card">
+    <div class="card-header">
+        <h4 *ngIf=" isLoadingGroup">Группа ...загружается</h4>
+        <h4 *ngIf="!isLoadingGroup">Группа {{group.title}}</h4>
+    </div>
+
+    <div *ngIf="isLoadingGroup" class="card-body">
+        <div class='loader'>Loading...</div>
+    </div>
+
+    <div *ngIf="!isLoadingGroup" class="card-body">
+        {{group.id}}    
+        <input class='form-control' type="text" [(ngModel)]="group.title">
+    </div>
+</div>

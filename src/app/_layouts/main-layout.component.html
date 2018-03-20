@@ -34,9 +34,9 @@
             </ul>
             
             <div *ngIf="currentUser" ngbDropdown placement="bottom-right" class="nav-item dropdown">
-                <a ngbDropdownToggle class="btn btn-outline-primary" #navbarDropdown role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button ngbDropdownToggle class="btn btn-outline-primary" #navbarDropdown role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{currentUser.shortFullName}}
-                </a> 
+                </button> 
                 <div ngbDropdownMenu  class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" routerLink="/profile">Перейти к профилю</a>
                         <div class="dropdown-divider"></div>
@@ -45,7 +45,7 @@
             </div>
 
             <div *ngIf="!currentUser">
-                <a class="btn btn-outline-default" routerLink="/login">Войти</a>
+                <button class="btn btn-outline-default" routerLink="/login">Войти</button>
             </div>
         </div>
     </nav>

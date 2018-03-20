@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from './admin.component';
 import { AdminGuard     } from '../_guards';
 
-import { GroupsListComponent   } from './groups/groups-list.component';
+import { GroupsListComponent, GroupDetailComponent } from './groups';
 import { StudentsListComponent } from './students/students-list.component';
 import { SubjectsListComponent } from './subjects/subjects-list.component';
 
@@ -20,6 +20,10 @@ const routes: Routes = [
       {
         path: 'groups',
         component: GroupsListComponent,
+      },
+      {
+        path: 'groups/:id',
+        component: GroupDetailComponent
       },
       {
         path: 'students',

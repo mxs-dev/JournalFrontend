@@ -4,7 +4,7 @@
             <div class="col-6">
                 <h5>Добавить группу:</h5>
             </div>
-            <div class="col-2">
+            <div class="col-3">
                 <button *ngIf="!toggled" (click)="toggled=!toggled" class="btn btn-link btn-sm">Развернуть</button>
                 <button *ngIf="toggled" (click)="toggled=!toggled" class="btn btn-link btn-sm">Свернуть</button>
             </div>
@@ -17,7 +17,7 @@
                     <div *ngIf="!isValid('title')" class="invalid-feedback">{{formErrors.title.message}}</div>
                 </div>
                
-                <button class="btn btn-success" [disabled]="!groupForm.valid || isSubmitted" type="submit">Создать</button>
+                <button class="btn btn-outline-success" [disabled]="!groupForm.valid || isSubmitted" type="submit">Создать</button>
             </form>
         </div>
 

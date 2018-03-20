@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GroupService } from '../../_services/group.service';
 
 import { Group } from '../../_models/index';
@@ -11,12 +11,11 @@ import { Group } from '../../_models/index';
   templateUrl: './groups-list.component.html',
   styleUrls: ['./groups-list.component.scss'],
 })
-export class GroupsListComponent implements OnInit {
+export class GroupsListComponent implements OnInit, OnDestroy {
 
   public groups: Group[];
 
   public isLoadingGroupsList = false;
-  public isErrorWhileLoading = false;
 
   public constructor (
     private groupService: GroupService
@@ -33,9 +32,40 @@ export class GroupsListComponent implements OnInit {
       })
       .catch( err => {
         console.log(err);
-        this.isErrorWhileLoading = true;
+        this.isLoadingGroupsList = false;
+      });
+
+    this.groupService.events.created
+      .subscribe((group: Group) => {
+        this.groups.push(group);
       });
   }
 
 
+  public deleteGroup (group: Group) {
+    group.deleted = true;
+
+    this.groupService.delete(group.id)
+      .then( deleted => {
+        if (deleted) {
+          this.removeGroupFromList(group);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+
+  protected removeGroupFromList(group: Group) {
+    this.groups = this.groups.filter( (item: Group) => {
+      return group.id !== item.id;
+    });
+  }
+
+
+  public ngOnDestroy () {
+    // TODO: разобраться почему unsubscribe вызывает ошибку
+    // this.groupService.events.created.unsubscribe();
+  }
 }
