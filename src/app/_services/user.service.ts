@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 
 import { User, IApiData } from '../_models/index';
-import { UserFactory } from '../_factories/index';
 
 import { GlobalService } from './global.service';
 import { AuthService   } from './auth.service';
@@ -22,8 +21,7 @@ export class UserService {
   public constructor(
     private http: Http,
     private apiService:  ApiService,
-    private authService: AuthService,
-    private userFactory: UserFactory
+    private authService: AuthService
   ) {
     this.isLoggedIn   = this.authService.isLoggedIn();
     this.authService.getCurrentUser()
@@ -39,6 +37,6 @@ export class UserService {
   public async get(id: number) {
     const data = await this.apiService.get(`/user/${id}`);
 
-    return this.userFactory.getUserFromData(data);
+    return new User(data);
   }
 }

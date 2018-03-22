@@ -3,7 +3,7 @@ import { GroupService } from '../../_services/group.service';
 
 import { Group } from '../../_models/index';
 
-// import { GroupCreateComponent } from './group-create/group-create.component';
+import { Subject } from 'rxjs';
 
 
 @Component({
@@ -16,6 +16,9 @@ export class GroupsListComponent implements OnInit, OnDestroy {
   public groups: Group[];
 
   public isLoadingGroupsList = false;
+
+  protected componentDestroyed = new Subject<any>();
+
 
   public constructor (
     private groupService: GroupService
@@ -36,6 +39,7 @@ export class GroupsListComponent implements OnInit, OnDestroy {
       });
 
     this.groupService.events.created
+      .takeUntil(this.componentDestroyed)
       .subscribe((group: Group) => {
         this.groups.push(group);
       });
@@ -65,7 +69,7 @@ export class GroupsListComponent implements OnInit, OnDestroy {
 
 
   public ngOnDestroy () {
-    // TODO: разобраться почему unsubscribe вызывает ошибку
-    // this.groupService.events.created.unsubscribe();
+    this.componentDestroyed.next();
+    this.componentDestroyed.complete();
   }
 }

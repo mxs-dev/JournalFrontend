@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from './api.service';
 
+import { ApiService } from './api.service';
 import { IApiData, Group, User } from '../_models';
+
 import { Subject } from 'rxjs';
 
 
@@ -10,8 +11,10 @@ export class GroupService {
 
   public events = {
     created: new Subject<Group>(),
-    deleted: new Subject<Group>()
+    deleted: new Subject<number>()
   };
+
+  protected apiPath = '/group';
 
 
   public constructor (
@@ -19,33 +22,31 @@ export class GroupService {
   ) {}
 
 
-  public async getAll (): Promise<Group[]> {
-    return this.apiService.get(`/group`)
-    .map((response: IApiData) => {
-      return <Group[]> response.data;
-    })
-    .toPromise();
+  public async get (id: number): Promise<Group> {
+    return this.apiService.get(this.apiPath + `/${id}`)
+      .map( (response: IApiData) => {
+        return <Group> response.data;
+      })
+      .toPromise();
   }
 
 
-  public async get (id: number): Promise<Group> {
-    return this.apiService.get(
-      `/group/${id}`
-    )
-    .map( (response: IApiData) => {
-      return <Group> response.data;
-    })
-    .toPromise();
+  public async getAll (): Promise<Group[]> {
+    return this.apiService.get(this.apiPath)
+      .map((response: IApiData) => {
+        return <Group[]> response.data;
+      })
+      .toPromise();
   }
 
 
   public async create(title: string): Promise<Group> {
     return this.apiService.post(
-        `/group`,
+        this.apiPath,
         {
           GroupRecord: {
             title, 
-            course: '1'
+            course: '1' // TODO: Разобраться с курсами
           }
         }
       )
@@ -63,14 +64,21 @@ export class GroupService {
 
 
   public async delete(id: number): Promise<boolean> {
-    return this.apiService
-      .delete(`/group/${id}`)
+    return this.apiService.delete(this.apiPath + `/${id}`)
+      .map((result: boolean) => {
+        
+        if (result) {
+          this.events.deleted.next(id);
+        }
+
+        return result;
+      })
       .toPromise();
   } 
 
 
   public async getStudents(id: number): Promise<User[]> {
-    return this.apiService.get(`/group/${id}/students`)
+    return this.apiService.get(`${this.apiPath}/${id}/students`)
       .map((response: IApiData) => {
         return <User[]>response.data;
       })

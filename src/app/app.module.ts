@@ -17,7 +17,7 @@ import { LoginModule } from './login/login.module';
 import { MainLayoutComponent } from './_layouts/main-layout.component';
 import { P404Component } from './_pages/404.component';
 
-import { FACTORIES } from './_factories/index';
+
 import { SERVICES  } from './_services/index';
 import { GUARDS    } from './_guards/index';
 
@@ -43,7 +43,7 @@ import 'rxjs/add/operator/catch';
       MainLayoutComponent,
       P404Component,
    ],
-   providers: [ SERVICES, GUARDS, FACTORIES ],
+   providers: [ SERVICES, GUARDS ],
    bootstrap: [ AppComponent ]
 })
 export class AppModule { }

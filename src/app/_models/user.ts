@@ -29,22 +29,47 @@ export class User {
 
     public lastLoginAt: Date;
 
+    public deleted?: boolean;
+
+    public constructor (data: any) {
+        this.id       = data.id;
+        this.email    = data.email;
+
+        this.name       = data.name;
+        this.surname    = data.surname;
+        this.patronymic = data.patronymic;
+
+        this.role   = data.role;
+        this.status = data.status;
+
+        this.createdAt = data.createdAt;
+        this.createdBy = data.createdBy;
+        this.updatedAt = data.updatedAt;
+        this.updatedBy = data.updatedBy;
+
+        this.lastLoginAt = data.lastLoginAt;
+    }
+
 
     public isAdmin() {
         return (this.role === User.ROLE_ADMIN);
     }
 
+
     public isTeacher() {
         return (this.role === User.ROLE_TEACHER);
     }
+
 
     public isStudent() {
         return (this.role === User.ROLE_STUDENT);
     }
 
-    public get FullName() {
+
+    public get fullName() {
         return `${this.name} ${this.surname} ${this.patronymic}`;
     }
+
 
     public get shortFullName() {
         const n = (this.name[0]).toUpperCase();

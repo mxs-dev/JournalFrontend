@@ -2,7 +2,6 @@ import { Injectable, OnInit, OnDestroy } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { JwtHelper, tokenNotExpired } from 'angular2-jwt';
 
-import { UserFactory } from '../_factories/index';
 import { IApiData, iJWT, User } from '../_models/index';
 import { GlobalService } from './global.service';
 
@@ -23,7 +22,7 @@ export class AuthService implements OnDestroy {
   public onLogin = new Subject<User | boolean>();
 
 
-  public constructor(private http: Http, private globalService: GlobalService, private userFactory: UserFactory) {
+  public constructor(private http: Http, private globalService: GlobalService) {
 
     this._logginedIn = this.isValidToken();
 
@@ -128,7 +127,7 @@ export class AuthService implements OnDestroy {
         { headers: this.getHeaders() }
       )
       .map((response: Response) => response.json())
-      .map((response: IApiData) => this.userFactory.getUserFromData(response.data))
+      .map((response: IApiData) => new User(response.data))
       .toPromise();
 
     console.log(`loadCurrentUser`, user);

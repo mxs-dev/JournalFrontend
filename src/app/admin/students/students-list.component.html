@@ -1,7 +1,30 @@
 <div class="card">
-    <div class="card-header"><h4>Cтуденты</h4></div>
-    <div class='card-body'>
-        <i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"
-            *ngIf="isLoading"></i>
+    <div class="card-header">
+        <div class="row">
+            <h4  class="col-6">Cтуденты</h4>
+            <div class="col-6"><input class="form-control" type="text" placeholder="Поиск..."></div>            
+        </div>
+    </div>
+
+    <div *ngIf="isLoadingStudentsList" class='card-body'>
+        <div class='loader'>Loading...</div>
+    </div>
+
+    <div *ngIf="!isLoadingStudentsList" class='card-body'>
+        <app-student-create></app-student-create>
+
+        <div *ngFor="let student of students" class="row list-item" [class.deleted]="student.deleted">
+            <div class="col-2">#{{student.id}}</div>
+            <div class="col-6">{{student.fullName}}</div>
+            <div class="col-3">
+                <button [routerLink]="[student.id]"
+                    class="btn btn-sm btn-block btn-outline-primary">Просмотр</button>
+            </div>
+            <div class="col-1">
+                <button (click)="deleteGroup(group);" type="button" class="close" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
     </div>
 </div>

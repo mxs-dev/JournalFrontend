@@ -5,7 +5,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminComponent     } from './admin.component';
 import { AdminRoutingModule } from './admin-routing.module';
 
-import { GROUP } from './groups/index';
+import { GROUP } from './groups';
+import { STUDENT } from './students';
 import { StudentsListComponent } from './students/students-list.component';
 import { SubjectsListComponent } from './subjects/subjects-list.component';
 
@@ -18,9 +19,9 @@ import { SubjectsListComponent } from './subjects/subjects-list.component';
   ],
   declarations: [
     AdminComponent,
-    GROUP,
-    SubjectsListComponent,
-    StudentsListComponent,
+    
+    GROUP, STUDENT,
+    SubjectsListComponent
   ]
 })
 export class AdminModule { }

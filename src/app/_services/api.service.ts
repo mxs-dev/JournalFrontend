@@ -71,7 +71,7 @@ export class ApiService {
   
   protected handleError(error: Response | any) {
     let errorMessage: any = {};
-    console.log(`Http error`, error);
+    console.log(`ApiService got error:`, error);
 
     // Connection error
     if (Number(error.status) === 0) {

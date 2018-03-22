@@ -1,8 +1,9 @@
-import { GlobalService } from './global.service';
-import { AuthService   } from './auth.service';
-import { UserService   } from './user.service';
-import { ApiService    } from './api.service';
-import { GroupService  } from './group.service';
+import { GlobalService  } from './global.service';
+import { AuthService    } from './auth.service';
+import { UserService    } from './user.service';
+import { ApiService     } from './api.service';
+import { GroupService   } from './group.service';
+import { StudentService } from './student.service';
 
 
 const SERVICES = [
@@ -11,6 +12,7 @@ const SERVICES = [
   AuthService,
   ApiService,
   GroupService,
+  StudentService
 ];
 
 export {
@@ -21,4 +23,5 @@ export {
   AuthService,
   ApiService,
   GroupService,
+  StudentService
 };

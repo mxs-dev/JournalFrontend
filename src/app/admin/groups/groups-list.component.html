@@ -13,7 +13,7 @@
         <div *ngIf="!isLoadingGroupsList" class='card-body'>
             <app-group-create></app-group-create>
 
-            <div *ngFor="let group of groups; let i = index" class="group row" [class.deleted]="group.deleted">
+            <div *ngFor="let group of groups; let i = index" class="row list-item" [class.deleted]="group.deleted">
                     <div class="col-2 display-6">#{{group.id}}</div>
                     <div class="col-6 display-6">{{group.title}}</div>
                     <div class="col-3">
