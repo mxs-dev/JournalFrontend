@@ -9,7 +9,11 @@
     </div>
 
     <div *ngIf="!isLoadingGroup" class="card-body">
-        {{group.id}}    
-        <input class='form-control' type="text" [(ngModel)]="group.title">
+        <h4>Редактировать группу:</h4>
+        <app-group-form
+            [group]="group"
+            [(isSubmitted)]="isSubmittedGroup"
+            (onSubmit)="onSubmit($event)">
+        </app-group-form>
     </div>
 </div>

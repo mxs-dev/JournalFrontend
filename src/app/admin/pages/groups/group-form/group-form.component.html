@@ -1,0 +1,24 @@
+<form class="col-12 form"
+*ngIf="!isSubmitted"
+[formGroup]="formGroup" 
+(ngSubmit)="onSubmit.next(formGroup.value);  this.formGroup.reset();">
+  <div class="form-group mt-2">
+      <input type="text" class="form-control" placeholder="Введите название группы..."
+        [formControl]="formGroup.controls['title']"
+        [ngClass]="{'is-invalid': !isValid('title')}">
+      <div *ngIf="!isValid('title')" class="invalid-feedback">{{formErrors.title.message}}</div>
+  </div>
+ 
+  <button class="btn btn-outline-success" [disabled]="!formGroup.valid || isSubmitted" type="submit">Соxранить</button>
+</form>
+
+<div *ngIf="isSubmitted" class="row">
+    <div class="sk-wave">
+            <div class="sk-rect sk-rect1"></div>
+            <div class="sk-rect sk-rect2"></div>
+            <div class="sk-rect sk-rect3"></div>
+            <div class="sk-rect sk-rect4"></div>
+            <div class="sk-rect sk-rect5"></div>
+    </div>
+</div><!-- Preloader -->
+

@@ -4,9 +4,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from './admin.component';
 import { AdminGuard     } from '../_guards';
 
-import { GroupsListComponent, GroupDetailComponent } from './groups';
-import { StudentsListComponent } from './students/students-list.component';
-import { SubjectsListComponent } from './subjects/subjects-list.component';
+import { GroupsListComponent, GroupDetailComponent } from './pages/groups';
+import { StudentsListComponent } from './pages/students';
+import { SubjectsListComponent } from './pages/subjects';
 
 
 const routes: Routes = [

@@ -43,6 +43,19 @@ export class ApiService {
   }
 
 
+  public patch(url: string, data: any): Observable<IApiData> {
+    return this.http.patch(
+      this.globalService.apiHost + url,
+      JSON.stringify(data),
+      {
+        headers: this.getHeaders()
+      }
+    )
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+
   public delete (url: string): Observable<boolean> {
     return this.http.delete(
       this.globalService.apiHost + url,

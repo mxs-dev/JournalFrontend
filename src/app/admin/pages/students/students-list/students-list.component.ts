@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { User, ApiError} from '../../_models';
-import { StudentService } from '../../_services';
+import { User, ApiError } from '../../../../_models';
+import { StudentService } from '../../../../_services';
 
 import { Subject } from 'rxjs';
 

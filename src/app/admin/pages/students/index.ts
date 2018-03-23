@@ -1,4 +1,4 @@
-import { StudentsListComponent } from './students-list.component';
+import { StudentsListComponent  } from './students-list/students-list.component';
 import { StudentCreateComponent } from './student-create/student-create.component';
 
 

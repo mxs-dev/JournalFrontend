@@ -1,8 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { GroupService } from '../../../_services/index';
-import { Group, User  } from '../../../_models/index';
+import { GroupService } from '../../../../_services/index';
+import { Group, User  } from '../../../../_models/index';
+
+import { Subject } from 'rxjs';
 
 
 @Component({
@@ -16,7 +18,11 @@ export class GroupDetailComponent implements OnInit, OnDestroy {
   public group: Group;
   public students: User[];
 
-  public isLoadingGroup = true;
+  public isLoadingGroup   = true;
+  public isSubmittedGroup = false;
+
+  protected componentDestroyed = new Subject<void>();
+
 
   public constructor (
     private route: ActivatedRoute,
@@ -25,9 +31,32 @@ export class GroupDetailComponent implements OnInit, OnDestroy {
 
 
   public ngOnInit () {
-    this.route.params.subscribe(params => {
+    this.route.params
+    // .takeUntil(this.componentDestroyed)
+    .subscribe(params => {
       this.groupId = params.id;
       this.loadGroup();
+    });
+  }
+
+
+  public onSubmit (groupData: any) {
+    this.isSubmittedGroup = true;
+
+    this.groupService.update(this.group.id, groupData)
+    .then((res) => {
+      this.isSubmittedGroup = false;
+     
+     // TODO: Реализовать на сервере метод UPDATE и загонять возвращенную
+     // в this.group
+     
+      this.loadGroup();
+      console.log(res);
+    })
+    .catch((err) => {
+      this.isSubmittedGroup = false;
+      
+      console.log(err);
     });
   }
 
@@ -59,6 +88,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy {
 
 
   public ngOnDestroy () {
-
+    this.componentDestroyed.next();
+    this.componentDestroyed.complete();
   }
 }

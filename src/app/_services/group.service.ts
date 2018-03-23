@@ -63,6 +63,22 @@ export class GroupService {
   }
 
 
+  public async update(id: number, group: Group): Promise<Group> {
+    return this.apiService.patch(
+      this.apiPath + `/${id}`,
+      {
+        GroupRecord: group
+      }
+    )
+    .map((response: IApiData) => {
+      console.log(response);
+
+      return new Group({});
+    })
+    .toPromise();
+  }
+
+
   public async delete(id: number): Promise<boolean> {
     return this.apiService.delete(this.apiPath + `/${id}`)
       .map((result: boolean) => {

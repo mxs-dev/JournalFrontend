@@ -1,0 +1,17 @@
+<div class="row">
+    <div class="col-12 group-add-block ">
+        <div *ngIf="!isSubmitted" class="row justify-content-between">
+            <div class="col-6">
+                <h5>Добавить группу:</h5>
+            </div>
+            <div class="col-3">
+                <button *ngIf="!toggled" (click)="toggled=!toggled" class="btn btn-link btn-block btn-sm">Развернуть</button>
+                <button *ngIf="toggled" (click)="toggled=!toggled" class="btn btn-link btn-block btn-sm">Свернуть</button>
+            </div>
+        </div>
+        <app-group-form *ngIf="toggled"
+            [isSubmitted]="isSubmitted"
+            (onSubmit)="onSubmit($event)">
+        </app-group-form>
+    </div>
+</div>

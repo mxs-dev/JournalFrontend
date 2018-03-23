@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { GroupService } from '../../_services/group.service';
+import { GroupService } from '../../../../_services/group.service';
 
-import { Group } from '../../_models/index';
+import { Group } from '../../../../_models/index';
 
 import { Subject } from 'rxjs';
 
