@@ -7,17 +7,16 @@
             </div>
             <div class="col-3">
                 <button *ngIf="!toggled" (click)="toggled=!toggled" class="btn btn-link btn-block btn-sm">Развернуть</button>
-                <button *ngIf="toggled" (click)="toggled=!toggled" class="btn btn-link btn-block btn-sm">Свернуть</button>
+                <button *ngIf="toggled"  (click)="toggled=!toggled" class="btn btn-link btn-block btn-sm">Свернуть</button>
             </div>
         </div>
 
-        <div *ngIf="toggled && !isSubmitted" class="row">
-            <form class="col-12 form">
-                <div class="form-group mt-2">
-                    <input type="text" class="form-control">
-                </div>
-            </form>
-        </div>
+        <app-student-form 
+            *ngIf="toggled && !isSubmitted"
+            [serverErrors]="serverErrors"
+            [isSubmitted]="isSubmitted"
+            (onSubmit)="onSubmit($event)">
+        </app-student-form>
 
         <div *ngIf="isSubmitted" class="row">
             <div class="sk-wave">

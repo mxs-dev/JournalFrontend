@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 import { Observable, Subject } from 'rxjs';
 
@@ -15,14 +16,18 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   protected componentDestroyed = new Subject();
 
+
   public constructor (
     private userService: UserService,
-    private apiService:  ApiService
+    private apiService:  ApiService,
+    private titleService: Title,
   ) {}
 
-  public ngOnInit () {
 
+  public ngOnInit () {
+    this.titleService.setTitle('Админ-панель');
   }
+
 
   public ngOnDestroy () {
     this.componentDestroyed.next();

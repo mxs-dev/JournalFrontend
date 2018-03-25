@@ -9,6 +9,7 @@ import { GROUP   } from './pages/groups';
 import { STUDENT } from './pages/students';
 import { SUBJECT } from './pages/subjects';
 
+
 @NgModule({
   imports: [
     CommonModule,
@@ -20,6 +21,9 @@ import { SUBJECT } from './pages/subjects';
     AdminComponent,
     
     GROUP, STUDENT, SUBJECT
+  ],
+  providers: [
+    
   ]
 })
 export class AdminModule { }

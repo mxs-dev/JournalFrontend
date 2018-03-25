@@ -45,20 +45,26 @@ export class StudentService {
   }
 
 
-  public async create() {
+  public async create(student: User) {
     return this.apiService.post(this.apiPath, {
-      // TODO: Модель
+       Student: {
+         name: student.name,
+         surname: student.surname,
+         patronymic: student.patronymic,
+         email: student.email,
+         role: User.ROLE_STUDENT
+       }
     })
-      .map((response: IApiData) => {
-        if (response.success) {
-          const u = new User(response.data);
-          this.events.created.next(u);
-          return u;
-        }
+    .map((response: IApiData) => {
+      if (response.success) {
+        const u = new User(response.data);
+        this.events.created.next(u);
+        return u;
+      }
 
-        throw new ApiError(response.status, response.data);
-      })
-      .toPromise();
+      throw new ApiError(response.status, response.data);
+    })
+    .toPromise();
   } 
 
 

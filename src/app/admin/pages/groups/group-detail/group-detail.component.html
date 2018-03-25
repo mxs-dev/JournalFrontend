@@ -9,11 +9,19 @@
     </div>
 
     <div *ngIf="!isLoadingGroup" class="card-body">
-        <h4>Редактировать группу:</h4>
+        <h4 class='col-12'>Редактировать группу:</h4>
         <app-group-form
             [group]="group"
             [(isSubmitted)]="isSubmittedGroup"
             (onSubmit)="onSubmit($event)">
         </app-group-form>
+
+        <app-group-students-list *ngIf="!isLoadingStudents"
+            [students]="students"
+            (onAdd)="addStudent($event)"
+            (onDelete)="deleteStudent($event)">
+        </app-group-students-list>
+
+        <div *ngIf="isLoadingStudents" class='loader'>Loading...</div>
     </div>
 </div>

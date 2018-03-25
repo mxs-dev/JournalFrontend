@@ -4,6 +4,12 @@ import { AuthModule        } from 'angular2-jwt';
 import { BrowserModule     } from '@angular/platform-browser';
 import { HttpClientModule  } from '@angular/common/http';
 
+// PerfectScrollbar
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+
+
 import { AppComponent } from './app.component';
 import { RoutingAnimationComponent } from './_directives/routing-animation/routing-animation.component';
 
@@ -26,7 +32,14 @@ import { GUARDS    } from './_guards/index';
 import 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/catch';
+
+
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  suppressScrollX: true
+};
+
 
 @NgModule({
    imports: [
@@ -35,6 +48,7 @@ import 'rxjs/add/operator/catch';
       AppRoutingModule,
       AuthModule,
       NgbModule.forRoot(),
+      PerfectScrollbarModule,
       LoginModule,
    ],
    declarations: [
@@ -43,7 +57,13 @@ import 'rxjs/add/operator/catch';
       MainLayoutComponent,
       P404Component,
    ],
-   providers: [ SERVICES, GUARDS ],
+   providers: [ 
+     SERVICES, GUARDS,
+      {
+        provide: PERFECT_SCROLLBAR_CONFIG,
+        useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+      } 
+    ],
    bootstrap: [ AppComponent ]
 })
 export class AppModule { }

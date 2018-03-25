@@ -18,8 +18,11 @@ export class GroupDetailComponent implements OnInit, OnDestroy {
   public group: Group;
   public students: User[];
 
-  public isLoadingGroup   = true;
-  public isSubmittedGroup = false;
+  public isLoadingGroup    = true;
+  public isLoadingStudents = true;
+
+  public isSubmittedGroup   = false;
+  public isSubmittedStudent = false;
 
   protected componentDestroyed = new Subject<void>();
 
@@ -32,7 +35,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy {
 
   public ngOnInit () {
     this.route.params
-    // .takeUntil(this.componentDestroyed)
+    .takeUntil(this.componentDestroyed)
     .subscribe(params => {
       this.groupId = params.id;
       this.loadGroup();
@@ -61,6 +64,16 @@ export class GroupDetailComponent implements OnInit, OnDestroy {
   }
 
 
+  public deleteStudent (student: User) {
+    console.log('deleteStudent');
+  }
+
+  
+  public addStudent (student: User) {
+    console.log('addStudent');
+  }
+
+
   protected loadGroup () {
 
     this.isLoadingGroup = true;
@@ -70,11 +83,12 @@ export class GroupDetailComponent implements OnInit, OnDestroy {
         this.group = group;
         this.isLoadingGroup = false;
 
-        console.log(group);
-
+        // Получение списка студентов
+        this.isLoadingStudents = true;
         this.groupService.getStudents(group.id)
           .then((students: User[]) => {
             this.students = students;
+            this.isLoadingStudents = false;
           })
           .catch((error) => {
             console.log(error);

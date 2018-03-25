@@ -32,7 +32,7 @@ export class GroupFormComponent implements OnInit, OnDestroy {
 
   public ngOnInit () {
     this.formGroup = this.fB.group({
-      title: [this.group ? this.group.title : '', Validators.minLength(4)],
+      title: [this.group ? this.group.title : '', Validators.compose([Validators.required, Validators.minLength(4)])],
     });
 
     this.formErrors = {

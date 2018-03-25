@@ -5,3 +5,13 @@ li{
 a.active{
   background: #c9c9c9;
 }
+
+.container-fluid{
+  height: 100%;
+  overflow: hidden;
+}
+
+.content{
+  flex: 1;
+  height: 100%;
+}

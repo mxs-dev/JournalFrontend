@@ -1,0 +1,54 @@
+<form class="col-12 form"
+    *ngIf="!isSubmitted"
+    (ngSubmit)="onSubmit.next(formGroup.value)"
+    [formGroup]="formGroup">
+
+    <div class="form-group mt-2">
+        <label for="nameInput">Имя</label>
+        <input type="text" class="form-control" id="nameInput"
+            [formControl]="formGroup.controls['name']"
+            [ngClass]="{'is-invalid': !isValid('name')}">
+        <div [hidden]="isValid('name', 'required')"  class="invalid-feedback">{{formErrors.required}}</div>
+        <div [hidden]="isValid('name', 'maxlength')" class="invalid-feedback">{{formErrors.name.maxlength}}</div>
+    </div> <!-- Имя -->
+
+    <div class="form-group">
+            <label for="surnameInput">Фамилия</label>
+            <input type="text" class="form-control" id="surnameInput"
+                [formControl]="formGroup.controls['surname']"
+                [ngClass]="{'is-invalid': !isValid('surname')}">
+            <div [hidden]="isValid('surname', 'required')"  class="invalid-feedback">{{formErrors.required}}</div>
+            <div [hidden]="isValid('surname', 'maxlength')" class="invalid-feedback">{{formErrors.surname.maxlength}}</div>
+    </div> <!-- Фамилия -->
+
+    <div class="form-group">
+            <label for="patronymicInput">Отчество</label>
+            <input type="text" class="form-control" id="patronymicInput"
+                [formControl]="formGroup.controls['patronymic']"
+                [ngClass]="{'is-invalid': !isValid('patronymic')}">
+            <div [hidden]="isValid('patronymic', 'required')"  class="invalid-feedback">{{formErrors.required}}</div>
+            <div [hidden]="isValid('patronymic', 'maxlength')" class="invalid-feedback">{{formErrors.patronymic.maxlength}}</div>
+    </div> <!-- Отчество -->
+
+    <div class="form-group">
+            <label for="emailInput">Email</label>
+            <input type="text" class="form-control" id="emailInput"
+                [formControl]="formGroup.controls['email']"
+                [ngClass]="{'is-invalid': !isValid('email')}">
+            <div [hidden]="isValid('email', 'required')"  class="invalid-feedback">{{formErrors.required}}</div>
+            <div [hidden]="isValid('email', 'maxlength')" class="invalid-feedback">{{formErrors.email.maxlength}}</div>
+            <div [hidden]="isValid('email', 'email')"     class="invalid-feedback">{{formErrors.email.email}}</div>
+    </div> <!-- Email -->
+ 
+    <button class="btn btn-outline-success" [disabled]="!formGroup.valid || isSubmitted" type="submit">Сохранить</button>
+</form>
+
+<div *ngIf="isSubmitted" class="row">
+    <div class="sk-wave">
+        <div class="sk-rect sk-rect1"></div>
+        <div class="sk-rect sk-rect2"></div>
+        <div class="sk-rect sk-rect3"></div>
+        <div class="sk-rect sk-rect4"></div>
+        <div class="sk-rect sk-rect5"></div>
+    </div>
+</div> <!-- Preloader -->
