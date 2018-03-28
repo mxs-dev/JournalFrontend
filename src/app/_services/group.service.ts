@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { ApiService } from './api.service';
-import { IApiData, Group, User } from '../_models';
+import { IApiData, Group, User, ApiError } from '../_models';
 
 import { Subject } from 'rxjs';
 
@@ -93,10 +93,35 @@ export class GroupService {
   } 
 
 
+  public async search(title: string): Promise<Group[]> {
+    return [];
+  }
+
+
   public async getStudents(id: number): Promise<User[]> {
     return this.apiService.get(`${this.apiPath}/${id}/students`)
       .map((response: IApiData) => {
-        return <User[]>response.data;
+        const students = new Array<User>();
+
+        response.data.forEach(studentData => {
+          students.push(new User(studentData));
+        });
+
+        return students;
+      })
+      .toPromise();
+  }
+
+
+  public async addStudent(groupId: number, studentId: number): Promise<boolean> {
+    return this.apiService.get(this.apiPath + `/${groupId}/add-student/${studentId}`)
+      .map((response: IApiData) => {
+        if (response.status === 201) {
+          return true;
+        }
+
+        throw new ApiError(response.status, response.data);
+        return false;
       })
       .toPromise();
   }

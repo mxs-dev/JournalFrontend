@@ -2,7 +2,7 @@
         <div class="card-header">
             <div class="row">
                 <h4 class="col-6">Группы</h4>
-                <div class="col-6"><input class="form-control" type="text" placeholder="Поиск..."></div>
+                <div class="col-6"><input #groupSearch class="form-control" type="text" placeholder="Поиск..."></div>
             </div>
         </div>
 
@@ -11,14 +11,16 @@
         </div>
 
         <div *ngIf="!isLoadingGroupsList" class='card-body'>
-            <app-group-create></app-group-create>
+            <app-group-create class="mb-3"></app-group-create>
 
-            <div *ngFor="let group of groups; let i = index" class="row list-item" [class.deleted]="group.deleted">
-                    <div class="col-2 display-6">#{{group.id}}</div>
-                    <div class="col-6 display-6">{{group.title}}</div>
+            <div *ngFor="let group of pagedGroups; let i = index" class="row list-item" [class.deleted]="group.deleted">
+                    <div class="col-2 display-6 text-center">#{{group.id}}</div>
+                    <div class="col-4 display-6 text-center">{{group.title}}</div>
+                    <div class="col-2 display-6">
+                        <button [routerLink]="[group.id]" class="btn btn-sm btn-block btn-outline-primary">Уч. план</button>
+                    </div>
                     <div class="col-3">
-                        <button [routerLink]="[group.id]"
-                        class="btn btn-sm btn-block btn-outline-primary">Просмотр</button>
+                        <button [routerLink]="[group.id]" class="btn btn-sm btn-block btn-outline-primary">Просмотр</button>
                     </div>
                     <div class="col-1">
                         <button (click)="deleteGroup(group);" type="button" class="close" aria-label="Close">
@@ -26,5 +28,12 @@
                         </button>
                     </div>
             </div><!-- Блок для списка групп -->
+
+            <div class="d-flex row justify-content-center mt-3">
+                <app-pagination
+                    [pager]="pager"
+                    (setPage)="setPage($event)">
+                </app-pagination>   
+            </div>
         </div>
 </div>

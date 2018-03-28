@@ -1,5 +1,6 @@
 <form class="col-12 form" *ngIf="!isSubmitted" [formGroup]="formGroup" (ngSubmit)="onSubmit.next(formGroup.value);  this.formGroup.reset();">
-    <div class="form-group mt-2">
+    <div class="form-group mt-2 mb-2">
+        <label>Название</label>
         <input type="text" class="form-control" placeholder="Введите название группы..." [formControl]="formGroup.controls['title']"
             [ngClass]="{'is-invalid': !isValid('title')}">
         <div *ngIf="!isValid('title')" class="invalid-feedback">{{formErrors.title.message}}</div>

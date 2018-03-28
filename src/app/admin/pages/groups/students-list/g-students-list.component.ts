@@ -10,14 +10,11 @@ import { Subject } from 'rxjs';
   styles: [`
   `]
 })
-export class GroupStudentsListComponent implements OnInit, OnDestroy{
-  @Input() students: User;
-  @Output() onAdd    = new Subject<User>();
+export class GroupStudentsListComponent implements OnInit, OnDestroy {
+  @Input()  students: User;
   @Output() onDelete = new Subject<User>();
 
-  public constructor ( 
-    
-  ) {}
+  public constructor () {}
 
 
   public ngOnInit() {

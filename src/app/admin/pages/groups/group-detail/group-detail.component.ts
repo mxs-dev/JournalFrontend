@@ -18,6 +18,8 @@ export class GroupDetailComponent implements OnInit, OnDestroy {
   public group: Group;
   public students: User[];
 
+  public toggledForm = false;
+
   public isLoadingGroup    = true;
   public isLoadingStudents = true;
 
@@ -49,10 +51,6 @@ export class GroupDetailComponent implements OnInit, OnDestroy {
     this.groupService.update(this.group.id, groupData)
     .then((res) => {
       this.isSubmittedGroup = false;
-     
-     // TODO: Реализовать на сервере метод UPDATE и загонять возвращенную
-     // в this.group
-     
       this.loadGroup();
       console.log(res);
     })
@@ -74,6 +72,11 @@ export class GroupDetailComponent implements OnInit, OnDestroy {
   }
 
 
+  public studentCreated (student: User) {
+    this.students.push(student);
+  }
+
+
   protected loadGroup () {
 
     this.isLoadingGroup = true;
@@ -83,21 +86,29 @@ export class GroupDetailComponent implements OnInit, OnDestroy {
         this.group = group;
         this.isLoadingGroup = false;
 
-        // Получение списка студентов
-        this.isLoadingStudents = true;
-        this.groupService.getStudents(group.id)
-          .then((students: User[]) => {
-            this.students = students;
-            this.isLoadingStudents = false;
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        this.loadStudents();
       })
       .catch((error) => {
         console.log(error);
         this.isLoadingGroup = false;
       });
+  }
+
+
+  protected loadStudents () {
+    if (!this.group) {
+      return;
+    }
+
+    this.isLoadingStudents = true;
+    this.groupService.getStudents(this.group.id)
+    .then((students: User[]) => {
+      this.students = students;
+      this.isLoadingStudents = false;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   }
 
 

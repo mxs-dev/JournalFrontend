@@ -37,13 +37,13 @@ export class StudentCreateComponent implements OnInit, OnDestroy {
 
     this.studentService.create(data)
     .then((student: User) => {
-      console.log(student);
-
       this.isSubmitted = false;
     })
     .catch((err: ApiError) => {
       this.serverErrors = err.data;
       this.isSubmitted = false;
+
+      console.log(err);
     });
   }
 

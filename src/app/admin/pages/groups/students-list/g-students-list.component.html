@@ -1,12 +1,12 @@
 <div class="col-12 mt-4">
-    <div>
-        <h4>Добавить студента:</h4>
-    </div>
-
-    <div>
-        <h5>Студенты в группе</h5>
-        <div *ngFor="let student of students" class="list-item">
-            {{student.name}}
+    <h5>Студенты в группе:</h5>
+    <div *ngFor="let student of students" class="list-item row no-gutters">
+        <div class="col-1">#{{student.id}}</div>
+        <div class="col-6">{{student.shortFullName}}</div>
+        <div class="col-1">
+            <button (click)="onDelete.next(student);" type="button" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
     </div>
 </div>

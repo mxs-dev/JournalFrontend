@@ -1,0 +1,28 @@
+<div class="col-12 mt-4">
+    <div class="row justify-content-between">
+        <div class="col-6"><h5>Добавить студента:</h5></div>
+        <div class="col-3">
+            <button *ngIf="!toggledAddStudentBlock"  (click)="toggledAddStudentBlock=true;"  class="btn btn-link btn-block btn-sm">Развернуть</button>
+            <button *ngIf="toggledAddStudentBlock"   (click)="toggledAddStudentBlock=false;" class="btn btn-link btn-block btn-sm">Скрыть</button>
+        </div>
+    </div>
+    <div *ngIf="toggledAddStudentBlock" class="form-group">
+        HelloWorld
+    </div>
+</div>
+
+<div class="col-12 mt-4">
+    <div class="row justify-content-between">
+        <div class="col-6"><h5>Создать студента:</h5></div>
+        <div class="col-3">
+            <button *ngIf="!toggledCreateStudentBlock" (click)="toggledCreateStudentBlock=true;"  class="btn btn-link btn-block btn-sm">Развернуть</button>
+            <button *ngIf="toggledCreateStudentBlock"  (click)="toggledCreateStudentBlock=false;" class="btn btn-link btn-block btn-sm">Скрыть</button>            
+        </div>
+    </div>
+
+    <app-student-form
+        *ngIf="toggledCreateStudentBlock"
+        [isSubmitted]="isSubmittedStudentForm"
+        (onSubmit)="createStudent($event)">
+    </app-student-form>
+</div>

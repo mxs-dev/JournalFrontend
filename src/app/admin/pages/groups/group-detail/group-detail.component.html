@@ -9,16 +9,31 @@
     </div>
 
     <div *ngIf="!isLoadingGroup" class="card-body">
-        <h4 class='col-12'>Редактировать группу:</h4>
+        <div class="col-12">
+            <div class="row justify-content-between">
+                    <div class="col-6"><h5>Редактировать группу:</h5></div>
+                    <div class="col-3">
+                        <button *ngIf="!toggledForm" (click)="toggledForm=true;"  class="btn btn-link btn-block btn-sm">Развернуть</button>
+                        <button *ngIf="toggledForm"  (click)="toggledForm=false;" class="btn btn-link btn-block btn-sm">Скрыть</button>            
+                    </div>
+            </div>
+        </div>
+        
         <app-group-form
+            *ngIf="toggledForm"
             [group]="group"
             [(isSubmitted)]="isSubmittedGroup"
             (onSubmit)="onSubmit($event)">
         </app-group-form>
 
+        <app-group-add-student
+            [group]="group"
+            (onSelect)="addStudent($event)"
+            (onCreate)="studentCreated($event)">
+        </app-group-add-student>
+
         <app-group-students-list *ngIf="!isLoadingStudents"
             [students]="students"
-            (onAdd)="addStudent($event)"
             (onDelete)="deleteStudent($event)">
         </app-group-students-list>
 

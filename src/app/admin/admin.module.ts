@@ -5,6 +5,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminComponent     } from './admin.component';
 import { AdminRoutingModule } from './admin-routing.module';
 
+import { PaginationComponent } from '../_shared/pagination/pagination.component';
+
+
 import { GROUP   } from './pages/groups';
 import { STUDENT } from './pages/students';
 import { SUBJECT } from './pages/subjects';
@@ -19,6 +22,7 @@ import { SUBJECT } from './pages/subjects';
   ],
   declarations: [
     AdminComponent,
+    PaginationComponent,
     
     GROUP, STUDENT, SUBJECT
   ],
