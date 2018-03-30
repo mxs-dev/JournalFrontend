@@ -45,6 +45,20 @@ export class StudentService {
   }
 
 
+  public async search (student: User): Promise<User[]> {
+    return this.apiService.post(this.apiPath + '/search', {
+      studentSearch: student
+    })
+    .map((response: IApiData) => {
+      const students = [];
+      response.data.forEach(data => students.push(new User(data)));
+
+      return students;
+    })
+    .toPromise();
+  }
+
+
   public async create(student: User) {
     return this.apiService.post(this.apiPath, {
        Student: {
@@ -80,5 +94,4 @@ export class StudentService {
       })
       .toPromise();
   }
-
 } 
