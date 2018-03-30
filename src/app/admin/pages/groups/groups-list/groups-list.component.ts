@@ -1,7 +1,9 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+
 import { GroupService, PagerService } from '../../../../_services';
+import { Pager } from '../../../../_services/pager.service';
 import { Group } from '../../../../_models/index';
 
 import { Observable, Subject } from 'rxjs';
@@ -17,12 +19,9 @@ export class GroupsListComponent implements OnInit, OnDestroy {
   private readonly PAGE_SIZE = 7;
 
   @ViewChild('groupSearch', {read: ElementRef}) groupSearchInput: ElementRef;
-
-  public pagedGroups: Group[];
   public allGroups:   Group[];
 
-  public pager: any = {};
-  public page = 1;
+  public pager: Pager;
 
   public isLoadingGroupsList = false;
 
@@ -38,27 +37,27 @@ export class GroupsListComponent implements OnInit, OnDestroy {
 
 
   public ngOnInit () {
+    this.pager = this.pagerService.getPager([], 1, this.PAGE_SIZE);
+
     this.route.queryParams
       .takeUntil(this.componentDestroyed)
       .subscribe(params => {
-        this.page = Number(params['p']) || 1;
+        this.pager.setPage(Number(params['p'] || 1));
     });
   
     this.loadAllGroups();
-
-    this.groupService.events.created
+    this.subscribeToGroupServiceEvents();
+    
+    Observable.fromEvent(this.groupSearchInput.nativeElement, 'keyup')
       .takeUntil(this.componentDestroyed)
-      .subscribe((group: Group) => {
-        this.allGroups.push(group);
-        this.setPage(this.page);
-    });
+      .debounceTime(100)
+      .subscribe(() => this.search(this.groupSearchInput.nativeElement.value));
+  }
 
-    Observable.fromEvent(this.groupSearchInput.nativeElement, 'keydown')
-      .takeUntil(this.componentDestroyed)
-      .debounceTime(1000)
-      .subscribe((e) => {
-        this.search(this.groupSearchInput.nativeElement.value);
-      });
+
+  public ngOnDestroy () {
+    this.componentDestroyed.next();
+    this.componentDestroyed.complete();
   }
 
 
@@ -66,7 +65,7 @@ export class GroupsListComponent implements OnInit, OnDestroy {
     group.deleted = true;
 
     this.groupService.delete(group.id)
-      .then( deleted => {
+      .then(deleted => {
         if (deleted) {
           this.removeGroupFromList(group);
         }
@@ -78,12 +77,19 @@ export class GroupsListComponent implements OnInit, OnDestroy {
 
 
   protected search (title: string) {
+    this.pager.setItems(this.allGroups.filter((group: Group) => {
+      return group.title.search(new RegExp(title, 'i')) >= 0;
+    }));
   }
-
-
-  public ngOnDestroy () {
-    this.componentDestroyed.next();
-    this.componentDestroyed.complete();
+  
+  
+  protected subscribeToGroupServiceEvents () {
+    this.groupService.events.created
+      .takeUntil(this.componentDestroyed)
+      .subscribe((group: Group) => {
+        this.allGroups.push(group);
+        this.pager.setItems(this.allGroups);
+    });
   }
 
 
@@ -93,7 +99,7 @@ export class GroupsListComponent implements OnInit, OnDestroy {
     this.groupService.getAll()
       .then( (groups: Group[]) => {
         this.allGroups = groups;
-        this.setPage(this.page);
+        this.pager.setItems(this.allGroups);
         
         this.isLoadingGroupsList = false;
       })
@@ -108,18 +114,7 @@ export class GroupsListComponent implements OnInit, OnDestroy {
     this.allGroups = this.allGroups.filter( (item: Group) => {
       return group.id !== item.id;
     });
-  }
 
-
-  protected setPage(page: number) {
-
-    if (page < 1 || page > this.pager.totalPages) {
-      return;
-    }
-
-    this.page = page;    
-
-    this.pager = this.pagerService.getPager(this.allGroups.length, this.page, this.PAGE_SIZE);
-    this.pagedGroups = this.allGroups.slice(this.pager.startIndex, this.pager.endIndex + 1);
+    this.pager.setItems(this.allGroups);
   }
 }

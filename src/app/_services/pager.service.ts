@@ -2,58 +2,99 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class PagerService {
-  getPager(totalItems: number, currentPage: number = 1, pageSize: number = 10) {
-    // calculate total pages
-    const totalPages = Math.ceil(totalItems / pageSize);
+   public getPager (items: any[], currentPage: number = 1,  pageSize: number = 10) {
+      return new Pager(items, currentPage, pageSize);
+   }
+}
 
-    let startPage: number, endPage: number;
-    if (totalPages <= 10) {
-        // less than 10 total pages so show all
-        startPage = 1;
-        endPage = totalPages;
-    } else {
-        // more than 10 total pages so calculate start and end pages
-        if (currentPage <= 6) {
+export class Pager {
+   protected totalItems: Array<any>;
+   protected totalPages: number;
+   protected currentPage: number;
+   protected pageSize: number;
+
+   public startPage:  number;
+   public endPage:    number;
+   public startIndex: number;
+   public endIndex:   number;
+   public pages:      Array<number>;
+   public pagedItems: Array<any>;
+
+   public constructor(items: any[], currentPage: number,  pageSize: number) {
+      this.currentPage = currentPage;
+      this.pageSize    = pageSize;
+
+      this.setItems(items);
+   }
+
+
+   public setItems(items: any[]) {
+      this.totalItems = items;
+      this.totalPages = Math.ceil(this.totalItems.length / this.pageSize);
+      
+      this.calculatePages(); 
+      this.updatePagedItems();
+
+      console.log('setItems Paged Items', this.pagedItems);
+   }
+
+
+   public setPage (page: number) {
+      if (page < 1 || page > this.totalPages) {
+         return;
+      }
+
+      this.currentPage = page;
+      this.updatePagedItems();
+
+      console.log('setPage Paged Items', this.pagedItems);
+      console.log('setPage indexes', this.startIndex, this.endIndex);      
+   }
+
+
+   protected calculatePages() {
+      let startPage: number, endPage: number;
+      if (this.totalPages <= 10) {
+         startPage = 1;
+         endPage = this.totalPages;
+      } else {
+         if (this.currentPage <= 6) {
             startPage = 1;
             endPage = 10;
-        } else if (currentPage + 4 >= totalPages) {
-            startPage = totalPages - 9;
-            endPage = totalPages;
-        } else {
-            startPage = currentPage - 5;
-            endPage = currentPage + 4;
-        }
-    }
+         } else if (this.currentPage + 4 >= this.totalPages) {
+            startPage = this.totalPages - 9;
+            endPage = this.totalPages;
+         } else {
+            startPage = this.currentPage - 5;
+            endPage = this.currentPage + 4;
+         }
+      }
 
-    // calculate start and end item indexes
-    const startIndex = (currentPage - 1) * pageSize;
-    const endIndex = Math.min(startIndex + pageSize - 1, totalItems - 1);
-
-    // create an array of pages to ng-repeat in the pager control
-    const pages = this.range(startPage, endPage);
-
-    // return object with all pager properties required by the view
-    return {
-        totalItems: totalItems,
-        currentPage: currentPage,
-        pageSize: pageSize,
-        totalPages: totalPages,
-        startPage: startPage,
-        endPage: endPage,
-        startIndex: startIndex,
-        endIndex: endIndex,
-        pages: pages
-    };
-  }
+      this.startPage = startPage;
+      this.endPage   = endPage;
+      this.pages     = this.range(startPage, endPage);
+   }
 
 
-  protected range(a: number, b: number) {
-    const res = [];
+   protected updatePagedItems () {
+      if (this.currentPage > this.totalPages) {
+         this.setPage(this.totalPages);
+      }
 
-    for (a; a <= b; a++) { 
-      res.push(a);
-    }
+      this.startIndex = (this.currentPage - 1) * this.pageSize;
+      this.endIndex = Math.min(this.startIndex + this.pageSize - 1, this.totalItems.length - 1);
 
-    return res;
-  }
+      this.pagedItems = this.totalItems.slice(this.startIndex, this.endIndex + 1);
+   }
+
+
+   protected range(a: number, b: number) {
+      const res = [];
+
+      for (a; a <= b; a++) {
+         res.push(a);
+      }
+
+      return res;
+   }
 }

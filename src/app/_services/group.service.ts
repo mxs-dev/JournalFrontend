@@ -121,7 +121,6 @@ export class GroupService {
         }
 
         throw new ApiError(response.status, response.data);
-        return false;
       })
       .toPromise();
   }

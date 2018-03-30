@@ -13,5 +13,8 @@ import { Subject } from 'rxjs';
 })
 export class PaginationComponent {
   @Input() pager: any;
-  @Output() setPage = new Subject<number>();
+  
+  public setPage (page: number) {
+    this.pager.setPage(page);
+  }
 } 
