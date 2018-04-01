@@ -4,36 +4,37 @@
             <h5>Добавить студента:</h5>
         </div>
         <div class="col-3">
-            <button *ngIf="!toggledAddStudentBlock" (click)="toggledAddStudentBlock=true;" class="btn btn-link btn-block btn-sm">Развернуть</button>
-            <button *ngIf="toggledAddStudentBlock" (click)="toggledAddStudentBlock=false;" class="btn btn-link btn-block btn-sm">Скрыть</button>
+            <button *ngIf="!toggledAddStudentBlock" (click)="toggledAddStudentBlock=true;" class="btn btn-link btn-block btn-sm text-right">Развернуть</button>
+            <button *ngIf="toggledAddStudentBlock" (click)="toggledAddStudentBlock=false;" class="btn btn-link btn-block btn-sm text-right">Скрыть</button>
         </div>
     </div>
 
-    <form class="row" 
+    <form class="row no-gutters" 
         *ngIf="toggledAddStudentBlock && !isSubmittedStudentSearch" 
         [formGroup]="studentSearchForm" 
         (ngSubmit)="search(studentSearchForm.value);">
 
-        <div class="col">
-            <input class="form-control" id="studentName" [formControl]="studentSearchForm.controls['name']" placeholder="Введите имя...">
+        <div class="col-sm-12 col-md mr-1">
+            <input class="form-control" id="studentName" [formControl]="studentSearchForm.controls['name']" placeholder="Имя...">
+        </div> 
+        <div class="col-sm-12 col-md mr-1">
+            <input class="form-control" id="studentSurname" [formControl]="studentSearchForm.controls['surname']" placeholder="Фамилия...">
         </div>
-        <div class="col">
-            <input class="form-control" id="studentSurname" [formControl]="studentSearchForm.controls['surname']" placeholder="Введите фамилию...">
+        <div class="col-sm-12 col-md mr-1">
+            <input class="form-control" id="studentPatronymic" [formControl]="studentSearchForm.controls['patronymic']" placeholder="Отчество...">
         </div>
-        <div class="col">
-            <input class="form-control" id="studentPatronymic" [formControl]="studentSearchForm.controls['patronymic']" placeholder="Введите отчество...">
-        </div>
-        <div class="col align-self-center">
+        <div class="col-sm-12 col-md mr-1 align-self-center">
             <button type="submit" class="btn btn-outline-success btn-block">Поиск</button>
         </div>
     </form>
 
-    <div *ngIf="toggledAddStudentBlock" class="div">
-        <div *ngFor="let student of searchedStudents" class="row">
-            <div class="col-2"><h5>#{{student.id}}</h5></div>
-            <div class="col-6 text-center">{{student.shortFullName}}</div>
-            <div class="col-4">
-                <button class="btn btn-outline-primary btn-block" (click)="onSelect.next(student)">Добавить</button>
+    <div *ngIf="toggledAddStudentBlock" class="searched-students">
+        <div *ngFor="let student of searchedStudents" class="row list-item no-gutters" [class.deleted]="student.deleted">
+            <div class="col-1">#{{student.id}}</div>
+            <div class="col-6 text-center">{{student.fullName}}</div>
+            <div class="col-3">{{student.createdAt | date}}</div>
+            <div class="col-2">
+                <button class="btn btn-outline-primary btn-sm btn-block" (click)="addStudent(student)">Добавить</button>
             </div>
         </div>    
     </div>
@@ -55,8 +56,8 @@
             <h5>Создать студента:</h5>
         </div>
         <div class="col-3">
-            <button *ngIf="!toggledCreateStudentBlock" (click)="toggledCreateStudentBlock=true;" class="btn btn-link btn-block btn-sm">Развернуть</button>
-            <button *ngIf="toggledCreateStudentBlock" (click)="toggledCreateStudentBlock=false;" class="btn btn-link btn-block btn-sm">Скрыть</button>
+            <button *ngIf="!toggledCreateStudentBlock" (click)="toggledCreateStudentBlock=true;" class="btn btn-link btn-block btn-sm text-right">Развернуть</button>
+            <button *ngIf="toggledCreateStudentBlock" (click)="toggledCreateStudentBlock=false;" class="btn btn-link btn-block btn-sm text-right">Скрыть</button>
         </div>
     </div>
 

@@ -51,13 +51,7 @@ export class GroupsListComponent implements OnInit, OnDestroy {
     Observable.fromEvent(this.groupSearchInput.nativeElement, 'keyup')
       .takeUntil(this.componentDestroyed)
       .debounceTime(100)
-      .subscribe(() => this.search(this.groupSearchInput.nativeElement.value));
-  }
-
-
-  public ngOnDestroy () {
-    this.componentDestroyed.next();
-    this.componentDestroyed.complete();
+      .subscribe(this.search.bind(this));
   }
 
 
@@ -75,8 +69,16 @@ export class GroupsListComponent implements OnInit, OnDestroy {
       });
   }
 
+  
+  public ngOnDestroy () {
+    this.componentDestroyed.next();
+    this.componentDestroyed.complete();
+  }
 
-  protected search (title: string) {
+
+  protected search () {
+    const title = this.groupSearchInput.nativeElement.value;
+
     this.pager.setItems(this.allGroups.filter((group: Group) => {
       return group.title.search(new RegExp(title, 'i')) >= 0;
     }));

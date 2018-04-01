@@ -2,9 +2,12 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class PagerService {
-   public getPager (items: any[], currentPage: number = 1,  pageSize: number = 10) {
-      return new Pager(items, currentPage, pageSize);
-   }
+
+  public Pager = Pager;
+
+  public getPager (items: any[], currentPage: number = 1,  pageSize: number = 10) {
+    return new Pager(items, currentPage, pageSize);
+  }
 }
 
 export class Pager {
@@ -34,8 +37,6 @@ export class Pager {
       
       this.calculatePages(); 
       this.updatePagedItems();
-
-      console.log('setItems Paged Items', this.pagedItems);
    }
 
 
@@ -45,10 +46,7 @@ export class Pager {
       }
 
       this.currentPage = page;
-      this.updatePagedItems();
-
-      console.log('setPage Paged Items', this.pagedItems);
-      console.log('setPage indexes', this.startIndex, this.endIndex);      
+      this.updatePagedItems();     
    }
 
 

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { GroupService } from '../../../../_services/index';
 import { Group, User  } from '../../../../_models/index';
@@ -31,6 +31,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy {
 
   public constructor (
     private route: ActivatedRoute,
+    private router: Router,
     private groupService: GroupService
   ) { }
 
@@ -45,7 +46,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy {
   }
 
 
-  public onSubmit (groupData: any) {
+  public onSubmitGroup (groupData: any) {
     this.isSubmittedGroup = true;
 
     this.groupService.update(this.group.id, groupData)
@@ -62,18 +63,30 @@ export class GroupDetailComponent implements OnInit, OnDestroy {
   }
 
 
-  public deleteStudent (student: User) {
-    console.log('deleteStudent');
+  public async deleteStudent (student: User) {
+    student.deleted = true;
+
+    try {
+      const success = await this.groupService.removeStudent(this.group.id, student.id);
+
+      if (success) {
+        this.removeStudentFromList(student);
+      }
+    } catch (e) {
+      console.log(e);
+    }  
   }
 
   
   public addStudent (student: User) {
-    console.log('addStudent');
+    this.students.push(student);
+    console.log('Student added', student);    
   }
 
 
   public studentCreated (student: User) {
     this.students.push(student);
+    console.log('Student created', student);
   }
 
 
@@ -90,6 +103,12 @@ export class GroupDetailComponent implements OnInit, OnDestroy {
       })
       .catch((error) => {
         console.log(error);
+
+        if (error.status === 404) {
+          this.router.navigate(['/admin/groups']);
+          // TODO: Отобразить ошибку "Группа не существует"
+        }
+
         this.isLoadingGroup = false;
       });
   }
@@ -115,5 +134,12 @@ export class GroupDetailComponent implements OnInit, OnDestroy {
   public ngOnDestroy () {
     this.componentDestroyed.next();
     this.componentDestroyed.complete();
+  }
+
+
+  protected removeStudentFromList (student: User) {
+    this.students = this.students.filter((item: User) => {
+      return student.id !== item.id;
+    });
   }
 }

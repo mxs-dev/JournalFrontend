@@ -11,8 +11,10 @@ import { Subject } from 'rxjs';
   selector: 'app-group-add-student',
   templateUrl: 'g-student-add.component.html',
   styles: [`
-    .loader{
-      font-size: 7px;
+    .searched-students {
+      max-height: 400px;
+      overflow-x: hidden;
+      overflow-y: hidden;
     }
   `]
 })
@@ -53,7 +55,7 @@ export class GroupStudentAddComponent implements OnInit, OnDestroy {
   public search (data: any) {
     this.isSubmittedStudentSearch = true;
 
-    this.studentService.search(data)
+    this.studentService.search(data, true)
       .then((students: User[]) => {
         this.searchedStudents = students;
 
@@ -66,14 +68,29 @@ export class GroupStudentAddComponent implements OnInit, OnDestroy {
   }
 
 
+  public async addStudent (student: User) {
+    student.deleted = true;
+
+    try {
+      const result = await this.groupService.addStudent(this.group.id, student.id);
+
+      if (result) {
+        this.removeStudentFromSearchedStudents(student);
+        this.onSelect.next(student);
+      }
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
   public createStudent (data: User) {
     this.studentService.create(data)
       .then((student: User) => {
         this.groupService.addStudent(this.group.id, student.id)
           .then((res: boolean) => {
-
             this.onCreate.next(student);
-            console.log('Student added', res);
           })
           .catch((err) => console.log(err));
       })
@@ -84,5 +101,12 @@ export class GroupStudentAddComponent implements OnInit, OnDestroy {
   public ngOnDestroy () {
     this.componentDestroyed.next();
     this.componentDestroyed.complete();
+  }
+
+
+  protected removeStudentFromSearchedStudents (student: User): void {
+    this.searchedStudents = this.searchedStudents.filter((item) => {
+      return item.id !== student.id;
+    });
   }
 }

@@ -1,12 +1,12 @@
 <div class="col-12 mt-4">
     <h5>Студенты в группе:</h5>
-    <div *ngFor="let student of students" class="list-item row no-gutters">
-        <div class="col-1">#{{student.id}}</div>
-        <div class="col-6">{{student.shortFullName}}</div>
-        <div class="col-1">
-            <button (click)="onDelete.next(student);" type="button" class="close" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+    <div *ngFor="let student of students" class="row list-item no-gutters" [class.deleted]="student.deleted">
+        <div class="col-1 text-center">#{{student.id}}</div>
+        <div class="col-4 text-center">{{student.shortFullName}}</div>
+        <div class="col-3 text-center">{{student.createdAt | date}}</div>
+        <div class="col-4">
+            <button class="btn btn-sm btn-outline-warning btn-block"
+                (click)="onDelete.next(student);">Убрать из группы</button>
         </div>
     </div>
 </div>

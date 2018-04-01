@@ -124,4 +124,13 @@ export class GroupService {
       })
       .toPromise();
   }
+
+
+  public async removeStudent(groupId: number, studentId: number): Promise<boolean> {
+    return this.apiService.get(this.apiPath + `/${groupId}/rm-student/${studentId}`)
+      .map((response: IApiData) => {
+        return true;
+      })
+      .toPromise();
+  }
 }

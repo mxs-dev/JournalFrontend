@@ -1,9 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 
 import { User, ApiError } from '../../../../_models';
-import { StudentService } from '../../../../_services';
+import { StudentService, PagerService } from '../../../../_services';
+import { Pager } from '../../../../_services/pager.service';
 
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+
 
 
 @Component({
@@ -12,51 +15,54 @@ import { Subject } from 'rxjs';
   styleUrls: ['students-list.component.scss']
 })
 export class StudentsListComponent implements OnInit, OnDestroy {
+  
+  private readonly PAGE_SIZE = 5;
+
+  @ViewChild('studentSearch', {read: ElementRef}) studentSearchInput: ElementRef;
 
   public students: User[];
 
   public isLoadingStudentsList = false;
 
+  public pager: Pager;
+
+  
 
   protected componentDestroyed = new Subject<any>();
 
 
   public constructor (
-    private studentService: StudentService
+    private route: ActivatedRoute,
+    private studentService: StudentService,
+    private paginationService: PagerService,
   ) { }
 
 
-  public ngOnInit () {
-    this.isLoadingStudentsList = true;
+  public async ngOnInit () {
+    this.loadAllStudents();
 
-    this.studentService.getAll()
-      .then((students: User[]) => {
-        this.students = students;
-        this.isLoadingStudentsList = false;
-      })  
-      .catch((err: ApiError) => {
-        console.log('StudentList got error', err);
-        this.isLoadingStudentsList = false;
-      });
+    this.pager = this.paginationService.getPager([], 1, this.PAGE_SIZE);
 
-    this.studentService.events.created
+    this.subscribeToStudentServiceEvents();
+
+    Observable.fromEvent(this.studentSearchInput.nativeElement, 'keyup')
       .takeUntil(this.componentDestroyed)
-      .subscribe((student: User) => {
-        this.students.push(student);
-    });
-
-    this.studentService.events.deleted
-      .takeUntil(this.componentDestroyed)
-      .subscribe((id: number) => {
-        this.students = this.students.filter((s) => s.id !== id);
-    });
+      .debounceTime(100)
+      .subscribe(this.search.bind(this));
   }
 
 
-  public deleteStudent(student: User) {
+  public async deleteStudent(student: User) {
     student.deleted = true;
 
-    this.studentService.delete(student.id).catch(err => console.log(err));
+    try {
+      const result = await this.studentService.delete(student.id);
+      this.removeStudentFromList(student.id);
+
+    } catch (e) {
+      const error = <ApiError> e;
+      console.log(error);
+    }
   }
 
 
@@ -65,4 +71,50 @@ export class StudentsListComponent implements OnInit, OnDestroy {
     this.componentDestroyed.complete();
   }
   
+
+  protected search () {
+    const searchString = this.studentSearchInput.nativeElement.value;
+
+    this.pager.setItems(this.students.filter((student: User) => {
+      return student.fullName.search(new RegExp(searchString, 'i')) >= 0;
+    }));
+  }
+
+
+  protected async loadAllStudents () {
+    this.isLoadingStudentsList = true;
+
+    try {
+      this.students = await this.studentService.getAll();
+
+      this.pager.setItems(this.students);
+      this.isLoadingStudentsList = false;
+    
+    } catch (e) {
+      const error = <ApiError> e;
+      console.log('StudentList got error', error);
+      this.isLoadingStudentsList = false;
+    }
+  }
+
+
+  protected subscribeToStudentServiceEvents () {
+    this.studentService.events.created
+      .takeUntil(this.componentDestroyed)
+      .subscribe(this.addStudentToTheList.bind(this));
+
+    this.studentService.events.deleted
+      .takeUntil(this.componentDestroyed)
+      .subscribe(this.removeStudentFromList.bind(this));
+  }
+
+
+  protected addStudentToTheList (student: User) {
+    this.students.push(student);
+  }
+
+
+  protected removeStudentFromList (id: number): void {
+    this.students = this.students.filter((s) => s.id !== id);
+  }
 }

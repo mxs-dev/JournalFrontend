@@ -45,9 +45,12 @@ export class StudentService {
   }
 
 
-  public async search (student: User): Promise<User[]> {
+  public async search (student: User, notInGroup: boolean = false): Promise<User[]> {
     return this.apiService.post(this.apiPath + '/search', {
-      studentSearch: student
+      StudentSearch: {
+        ...student,
+        notInGroup: notInGroup
+      }
     })
     .map((response: IApiData) => {
       const students = [];

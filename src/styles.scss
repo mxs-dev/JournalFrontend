@@ -50,3 +50,7 @@ app-layout {
     height: $footer-height;
   }
 }
+
+.app-body>.container-fluid {
+  height: 100%;
+}
