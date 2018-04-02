@@ -77,6 +77,7 @@ export class GroupStudentAddComponent implements OnInit, OnDestroy {
       if (result) {
         this.removeStudentFromSearchedStudents(student);
         this.onSelect.next(student);
+        student.deleted = false;
       }
 
     } catch (error) {

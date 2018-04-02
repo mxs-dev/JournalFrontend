@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/co
 import { ActivatedRoute } from '@angular/router';
 
 
-import { GroupService, PagerService } from '../../../../_services';
-import { Pager } from '../../../../_services/pager.service';
+import { GroupService } from '../../../../_services';
+import { Pager } from '../../../../_shared/pagination/pager';
 import { Group } from '../../../../_models/index';
 
 import { Observable, Subject } from 'rxjs';
@@ -31,13 +31,12 @@ export class GroupsListComponent implements OnInit, OnDestroy {
  
   public constructor (
     private groupService: GroupService,
-    private pagerService: PagerService,
     private route: ActivatedRoute,
   ) { }
 
 
   public ngOnInit () {
-    this.pager = this.pagerService.getPager([], 1, this.PAGE_SIZE);
+    this.pager = new Pager([], 1, this.PAGE_SIZE);
 
     this.route.queryParams
       .takeUntil(this.componentDestroyed)

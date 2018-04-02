@@ -1,12 +1,11 @@
 import { GlobalService  } from './global.service';
 import { AuthService    } from './auth.service';
 import { ApiService     } from './api.service';
-import { PagerService   } from './pager.service';
 
 import { UserService    } from './user.service';
 import { GroupService   } from './group.service';
 import { StudentService } from './student.service';
-
+import { SubjectService } from './subject.service';
 
 const SERVICES = [
   GlobalService,
@@ -15,7 +14,7 @@ const SERVICES = [
   ApiService,
   GroupService,
   StudentService,
-  PagerService
+  SubjectService
 ];
 
 export {
@@ -27,5 +26,5 @@ export {
   ApiService,
   GroupService,
   StudentService,
-  PagerService
+  SubjectService
 };

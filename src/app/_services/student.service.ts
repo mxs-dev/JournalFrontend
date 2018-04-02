@@ -11,10 +11,11 @@ export class StudentService {
 
   public events = {
     created: new Subject<User>(),
+    updated: new Subject<User>(),
     deleted: new Subject<number>(),
   };
 
-  protected apiPath = '/student';
+  protected  readonly apiPath = '/student';
 
 
   public constructor (
@@ -25,7 +26,7 @@ export class StudentService {
   public async get (id: number): Promise<User> {
     return this.apiService.get(this.apiPath + `/${id}`)
       .map( (response: IApiData) => {
-        return <User> response.data;
+        return new User(response.data);
       })
       .toPromise();
   }
@@ -35,9 +36,7 @@ export class StudentService {
     return this.apiService.get(this.apiPath)
       .map((response: IApiData) => {
         const users = [];
-        response.data.forEach( data => {
-          users.push(new User(data));
-        });
+        response.data.forEach(data => users.push(new User(data)));
 
         return users;
       })
@@ -74,9 +73,9 @@ export class StudentService {
     })
     .map((response: IApiData) => {
       if (response.success) {
-        const u = new User(response.data);
-        this.events.created.next(u);
-        return u;
+        const user = new User(response.data);
+        this.events.created.next(user);
+        return user;
       }
 
       throw new ApiError(response.status, response.data);

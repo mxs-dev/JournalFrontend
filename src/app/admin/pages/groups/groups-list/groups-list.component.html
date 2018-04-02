@@ -6,21 +6,17 @@
             </div>
         </div>
 
-        <div *ngIf="isLoadingGroupsList" class='card-body'>
-            <div class='loader'>Loading...</div>
-        </div>
-
         <div *ngIf="!isLoadingGroupsList" class='card-body'>
             <app-group-create class="mb-3"></app-group-create>
 
             <div *ngIf="pager.pagedItems.length <= 0">
-                <div class="text-warning">Ничего не найдено</div>
+                <div class="text-warning text-center">Ничего не найдено</div>
             </div>
 
-            <div *ngFor="let group of pager.pagedItems; let i = index" class="row list-item" [class.deleted]="group.deleted">
-                    <div class="col-2 display-6 text-center">#{{group.id}}</div>
-                    <div class="col-4 display-6 text-center">{{group.title}}</div>
-                    <div class="col-2 display-6">
+            <div *ngFor="let group of pager.pagedItems" class="row list-item" [class.deleted]="group.deleted">
+                    <div class="col-2 text-center">#{{group.id}}</div>
+                    <div class="col-4 text-center">{{group.title}}</div>
+                    <div class="col-2">
                         <button [routerLink]="[group.id]" class="btn btn-sm btn-block btn-outline-primary">Уч. план</button>
                     </div>
                     <div class="col-3">
@@ -31,10 +27,14 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-            </div><!-- Блок для списка групп -->
+            </div> <!-- Блок для списка групп -->
 
             <div class="d-flex row justify-content-center mt-3">
                 <app-pagination [pager]="pager"></app-pagination>   
             </div>
         </div>
+
+        <div *ngIf="isLoadingGroupsList" class='card-body'>
+                <div class='loader'>Loading...</div>
+        </div><!-- Loader -->
 </div>

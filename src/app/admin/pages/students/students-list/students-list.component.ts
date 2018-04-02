@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 
 import { User, ApiError } from '../../../../_models';
-import { StudentService, PagerService } from '../../../../_services';
-import { Pager } from '../../../../_services/pager.service';
+import { StudentService } from '../../../../_services';
+import { Pager } from '../../../../_shared/pagination/pager';
 
 import { Observable, Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -34,14 +34,13 @@ export class StudentsListComponent implements OnInit, OnDestroy {
   public constructor (
     private route: ActivatedRoute,
     private studentService: StudentService,
-    private paginationService: PagerService,
   ) { }
 
 
   public async ngOnInit () {
     this.loadAllStudents();
 
-    this.pager = this.paginationService.getPager([], 1, this.PAGE_SIZE);
+    this.pager = new Pager([], 1, this.PAGE_SIZE);
 
     this.subscribeToStudentServiceEvents();
 
