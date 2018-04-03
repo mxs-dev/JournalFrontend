@@ -1,4 +1,4 @@
-<form
+<form *ngIf="!isSubmitted"
     (ngSubmit)="onSubmit.next(formGroup.value); formGroup.reset();"
     [formGroup]="formGroup">
     <div class="form-group">
@@ -18,7 +18,7 @@
             class="btn btn-outline-success btn-block" type="submit">Сохранить</button>
         </div>
         <div class="col-6 col-sm-5 col-md-3">
-            <button class="btn btn-outline-danger btn-block" type="reset">Очистить</button>
+            <button class="btn btn-outline-danger btn-block" (click)="resetForm();">Отмена</button>
         </div>
     </div>
 </form>

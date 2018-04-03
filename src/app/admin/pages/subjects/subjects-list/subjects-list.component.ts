@@ -11,6 +11,9 @@ import { Observable, Subject as rxSubject } from 'rxjs';
   selector: 'app-subjects-list',
   templateUrl: 'subjects-list.component.html',
   styles: [`
+    .cart-body{
+      flex: 1;
+    }
   `]
 })
 export class SubjectsListComponent implements OnInit, OnDestroy {

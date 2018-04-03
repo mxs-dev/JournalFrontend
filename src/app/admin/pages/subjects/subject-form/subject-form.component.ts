@@ -20,7 +20,10 @@ export class SubjectFormComponent implements OnInit, OnDestroy {
   @Input() subject: Subject;
   @Input() serverErrors: any;
   @Input() isSubmitted: boolean;
+
   @Output() onSubmit = new rxSubject<Subject>();
+  @Output() onReset  = new rxSubject<void>();
+  
 
   public formGroup: FormGroup;
   public formErrors: any;
@@ -53,6 +56,12 @@ export class SubjectFormComponent implements OnInit, OnDestroy {
   }
 
 
+  public resetForm () {
+    this.formGroup.reset();
+    this.onReset.next();
+  }
+
+  
   public ngOnDestroy () {
     this.componentDestroyed.next();
     this.componentDestroyed.complete();
@@ -65,8 +74,8 @@ export class SubjectFormComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.maxLength(10)
       ])],
-      description: [this.subject ? this.subject.title : '', Validators.compose([
-
+      description: [this.subject ? this.subject.description : '', Validators.compose([
+        Validators.maxLength(50)
       ])]
     });
   }

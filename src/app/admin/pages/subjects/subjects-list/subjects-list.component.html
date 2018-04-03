@@ -12,17 +12,12 @@
         <div *ngIf="pager.pagedItems.length <= 0">
             <div class="text-warning text-center">Ничего не найдено</div>
         </div>
-
-        <div *ngFor="let subject of pager.pagedItems" class="row list-item" [class.deleted]="subject.deleted">
-            <div class="col-2">#{{subject.id}}</div>
-            <div class="col-4 text-center">{{subject.title}}</div>
-            <div class="col-5">{{subject.description}}</div>
-            <div class="col-1">
-                <button (click)="deleteSubject(subject)" type="button" class="close" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        </div>
+        
+        <app-subject-list-item 
+            *ngFor="let subject of pager.pagedItems" 
+            [subject]="subject"
+            (onDelete)="deleteSubject($event);">
+        </app-subject-list-item>
 
         <div class="d-flex row justify-content-center mt-3">
             <app-pagination [pager]="pager"></app-pagination>   

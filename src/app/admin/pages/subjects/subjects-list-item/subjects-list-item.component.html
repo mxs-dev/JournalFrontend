@@ -1,0 +1,26 @@
+<div *ngIf="!toggled" class="row list-item" [class.deleted]="subject.deleted">
+    <div class="col-1">#{{subject.id}}</div>
+    <div class="col-3 text-center">{{subject.title}}</div>
+    <div class="col-4">{{subject.description}}</div>
+    <div class="col-3">
+        <button (click)="toggled=true;" class="btn btn-sm btn-outline-primary btn-block">Редактировать</button>
+    </div>
+    <div class="col-1">
+        <button (click)="onDelete.next(subject)" type="button" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</div>
+
+<div *ngIf="toggled" class="row list-item">
+    <div class="col-12">
+        <div class="text-primary"><h5>Редактирование предмета:</h5></div>
+        <app-subject-form
+            [subject]="subject"
+            [serverErrors]="serverErrors"
+            [isSubmitted]="isSubmitted"
+            (onSubmit)="onSubmit($event)"
+            (onReset)="toggled=false;"
+        ></app-subject-form>
+    </div>
+</div>

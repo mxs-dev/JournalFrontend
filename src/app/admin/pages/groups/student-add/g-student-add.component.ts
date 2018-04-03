@@ -56,7 +56,7 @@ export class GroupStudentAddComponent implements OnInit, OnDestroy {
     this.isSubmittedStudentSearch = true;
 
     this.studentService.search(data, true)
-      .then((studentStudent[]) => {
+      .then((students: Student[]) => {
         this.searchedStudents = students;
 
         this.isSubmittedStudentSearch = false;

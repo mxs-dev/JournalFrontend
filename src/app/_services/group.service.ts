@@ -11,6 +11,7 @@ export class GroupService {
 
   public events = {
     created: new Subject<Group>(),
+    updated: new Subject<Group>(),
     deleted: new Subject<number>()
   };
 
@@ -63,17 +64,17 @@ export class GroupService {
   }
 
 
-  public async update(id: number, group: Group): Promise<Group> {
+  public async update(id: number, groupData: Group): Promise<Group> {
     return this.apiService.patch(
       this.apiPath + `/${id}`,
       {
-        GroupRecord: group
+        GroupRecord: groupData
       }
     )
     .map((response: IApiData) => {
-      console.log(response);
-
-      return new Group({});
+      const group = new Group(response.data);
+      this.events.updated.next(group);
+      return group;
     })
     .toPromise();
   }

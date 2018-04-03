@@ -57,8 +57,20 @@ export class SubjectService {
   }
 
 
+  public async update (id: number, data: Subject): Promise<Subject> {
+    return this.apiService.patch(this.apiPath + `/${id}`, {
+      SubjectRecord: data
+    })
+    .map((response: IApiData) => {
+      const subject = new Subject(response.data);
+      this.events.updated.next(subject);
+      return subject;
+    })
+    .toPromise();
+  }
+
+
   public async delete (id: number): Promise<void> {
-    this.apiService.delete(this.apiPath + `/${id}`)
-      .toPromise();
+    this.apiService.delete(this.apiPath + `/${id}`).toPromise();
   }
 }
