@@ -1,18 +1,22 @@
 <div class="card">
     <div class="card-header">
-        <div class="col"><h4>Предметы</h4></div>
-        <div class="col"><input #subjectSearch [disabled]="isLoadingSubjects" class="form-control" type="text" placeholder="Поиск..."></div>
+        <div class="row">
+            <div class="col"><h4>Предметы</h4></div>
+            <div class="col"><input #subjectSearch [disabled]="isLoadingSubjects" class="form-control" type="text" placeholder="Поиск..."></div>
+        </div>
     </div>
 
     <div *ngIf="!isLoadingSubjects" class="card-body">
+        <app-subject-create></app-subject-create>
+
         <div *ngIf="pager.pagedItems.length <= 0">
             <div class="text-warning text-center">Ничего не найдено</div>
         </div>
 
         <div *ngFor="let subject of pager.pagedItems" class="row list-item" [class.deleted]="subject.deleted">
-            <div class="col-2"><h5>#{{subject.id}}</h5></div>
-            <div class="col-4 text-center"><h5>{{subject.title}}</h5></div>
-            <div class="col-6"><h6>{{subject.description}}</h6></div>
+            <div class="col-2">#{{subject.id}}</div>
+            <div class="col-4 text-center">{{subject.title}}</div>
+            <div class="col-5">{{subject.description}}</div>
             <div class="col-1">
                 <button (click)="deleteSubject(subject)" type="button" class="close" aria-label="Close">
                     <span aria-hidden="true">&times;</span>

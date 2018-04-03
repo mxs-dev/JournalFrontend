@@ -1,0 +1,16 @@
+<div class="row">
+    <div class="col-8">
+        <h5>Добавить предмет:</h5>
+    </div>
+    <div class="col-4">
+        <button *ngIf="!toggled" (click)="toggled=!toggled" class="btn btn-link btn-block btn-sm text-right">Развернуть</button>
+        <button *ngIf="toggled" (click)="toggled=!toggled"  class="btn btn-link btn-block btn-sm text-right">Свернуть</button>
+    </div>
+</div>
+
+<app-subject-form class="border-bottom mb-3"
+    *ngIf="toggled"
+    (onSubmit)="createSubject($event)"
+    [isSubmitted]="isSubmitted"
+    [serverErrors]="serverErrors">
+</app-subject-form>

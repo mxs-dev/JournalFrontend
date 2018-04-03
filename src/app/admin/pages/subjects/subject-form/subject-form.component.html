@@ -1,0 +1,34 @@
+<form
+    (ngSubmit)="onSubmit.next(formGroup.value); formGroup.reset();"
+    [formGroup]="formGroup">
+    <div class="form-group">
+        <label for="titleInput">Название:</label>
+        <input [formControl]="formGroup.controls['title']" [class.is-invalid]="!isValid('title')" type="text" id="titleInput" class="form-control">
+        <div [hidden]="isValid('title', 'required')" class="invalid-feedback">{{formErrors.required}}</div>
+        <div [hidden]="isValid('title', 'maxlength')" class="invalid-feedback">{{formErrors.title.length}}</div>                   
+    </div>
+    <div class="form-group">
+        <label for="subjectDesc">Описание:</label>
+        <textarea [formControl]="formGroup.controls['description']" [class.is-invalid]="!isValid('description')" id="subjectDesc" rows="2" class="form-control"></textarea>
+        <div [hidden]="isValid('description', 'maxlength')" class="invalid-feedback">{{formErrors.description.length}}</div>     
+    </div>
+    <div class="form-group row justify-content-between">
+        <div class="col-6 col-sm-5 col-md-3">
+            <button [disabled]="!formGroup.valid || isSubmitted"
+            class="btn btn-outline-success btn-block" type="submit">Сохранить</button>
+        </div>
+        <div class="col-6 col-sm-5 col-md-3">
+            <button class="btn btn-outline-danger btn-block" type="reset">Очистить</button>
+        </div>
+    </div>
+</form>
+
+<div *ngIf="isSubmitted" class="row">
+    <div class="sk-wave">
+        <div class="sk-rect sk-rect1"></div>
+        <div class="sk-rect sk-rect2"></div>
+        <div class="sk-rect sk-rect3"></div>
+        <div class="sk-rect sk-rect4"></div>
+        <div class="sk-rect sk-rect5"></div>
+    </div>
+</div> <!-- Preloader -->

@@ -10,12 +10,16 @@ import { Subject as rxSubject } from 'rxjs';
   selector: 'app-subject-form',
   templateUrl: 'subject-form.component.html',
   styles: [`
+    :host{
+      display: block;
+    }
   `]
 })
 export class SubjectFormComponent implements OnInit, OnDestroy {
 
   @Input() subject: Subject;
   @Input() serverErrors: any;
+  @Input() isSubmitted: boolean;
   @Output() onSubmit = new rxSubject<Subject>();
 
   public formGroup: FormGroup;
@@ -30,14 +34,22 @@ export class SubjectFormComponent implements OnInit, OnDestroy {
 
 
   public ngOnInit () {
-    this.createSubjectForm();
+    this.initSubjectForm();
+    this.initFormErrors();
+  }
 
-    this.formErrors = {
-      required: 'Поле обязательно для ввода',
-      title: {
-        length: 'Длинна поля должна быть от 5 до 10 символов'
-      }
-    };
+
+  public isValid(fieldName: string, error?: string): boolean {
+
+    if (!this.formGroup.controls[fieldName].touched) {
+      return true;
+    }
+
+    if (!error) {
+      return this.formGroup.controls[fieldName].valid;
+    }
+
+    return !this.formGroup.get(fieldName).hasError(error);
   }
 
 
@@ -47,16 +59,28 @@ export class SubjectFormComponent implements OnInit, OnDestroy {
   }
 
 
-  protected createSubjectForm (): void {
+  protected initSubjectForm (): void {
     this.formGroup = this.fb.group({
       title: [this.subject ? this.subject.title : '', Validators.compose([
         Validators.required,
-        Validators.minLength(5),
         Validators.maxLength(10)
       ])],
       description: [this.subject ? this.subject.title : '', Validators.compose([
 
       ])]
     });
+  }
+
+
+  protected initFormErrors (): void {
+    this.formErrors = {
+      required: 'Поле обязательно для ввода.',
+      title: {
+        length: 'Длинна поля не должна превышать 10 символов.'
+      },
+      description: {
+        length: 'Длинна поля не должна превышать 50 символов.'
+      }
+    };
   }
 }

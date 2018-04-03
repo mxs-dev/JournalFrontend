@@ -2,7 +2,9 @@
     <div class="card-header">
         <div class="row">
             <h4  class="col-6">Cтуденты</h4>
-            <div class="col-6"><input #studentSearch class="form-control" type="text" placeholder="Поиск..."></div>            
+            <div class="col-6">
+                <input #studentSearch [disabled]="isLoadingStudentsList" class="form-control" type="text" placeholder="Поиск...">
+            </div>            
         </div>
     </div>
 

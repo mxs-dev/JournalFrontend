@@ -13,16 +13,17 @@
                     [routerLinkActive]="['active']">
                     <a class='btn btn-link btn-block'>Cтуденты</a>
                 </li>
+                <li class='list-group-item'
+                    [routerLink]="['subjects']"
+                    [routerLinkActive]="['active']">
+                    <a class='btn btn-link btn-block'>Предметы</a>
+                </li>
                 <li class='list-group-item disabled'
                     [routerLink]="['teachers']"
                     [routerLinkActive]="['active']">
                     <a class='btn btn-link btn-block'>Преподаватели</a>
                 </li>
-                <li class='list-group-item disabled'
-                    [routerLink]="['subjects']"
-                    [routerLinkActive]="['active']">
-                    <a class='btn btn-link btn-block'>Предметы</a>
-                </li>
+               
             </ul>
         </div>
 

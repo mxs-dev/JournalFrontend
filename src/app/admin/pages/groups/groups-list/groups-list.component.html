@@ -2,7 +2,9 @@
         <div class="card-header">
             <div class="row">
                 <h4 class="col-6">Группы</h4>
-                <div class="col-6"><input #groupSearch class="form-control" type="text" placeholder="Поиск..."></div>
+                <div class="col-6">
+                    <input #groupSearch [disabled]="isLoadingGroupsList" class="form-control" type="text" placeholder="Поиск...">
+                </div>
             </div>
         </div>
 

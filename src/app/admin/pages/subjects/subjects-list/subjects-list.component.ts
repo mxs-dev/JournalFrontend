@@ -10,11 +10,12 @@ import { Observable, Subject as rxSubject } from 'rxjs';
 @Component({
   selector: 'app-subjects-list',
   templateUrl: 'subjects-list.component.html',
-  styleUrls: ['subjects-list.component.scss']
+  styles: [`
+  `]
 })
 export class SubjectsListComponent implements OnInit, OnDestroy {
   
-  protected readonly PAGE_SIZE = 10;
+  protected readonly PAGE_SIZE = 5;
 
   @ViewChild('subjectSearch', {read: ElementRef}) subjectSearchInput: ElementRef;
 
@@ -50,14 +51,28 @@ export class SubjectsListComponent implements OnInit, OnDestroy {
 
 
   public async deleteSubject (subject: Subject): Promise<void> {
-    // TODO: 
+    subject.deleted = true;
+
+    try {
+      const result = await this.subjectService.delete(subject.id);
+        this.removeSubjectFromTheList(subject);
+      
+    } catch (error) {
+      console.log(error);
+    }
   }
 
 
   protected search (): void {
     const searchingString = this.subjectSearchInput.nativeElement.value;
+    let re: RegExp;
+
+    try {
+      re = new RegExp(searchingString, 'i');
+    } catch (e) { console.log(e); }
+
     this.pager.setItems(this.allSubjects.filter((subject) => {
-      return subject.title.search(new RegExp(searchingString, 'i')) >= 0;
+      return subject.title.search(re) >= 0;
     }));
   }
 
@@ -72,6 +87,7 @@ export class SubjectsListComponent implements OnInit, OnDestroy {
       this.pager.setItems(this.allSubjects);
     } catch (e) {
       console.log(e);
+      this.isLoadingSubjects = false;
     }
   }
 

@@ -13,7 +13,9 @@ import { SubjectService } from '../../../../_services';
   `]
 })
 export class SubjectCreateComponent implements OnInit, OnDestroy {
-
+  public serverErrors: any;
+  public toggled = false;
+  public isSubmitted = false;
 
   protected componentDestroyed = new rxSubject<void>();
 
@@ -23,7 +25,24 @@ export class SubjectCreateComponent implements OnInit, OnDestroy {
   ) { }
 
 
-  public ngOnInit () {
+  public ngOnInit () { }
+  
+
+  public async createSubject (subject: Subject): Promise<void> {
+    this.isSubmitted = true;
+
+    try {
+      const result = await this.subjectService.create(subject);
+      this.isSubmitted = false;
+
+    } catch (error) {
+      if (error.status === 422) {
+        this.serverErrors = JSON.parse(error.data.message);
+        console.log(this.serverErrors);
+      }
+
+      this.isSubmitted = false;
+    }
   }
 
 
