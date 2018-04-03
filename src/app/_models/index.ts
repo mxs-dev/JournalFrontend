@@ -1,15 +1,20 @@
 import { IApiData } from './i.api-data';
 import { iJWT } from './i.jwt';
+import { ApiError } from './api-error';
+
 import { User } from './user';
 import { Group } from './group';
 import { Subject } from './subject';
-import { ApiError } from './api-error';
+import { Student } from './student';
+
+
 
 const MODELS = [
   User,
   Group,
   Subject,
-  ApiError
+  ApiError,
+  Student
 ];
 
 export {
@@ -20,5 +25,6 @@ export {
   User,
   Group,
   Subject,  
-  ApiError
+  ApiError,
+  Student
 };

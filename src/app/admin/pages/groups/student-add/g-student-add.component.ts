@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Input, Output } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 import { StudentService, GroupService } from '../../../../_services';
-import { User, Group } from '../../../../_models';
+import { Student, Group } from '../../../../_models';
 
 import { Subject } from 'rxjs';
 
@@ -19,11 +19,11 @@ import { Subject } from 'rxjs';
   `]
 })
 export class GroupStudentAddComponent implements OnInit, OnDestroy {
-  @Output() onCreate = new Subject<User>();
-  @Output() onSelect = new Subject<User>();
+  @Output() onCreate = new Subject<Student>();
+  @Output() onSelect = new Subject<Student>();
   @Input()  group: Group;
 
-  public searchedStudents: User[];
+  public searchedStudents: Student[];
 
   public isSubmittedStudentForm:   boolean;
   public isSubmittedStudentSearch: boolean;
@@ -56,7 +56,7 @@ export class GroupStudentAddComponent implements OnInit, OnDestroy {
     this.isSubmittedStudentSearch = true;
 
     this.studentService.search(data, true)
-      .then((students: User[]) => {
+      .then((studentStudent[]) => {
         this.searchedStudents = students;
 
         this.isSubmittedStudentSearch = false;
@@ -68,7 +68,7 @@ export class GroupStudentAddComponent implements OnInit, OnDestroy {
   }
 
 
-  public async addStudent (student: User) {
+  public async addStudent (student: Student) {
     student.deleted = true;
 
     try {
@@ -86,9 +86,9 @@ export class GroupStudentAddComponent implements OnInit, OnDestroy {
   }
 
 
-  public createStudent (data: User) {
+  public createStudent (data: Student) {
     this.studentService.create(data)
-      .then((student: User) => {
+      .then((student: Student) => {
         this.groupService.addStudent(this.group.id, student.id)
           .then((res: boolean) => {
             this.onCreate.next(student);
@@ -105,7 +105,7 @@ export class GroupStudentAddComponent implements OnInit, OnDestroy {
   }
 
 
-  protected removeStudentFromSearchedStudents (student: User): void {
+  protected removeStudentFromSearchedStudents (student: Student): void {
     this.searchedStudents = this.searchedStudents.filter((item) => {
       return item.id !== student.id;
     });

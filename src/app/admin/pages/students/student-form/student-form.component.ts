@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, Input, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
-import { User } from '../../../../_models';
+import { Student } from '../../../../_models';
 
 import { Subject } from 'rxjs';
 
@@ -15,11 +15,11 @@ import { Subject } from 'rxjs';
 })
 export class StudentFormComponent implements OnInit, OnDestroy {
 
-  @Input() student: User;
+  @Input() student: Student;
   @Input() isSubmitted: boolean;
   @Input() serverErrors: any;
 
-  @Output() onSubmit = new Subject<User>();
+  @Output() onSubmit = new Subject<Student>();
 
   public formGroup: FormGroup;
   public formErrors: any;

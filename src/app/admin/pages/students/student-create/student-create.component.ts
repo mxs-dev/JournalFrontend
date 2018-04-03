@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { StudentService } from '../../../../_services/index';
 
 import { Subject } from 'rxjs';
-import { User, ApiError } from '../../../../_models';
+import { Student, ApiError } from '../../../../_models';
 
 
 @Component({
@@ -36,7 +36,7 @@ export class StudentCreateComponent implements OnInit, OnDestroy {
     this.isSubmitted = true;
 
     this.studentService.create(data)
-    .then((student: User) => {
+    .then((student: Student) => {
       this.isSubmitted = false;
     })
     .catch((err: ApiError) => {

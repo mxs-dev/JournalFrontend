@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 
 import { ApiService } from './api.service';
-import { IApiData, User, ApiError } from '../_models';
+import { IApiData, Student, ApiError } from '../_models';
 
 import { Subject } from 'rxjs';
 
 
 @Injectable() 
 export class StudentService {
-
+  
   public events = {
-    created: new Subject<User>(),
-    updated: new Subject<User>(),
+    created: new Subject<Student>(),
+    updated: new Subject<Student>(),
     deleted: new Subject<number>(),
   };
 
@@ -23,20 +23,20 @@ export class StudentService {
   ) { }
 
 
-  public async get (id: number): Promise<User> {
-    return this.apiService.get(this.apiPath + `/${id}`)
+  public async get (id: number, extraFields: Array<string> = []): Promise<Student> {
+    return this.apiService.get(this.apiPath + `/${id} ${this.encodeExtraFields(extraFields)}`)
       .map( (response: IApiData) => {
-        return new User(response.data);
+        return new Student(response.data);
       })
       .toPromise();
   }
 
 
-  public async getAll(): Promise<User[]> {
-    return this.apiService.get(this.apiPath)
+  public async getAll(extraFields: Array<string> = []): Promise<Student[]> {
+    return this.apiService.get(this.apiPath + `${this.encodeExtraFields(extraFields)}`)
       .map((response: IApiData) => {
         const users = [];
-        response.data.forEach(data => users.push(new User(data)));
+        response.data.forEach(data => users.push(new Student(data)));
 
         return users;
       })
@@ -44,7 +44,7 @@ export class StudentService {
   }
 
 
-  public async search (student: User, notInGroup: boolean = false): Promise<User[]> {
+  public async search (student: Student, notInGroup: boolean = false): Promise<Student[]> {
     return this.apiService.post(this.apiPath + '/search', {
       StudentSearch: {
         ...student,
@@ -53,7 +53,7 @@ export class StudentService {
     })
     .map((response: IApiData) => {
       const students = [];
-      response.data.forEach(data => students.push(new User(data)));
+      response.data.forEach(data => students.push(new Student(data)));
 
       return students;
     })
@@ -61,19 +61,19 @@ export class StudentService {
   }
 
 
-  public async create(student: User) {
+  public async create(student: Student) {
     return this.apiService.post(this.apiPath, {
        Student: {
          name: student.name,
          surname: student.surname,
          patronymic: student.patronymic,
          email: student.email,
-         role: User.ROLE_STUDENT
+         role: Student.ROLE_STUDENT
        }
     })
     .map((response: IApiData) => {
       if (response.success) {
-        const user = new User(response.data);
+        const user = new Student(response.data);
         this.events.created.next(user);
         return user;
       }
@@ -95,5 +95,26 @@ export class StudentService {
         return result;
       })
       .toPromise();
+  }
+
+
+  protected encodeExtraFields (extraFields: Array<string> = []): string {
+    
+    if (extraFields.length === 0) {
+      return '';
+    }
+    
+    let extraFieldsString = '?expand=';
+
+    extraFields.forEach((item, i, arr) => {
+      extraFieldsString += item;
+
+      if (i < arr.length - 1) {
+        extraFieldsString += ',';
+      }
+
+    });
+    
+    return extraFieldsString;
   }
 } 

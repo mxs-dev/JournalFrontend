@@ -33,6 +33,6 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy() {
     this.componetDestroyed.next();
-    this.componetDestroyed.unsubscribe();
+    this.componetDestroyed.complete();
   }
 }

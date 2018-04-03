@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 
-import { User, ApiError } from '../../../../_models';
+import { Student, ApiError } from '../../../../_models';
 import { StudentService } from '../../../../_services';
 import { Pager } from '../../../../_shared/pagination/pager';
 
@@ -20,7 +20,7 @@ export class StudentsListComponent implements OnInit, OnDestroy {
 
   @ViewChild('studentSearch', {read: ElementRef}) studentSearchInput: ElementRef;
 
-  public students: User[];
+  public students: Student[];
 
   public isLoadingStudentsList = false;
 
@@ -51,7 +51,7 @@ export class StudentsListComponent implements OnInit, OnDestroy {
   }
 
 
-  public async deleteStudent(student: User) {
+  public async deleteStudent(student: Student) {
     student.deleted = true;
 
     try {
@@ -74,7 +74,7 @@ export class StudentsListComponent implements OnInit, OnDestroy {
   protected search () {
     const searchString = this.studentSearchInput.nativeElement.value;
 
-    this.pager.setItems(this.students.filter((student: User) => {
+    this.pager.setItems(this.students.filter((student: Student) => {
       return student.fullName.search(new RegExp(searchString, 'i')) >= 0;
     }));
   }
@@ -84,7 +84,7 @@ export class StudentsListComponent implements OnInit, OnDestroy {
     this.isLoadingStudentsList = true;
 
     try {
-      this.students = await this.studentService.getAll();
+      this.students = await this.studentService.getAll([Student.EXTRA_FIELD_GROUP]);
 
       this.pager.setItems(this.students);
       this.isLoadingStudentsList = false;
@@ -108,7 +108,7 @@ export class StudentsListComponent implements OnInit, OnDestroy {
   }
 
 
-  protected addStudentToTheList (student: User) {
+  protected addStudentToTheList (student: Student) {
     this.students.push(student);
   }
 
