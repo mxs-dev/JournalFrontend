@@ -7,6 +7,7 @@ import { AdminGuard     } from '../_guards';
 import { GroupsListComponent, GroupDetailComponent } from './pages/groups';
 import { StudentsListComponent } from './pages/students';
 import { SubjectsListComponent } from './pages/subjects';
+import { TeachersListComponent } from './pages/teachers';
 
 
 const routes: Routes = [
@@ -32,6 +33,10 @@ const routes: Routes = [
       {
         path: 'subjects',
         component: SubjectsListComponent
+      },
+      {
+        path: 'teachers',
+        component: TeachersListComponent,
       }
     ]
   }

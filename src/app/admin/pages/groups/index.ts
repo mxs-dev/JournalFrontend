@@ -5,7 +5,7 @@ import { GroupFormComponent   } from './group-form/group-form.component';
 import { GroupStudentsListComponent } from './students-list/g-students-list.component';
 import { GroupStudentAddComponent   } from './student-add/g-student-add.component';
 
-const GROUP = [
+const GROUPS_PAGE = [
   GroupsListComponent,
   GroupCreateComponent,
   GroupDetailComponent,
@@ -15,7 +15,7 @@ const GROUP = [
 ];
 
 export {
-  GROUP,
+  GROUPS_PAGE,
 
   GroupsListComponent,
   GroupCreateComponent,

@@ -1,0 +1,117 @@
+import { Injectable } from '@angular/core';
+
+import { ApiService } from './api.service';
+import { IApiData, Teacher, ApiError } from '../_models';
+
+import { Subject } from 'rxjs';
+
+
+@Injectable() 
+export class TeacherService {
+  
+  public events = {
+    created: new Subject<Teacher>(),
+    updated: new Subject<Teacher>(),
+    deleted: new Subject<Teacher>(),
+  };
+
+  protected  readonly apiPath = '/teacher';
+
+
+  public constructor (
+    private apiService: ApiService,
+  ) { }
+
+
+  public async get (id: number, extraFields: Array<string> = []): Promise<Teacher> {
+    return this.apiService.get(this.apiPath + `/${id} ${this.encodeExtraFields(extraFields)}`)
+      .map( (response: IApiData) => {
+        return new Teacher(response.data);
+      })
+      .toPromise();
+  }
+
+
+  public async getAll(extraFields: Array<string> = []): Promise<Teacher[]> {
+    return this.apiService.get(this.apiPath + `${this.encodeExtraFields(extraFields)}`)
+      .map((response: IApiData) => {
+        const users = [];
+        response.data.forEach(data => users.push(new Teacher(data)));
+
+        return users;
+      })
+      .toPromise();
+  }
+
+
+  public async search (teacher: Teacher): Promise<Teacher[]> {
+    return this.apiService.post(this.apiPath + '/search', {
+      TeacherSearch: Teacher
+    })
+    .map((response: IApiData) => {
+      const teachers = [];
+      response.data.forEach(data => teachers.push(new Teacher(data)));
+
+      return teachers;
+    })
+    .toPromise();
+  }
+
+
+  public async create(teacher: Teacher) {
+    return this.apiService.post(this.apiPath, {
+       Teacher: {
+         name: teacher.name,
+         surname: teacher.surname,
+         patronymic: teacher.patronymic,
+         email: teacher.email,
+         role: Teacher.ROLE_TEACHER
+       }
+    })
+    .map((response: IApiData) => {
+      if (response.success) {
+        const user = new Teacher(response.data);
+        this.events.created.next(user);
+        return user;
+      }
+
+      throw new ApiError(response.status, response.data);
+    })
+    .toPromise();
+  } 
+
+
+  public async delete(teacher: Teacher): Promise<boolean> {
+    return this.apiService.delete(this.apiPath + `/${teacher.id}`)
+      .map((result: boolean) => {
+
+        if (result) {
+          this.events.deleted.next(teacher);
+        }
+
+        return result;
+      })
+      .toPromise();
+  }
+
+
+  protected encodeExtraFields (extraFields: Array<string> = []): string {
+    
+    if (extraFields.length === 0) {
+      return '';
+    }
+    
+    let extraFieldsString = '?expand=';
+
+    extraFields.forEach((item, i, arr) => {
+      extraFieldsString += item;
+
+      if (i < arr.length - 1) {
+        extraFieldsString += ',';
+      }
+
+    });
+    
+    return extraFieldsString;
+  }
+} 

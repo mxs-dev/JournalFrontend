@@ -2,7 +2,7 @@ import { StudentsListComponent  } from './students-list/students-list.component'
 import { StudentCreateComponent } from './student-create/student-create.component';
 import { StudentFormComponent   } from './student-form/student-form.component';
 
-const STUDENT = [
+const STUDENTS_PAGE = [
   StudentCreateComponent,
   StudentsListComponent,
   StudentFormComponent
@@ -10,7 +10,7 @@ const STUDENT = [
 
 
 export {
-  STUDENT,
+  STUDENTS_PAGE,
 
   StudentCreateComponent,
   StudentsListComponent,

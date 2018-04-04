@@ -6,7 +6,7 @@ import { User } from './user';
 import { Group } from './group';
 import { Subject } from './subject';
 import { Student } from './student';
-
+import { Teacher } from './teacher';
 
 
 const MODELS = [
@@ -14,7 +14,8 @@ const MODELS = [
   Group,
   Subject,
   ApiError,
-  Student
+  Student,
+  Teacher
 ];
 
 export {
@@ -26,5 +27,6 @@ export {
   Group,
   Subject,  
   ApiError,
-  Student
+  Student,
+  Teacher
 };

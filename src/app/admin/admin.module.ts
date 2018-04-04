@@ -8,9 +8,11 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { PaginationComponent } from '../_shared/pagination/pagination.component';
 
 
-import { GROUP   } from './pages/groups';
-import { STUDENT } from './pages/students';
-import { SUBJECT } from './pages/subjects';
+import { GROUPS_PAGE   } from './pages/groups';
+import { STUDENTS_PAGE } from './pages/students';
+import { SUBJECTS_PAGE } from './pages/subjects';
+import { TEACHERS_PAGE } from './pages/teachers';
+
 
 
 @NgModule({
@@ -24,7 +26,7 @@ import { SUBJECT } from './pages/subjects';
     AdminComponent,
     PaginationComponent,
     
-    GROUP, STUDENT, SUBJECT
+    GROUPS_PAGE, STUDENTS_PAGE, SUBJECTS_PAGE, TEACHERS_PAGE
   ],
   providers: [
     

@@ -4,7 +4,7 @@ import { SubjectCreateComponent    } from './subject-create/subject-create.compo
 import { SubjectsListItemComponent } from './subjects-list-item/subjects-list-item.component';
 
 
-const SUBJECT = [
+const SUBJECTS_PAGE = [
   SubjectsListComponent,
   SubjectFormComponent,
   SubjectCreateComponent,
@@ -12,7 +12,7 @@ const SUBJECT = [
 ];
 
 export {
-  SUBJECT,
+  SUBJECTS_PAGE,
 
   SubjectsListComponent,
   SubjectFormComponent,
