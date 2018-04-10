@@ -11,6 +11,9 @@ import { Subject } from 'rxjs';
   selector: 'app-teacher-form',
   templateUrl: 'teacher-form.component.html',
   styles: [`
+    :host{
+      display: block;
+    }
   `]
 })
 export class TeacherFormComponent implements OnInit, OnDestroy {

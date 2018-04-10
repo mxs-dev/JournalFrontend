@@ -1,7 +1,7 @@
 import { Component, Input, Output, OnInit, OnDestroy } from '@angular/core';
 
-import { TeacherService } from '../../../../_services';
-import { Teacher } from '../../../../_models';
+import { TeacherService } from '../../../../../_services';
+import { Teacher } from '../../../../../_models';
 
 import { Subject } from 'rxjs';
 
@@ -15,6 +15,10 @@ import { Subject } from 'rxjs';
 })
 export class TeacherCreateComponent implements OnInit, OnDestroy {
 
+  public toggled = false;
+  public serverErrors: any;
+  public isSubmitted = false;
+
   protected componentDestroyed = new Subject<void>();
 
 
@@ -23,8 +27,22 @@ export class TeacherCreateComponent implements OnInit, OnDestroy {
   ) {}
   
 
-  public ngOnInit () {
+  public ngOnInit () { }
 
+
+  public async createTeacher (teacherData: Teacher) {
+    this.isSubmitted = true;
+    
+    console.log(teacherData); 
+
+    try {
+      const teacher = await this.teacherService.create(teacherData);
+      
+    } catch (e) {
+      console.log(e);
+    } finally {
+      this.isSubmitted = false;
+    }
   }
 
 

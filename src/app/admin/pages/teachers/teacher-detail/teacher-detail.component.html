@@ -1,0 +1,32 @@
+<div class="card">
+    <div class="card-header">
+        <h4 *ngIf="!isLoading">Преподаватель {{teacher.fullName}}</h4>
+        <h4 *ngIf="isLoading">Преподаватель ...загружается</h4>
+    </div>
+
+    <div *ngIf="isLoading" class="card-body">
+        <div class="loader">Loagind...</div>
+    </div>
+
+    <div *ngIf="!isLoading" class="card-body">
+        <div class="col-12">
+            <div class="row justify-content-between">
+                <div class="col-6">Редактировать преподавателя</div>
+                <div class="col-3">
+                    <div *ngIf="!toggled" (click)="toggled=true;"  class="btn btn-link btn-block btn-sm text-right">Развернуть</div>
+                    <div *ngIf="toggled"  (click)="toggled=false;" class="btn btn-link btn-block btn-sm text-right">Свернуть</div>
+                </div>
+            </div>
+        </div>
+
+        <app-teacher-form
+            *ngIf="toggled"
+            [teacher]="teacher"
+            [isSubmitted]="isSubmitted"
+            (onSubmit)="updateTeacher($event)"
+            >
+        </app-teacher-form>
+
+        <app-assigned-subject-add [teacher]="teacher"></app-assigned-subject-add>
+    </div>
+</div>

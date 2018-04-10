@@ -1,6 +1,6 @@
 <form class="col-12 form"
     *ngIf="!isSubmitted"
-    (ngSubmit)="onSubmit.next(formGroup.value)"
+    (ngSubmit)="onSubmit.next(formGroup.value); formGroup.reset();"
     [formGroup]="formGroup">
 
     <div class="form-group mt-2">

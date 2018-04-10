@@ -54,7 +54,7 @@ export class TeachersListComponent implements OnInit, OnDestroy {
 
     try {
       const result = await this.subjectService.delete(teacher);
-        this.removeTeacherFromTheList(teacher);
+      this.removeTeacherFromTheList(teacher);
       
     } catch (error) {
       console.log(error);

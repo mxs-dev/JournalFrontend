@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Input, Output } from '@angular/core';
-import { Student } from '../../../../_models';
+import { Student } from '../../../../../_models';
 
 import { Subject } from 'rxjs';
 
@@ -9,7 +9,7 @@ import { Subject } from 'rxjs';
   templateUrl: 'g-students-list.component.html',
   styles: [`
   `]
-})
+}) 
 export class GroupStudentsListComponent implements OnInit, OnDestroy {
   @Input()  students: Student;
   @Output() onDelete = new Subject<Student>();

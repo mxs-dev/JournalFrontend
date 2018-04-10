@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { Subject } from '../../../../_models';
+import { Subject } from '../../../../../_models';
 
 import { Subject as rxSubject } from 'rxjs';
-import { SubjectService } from '../../../../_services';
+import { SubjectService } from '../../../../../_services';
 
 
 @Component({

@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { StudentService } from '../../../../_services/index';
+import { StudentService } from '../../../../../_services/index';
 
 import { Subject } from 'rxjs';
-import { Student, ApiError } from '../../../../_models';
+import { Student, ApiError } from '../../../../../_models';
 
 
 @Component({

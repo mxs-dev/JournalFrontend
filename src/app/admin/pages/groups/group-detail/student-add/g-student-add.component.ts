@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy, Input, Output } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
-import { StudentService, GroupService } from '../../../../_services';
-import { Student, Group } from '../../../../_models';
+import { StudentService, GroupService } from '../../../../../_services';
+import { Student, Group } from '../../../../../_models';
 
 import { Subject } from 'rxjs';
 
@@ -16,7 +16,7 @@ import { Subject } from 'rxjs';
       overflow-x: hidden;
       overflow-y: hidden;
     }
-  `]
+  `] 
 })
 export class GroupStudentAddComponent implements OnInit, OnDestroy {
   @Output() onCreate = new Subject<Student>();

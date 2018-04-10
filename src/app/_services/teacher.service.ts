@@ -24,7 +24,7 @@ export class TeacherService {
 
 
   public async get (id: number, extraFields: Array<string> = []): Promise<Teacher> {
-    return this.apiService.get(this.apiPath + `/${id} ${this.encodeExtraFields(extraFields)}`)
+    return this.apiService.get(this.apiPath + `/${id}${this.encodeExtraFields(extraFields)}`)
       .map( (response: IApiData) => {
         return new Teacher(response.data);
       })
@@ -58,27 +58,39 @@ export class TeacherService {
   }
 
 
-  public async create(teacher: Teacher) {
+  public async create(teacherData: Teacher): Promise<Teacher> {
     return this.apiService.post(this.apiPath, {
        Teacher: {
-         name: teacher.name,
-         surname: teacher.surname,
-         patronymic: teacher.patronymic,
-         email: teacher.email,
+         ...teacherData,
          role: Teacher.ROLE_TEACHER
        }
     })
     .map((response: IApiData) => {
       if (response.success) {
-        const user = new Teacher(response.data);
-        this.events.created.next(user);
-        return user;
+        const teacher = new Teacher(response.data);
+        this.events.created.next(teacher);
+        return teacher;
       }
 
       throw new ApiError(response.status, response.data);
     })
     .toPromise();
   } 
+
+
+  public async update(id: number, teacherData: Teacher): Promise<Teacher>{
+    return this.apiService.patch(this.apiPath, {
+      ...teacherData
+    })
+    .map((response: IApiData) => {
+      if (response.success) {
+        const teacher = new Teacher(teacherData);
+        this.events.updated.next(teacher);
+        return teacher;
+      }
+    })
+    .toPromise();
+  }
 
 
   public async delete(teacher: Teacher): Promise<boolean> {
