@@ -11,7 +11,7 @@
     <div *ngIf="!isLoading" class="card-body">
         <div class="col-12">
             <div class="row justify-content-between">
-                <div class="col-6">Редактировать преподавателя</div>
+                <div class="col-9"><h5>Редактировать преподавателя</h5></div>
                 <div class="col-3">
                     <div *ngIf="!toggled" (click)="toggled=true;"  class="btn btn-link btn-block btn-sm text-right">Развернуть</div>
                     <div *ngIf="toggled"  (click)="toggled=false;" class="btn btn-link btn-block btn-sm text-right">Свернуть</div>
@@ -27,6 +27,16 @@
             >
         </app-teacher-form>
 
+        <hr>
+
         <app-assigned-subject-add [teacher]="teacher"></app-assigned-subject-add>
+        
+        <hr>
+
+        <app-assigned-subjects-list
+            (onDelete)="deleteAssignedSubject($event)"
+            [subjects]="teacher.assignedSubjects"
+        ></app-assigned-subjects-list>
+
     </div>
 </div>

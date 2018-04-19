@@ -10,22 +10,20 @@ import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 
-import { AppComponent } from './app.component';
-import { RoutingAnimationComponent } from './_directives/routing-animation/routing-animation.component';
-
-
 // Modules
+import { SharedModule     } from './_shared/shared.module';
 import { AppRoutingModule } from './app.routing';
-import { LoginModule } from './login/login.module';
+import { LoginModule      } from './login/login.module';
 
+// Components
+import { AppComponent } from './app.component';
 
 // Layouts
 import { MainLayoutComponent } from './_layouts/main-layout.component';
 import { P404Component } from './_pages/404.component';
 
-
-import { SERVICES  } from './_services/index';
-import { GUARDS    } from './_guards/index';
+import { SERVICES  } from './_shared/services/index';
+import { GUARDS    } from './_shared/guards/index';
 
 
 // RxJs
@@ -45,15 +43,15 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
    imports: [
       BrowserModule,
       HttpClientModule,
+      PerfectScrollbarModule,
+      SharedModule,
       AppRoutingModule,
       AuthModule,
       NgbModule.forRoot(),
-      PerfectScrollbarModule,
       LoginModule,
    ],
    declarations: [
       AppComponent,
-      RoutingAnimationComponent,
       MainLayoutComponent,
       P404Component,
    ],

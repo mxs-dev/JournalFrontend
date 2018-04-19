@@ -1,7 +1,7 @@
 import { Component, Input, Output } from '@angular/core';
 
-import { SubjectService } from '../../../../../_services';
-import { Subject } from '../../../../../_models';
+import { SubjectService } from '../../../../../_shared/services';
+import { Subject } from '../../../../../_shared/models';
 
 import { Subject as rxSubject } from 'rxjs';
 

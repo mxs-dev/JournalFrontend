@@ -1,20 +1,26 @@
-import { Component, ViewChild, ElementRef, Input, Output, OnInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild, ElementRef, Input, AfterViewInit, Output, OnInit, OnDestroy } from '@angular/core';
 
-import { TeacherService, SubjectService } from '../../../../../_services';
-import { Teacher, Subject } from '../../../../../_models';
+import { TeacherService, SubjectService } from '../../../../../_shared/services';
+import { Teacher, Subject } from '../../../../../_shared/models';
 
-import { Subject as rxSubject } from 'rxjs';
+import { Subject as rxSubject, Observable } from 'rxjs';
 
 
 @Component({
   selector: 'app-assigned-subject-add',
   templateUrl: 'assigned-subject-add.component.html',
   styles: [`
+    .searched-subjects {
+      min-height: 150px;
+      max-height: 250px;
+      position: relative;
+    }
   `]
 })
 export class AssignedSubjectAddComponent implements OnInit, OnDestroy {
   
-  @Input()  teacher: Teacher;
+  @Input()  teacher:   Teacher;
+  @Input()  isLoading: boolean;
   @Output() onSelect = new rxSubject<Subject>();
 
   @ViewChild('searchInput', {read: ElementRef}) searchInput: ElementRef;
@@ -36,7 +42,12 @@ export class AssignedSubjectAddComponent implements OnInit, OnDestroy {
 
 
   public ngOnInit () {
+    this.loadAllSubjects();
 
+    Observable.fromEvent(this.searchInput.nativeElement, 'keyup')
+      .takeUntil(this.componentDestroyed)
+      .debounceTime(500)
+      .subscribe(this.search.bind(this));
   }
 
 
@@ -44,13 +55,33 @@ export class AssignedSubjectAddComponent implements OnInit, OnDestroy {
     const title = this.searchInput.nativeElement.value;
     let re: RegExp;
 
-    if (title.length < 0) { return; }
-
     try { re = new RegExp(title, 'i'); } catch (e) { console.log(e); }
 
     this.searchedSubjects = this.allSubjects.filter((subject) => {
       return subject.title.search(re) >= 0;
     });
+
+    console.log(this.searchedSubjects);
+  }
+
+
+  public async addSubject (subject: Subject) {
+    subject.deleted  = true;
+    this.isSubmitted = true;
+
+    try {
+      await this.teacherService.addAssignedSubject(this.teacher, subject);
+      this.teacher.assignedSubjects.splice(0, 0, subject);
+
+    } catch (error) {
+      console.log(error);
+    
+    } finally {
+      this.onSelect.next(subject);
+      this.removeSubjectFromTheList(subject);
+      subject.deleted  = false;
+      this.isSubmitted = false;
+    }
   }
 
 
@@ -64,8 +95,10 @@ export class AssignedSubjectAddComponent implements OnInit, OnDestroy {
     this.isLoadingSubjects = true;
 
     try {
-      this.allSubjects = await this.subjectService.getAll();
-      this.filterSubjects();
+      const result = await this.subjectService.getAll();
+      this.allSubjects = this.filterSubjects(result);
+
+      console.log(result); console.log(this.allSubjects);
 
     } catch (error) {
       console.log(error);
@@ -76,13 +109,24 @@ export class AssignedSubjectAddComponent implements OnInit, OnDestroy {
   }
 
 
-  protected filterSubjects () {
-    this.allSubjects = this.allSubjects.filter((subject: Subject) => {
+  protected removeSubjectFromTheList (subject) {
+    this.allSubjects = this.allSubjects.filter(item => {
+      return subject.id !== item.id;
+    });
+
+    this.search();
+  }
+
+
+  protected filterSubjects (subjects: Subject[]): Subject[] {
+   const result = subjects.filter((subject: Subject) => {
       const s = this.teacher.assignedSubjects.find( (item) => {
         return item.id === subject.id;
       });
 
-      return !!s;
+      return !s;
     });
+
+    return result;
   }
 }

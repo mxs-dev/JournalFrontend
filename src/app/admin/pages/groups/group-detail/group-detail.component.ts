@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { GroupService } from '../../../../_services/index';
-import { Group, User  } from '../../../../_models/index';
+import { GroupService, AlertService } from '../../../../_shared/services/index';
+import { Group, User  } from '../../../../_shared/models/index';
 
 import { Subject } from 'rxjs';
 
@@ -32,7 +32,8 @@ export class GroupDetailComponent implements OnInit, OnDestroy {
   public constructor (
     private route: ActivatedRoute,
     private router: Router,
-    private groupService: GroupService
+    private groupService: GroupService,
+    private alertService: AlertService,
   ) { }
 
 
@@ -90,44 +91,41 @@ export class GroupDetailComponent implements OnInit, OnDestroy {
   }
 
 
-  protected loadGroup () {
+  protected async loadGroup () {
+    if (this.groupId == null) {
+      this.router.navigate(['/admin/groups']);
+    }
 
     this.isLoadingGroup = true;
+    try {
+      this.group = await this.groupService.get(this.groupId);
+      this.loadStudents();
+    } catch (error) {
+      console.log(error);
 
-    this.groupService.get(this.groupId)
-      .then((group: Group) => {
-        this.group = group;
-        this.isLoadingGroup = false;
-
-        this.loadStudents();
-      })
-      .catch((error) => {
-        console.log(error);
-
-        if (error.status === 404) {
-          this.router.navigate(['/admin/groups']);
-          // TODO: Отобразить ошибку "Группа не существует"
-        }
-
-        this.isLoadingGroup = false;
-      });
+      if (error.status === 404) {
+        this.router.navigate(['/admin/groups']);
+        this.alertService.error('Ошибка: группа не существует.');
+      }
+    } finally {
+      this.isLoadingGroup = false;
+    }
   }
 
 
-  protected loadStudents () {
+  protected async loadStudents () {
     if (!this.group) {
       return;
     }
 
     this.isLoadingStudents = true;
-    this.groupService.getStudents(this.group.id)
-    .then((students: User[]) => {
-      this.students = students;
-      this.isLoadingStudents = false;
-    })
-    .catch((error) => {
+    try {
+      this.students = await this.groupService.getStudents(this.group.id);
+    } catch (error) {
       console.log(error);
-    });
+    } finally {
+      this.isLoadingStudents = false;
+    }
   }
 
 

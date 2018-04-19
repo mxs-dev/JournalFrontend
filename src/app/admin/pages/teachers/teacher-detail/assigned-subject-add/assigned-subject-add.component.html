@@ -9,18 +9,29 @@
         </div>
     </div>
 
-    <div *ngIf="toggled" class="row no-gutters">
-        <input #searchInput class="form-control col-9" type="text">
-        <div class="col-3">
-            <button class="btn btn-block btn-outline-success btn-sm">Поиск</button>
+    <div [hidden]="!toggled || isSubmitted">
+        <div class="row">
+            <div class="col-9">
+                <input #searchInput class="form-control" type="text">
+            </div>
+
+            <div class="col-3">
+                <button (click)="search()" [disabled]="isSubmitted || isLoading" class="btn btn-outline-success btn-block">Поиск</button>
+            </div>
         </div>
 
-        <div *ngFor="let subject of searchedSubjects">
-            {{subject.title}}
+        <div class="mt-2 searched-subjects" [perfectScrollbar]>
+            <div class="row list-item no-gutters mr-3" *ngFor="let subject of searchedSubjects">
+               <div class="col-1">#{{subject.id}}</div>
+               <div class="col-8 text-center">{{subject.title}}</div>
+               <div class="col-3">
+                   <button (click)="addSubject(subject);" class="btn btn-outline-primary btn-sm btn-block">Добавить</button>
+               </div>
+            </div>
         </div>
     </div>
 
-    <div *ngIf="isSubmitted && toggled" class="row">
+    <div [hidden]="!toggled" *ngIf="isSubmitted">
         <div class="sk-wave">
             <div class="sk-rect sk-rect1"></div>
             <div class="sk-rect sk-rect2"></div>
@@ -28,5 +39,5 @@
             <div class="sk-rect sk-rect4"></div>
             <div class="sk-rect sk-rect5"></div>
         </div>
-    </div>
+    </div> <!-- Preloader --> 
 </div>

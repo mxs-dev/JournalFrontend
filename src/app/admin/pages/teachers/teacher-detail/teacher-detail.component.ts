@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { TeacherService } from '../../../../_services';
-import { Teacher } from '../../../../_models';
+import { TeacherService, AlertService } from '../../../../_shared/services';
+import { Teacher, Subject } from '../../../../_shared/models';
 
-import { Subject } from 'rxjs';
+import { Subject as rxSubject } from 'rxjs';
 
 
 @Component({
@@ -21,13 +21,14 @@ export class TeacherDetailComponent implements OnInit, OnDestroy {
   public toggled = false;
 
   protected teacherId: number;
-  protected componentDestroyed = new Subject<void>();
+  protected componentDestroyed = new rxSubject<void>();
 
 
   public constructor (
     private route: ActivatedRoute,
     private router: Router,
-    private teacherService: TeacherService
+    private teacherService: TeacherService,
+    private alertService: AlertService,
   ) {}
 
 
@@ -62,15 +63,38 @@ export class TeacherDetailComponent implements OnInit, OnDestroy {
   }
 
 
-  protected async loadTeacher () {
-    this.isLoading = true;
+  public async addAssignedSubject (subject: Subject) {
+
+  }
+
+
+  public async deleteAssignedSubject (subject: Subject) {
+    subject.deleted = true;
 
     try {
-      this.teacher = await this.teacherService.get(this.teacherId);
-//      this.teacher = await this.teacherService.get(this.teacherId, [Teacher.EXTRA_FIELD_ASSIGNED_SUBJECTS]);
+      const res = await this.teacherService.removeAssignedSubject(this.teacher, subject);
+      if (res) {
+        this.removeAssignedSubjectFromTeacher(subject);
+      }
+    
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+  protected async loadTeacher () {
+    if (this.teacherId == null) {
+      this.router.navigate(['teachers/']);
+    }
+
+    this.isLoading = true;
+    try {
+      this.teacher = await this.teacherService.get(this.teacherId, [Teacher.EXTRA_FIELD_ASSIGNED_SUBJECTS]);
     
     } catch (error) {
       if (error.status === 404) {
+        this.alertService.error('Ошибка: преподаватель не существует.');
         this.router.navigate(['teachers/']);
       }
       console.log(error);
@@ -78,5 +102,11 @@ export class TeacherDetailComponent implements OnInit, OnDestroy {
     } finally {
       this.isLoading = false;
     }
+  }
+
+  protected removeAssignedSubjectFromTeacher (subject: Subject) {
+    this.teacher.assignedSubjects = this.teacher.assignedSubjects.filter((item) => {
+      return item.id !== subject.id;
+    });
   }
 } 

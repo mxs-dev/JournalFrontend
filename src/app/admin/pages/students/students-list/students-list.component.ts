@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 
-import { Student, ApiError } from '../../../../_models';
-import { StudentService } from '../../../../_services';
+import { Student, ApiError } from '../../../../_shared/models';
+import { StudentService } from '../../../../_shared/services';
 import { Pager } from '../../../../_shared/pagination/pager';
 
 import { Observable, Subject } from 'rxjs';

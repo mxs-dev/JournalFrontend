@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
-import { UserService, ApiService } from '../_services/index';
+import { UserService, ApiService } from '../_shared/services/index';
 
 
 

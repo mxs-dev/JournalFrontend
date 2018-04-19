@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { UserService, AuthService } from '../_services/index';
-import { User } from '../_models';
+import { UserService, AuthService } from '../_shared/services/index';
+import { User } from '../_shared/models';
 
 import { Subject } from 'rxjs';
 
@@ -13,7 +13,7 @@ import { Subject } from 'rxjs';
 export class MainLayoutComponent implements OnInit, OnDestroy {
 
   public isNavbarCollapsed = true;
-  public currentUser: User | boolean = false;
+  public currentUser: boolean | User = false;
 
   private componetDestroyed = new Subject<void>();
 

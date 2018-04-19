@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { ApiService } from './api.service';
-import { IApiData, Group, User, ApiError } from '../_models';
+import { IApiData, Group, User, ApiError } from '../models';
 
 import { Subject } from 'rxjs';
 
@@ -128,10 +128,8 @@ export class GroupService {
 
 
   public async removeStudent(groupId: number, studentId: number): Promise<boolean> {
-    return this.apiService.get(this.apiPath + `/${groupId}/rm-student/${studentId}`)
-      .map((response: IApiData) => {
-        return true;
-      })
+    return this.apiService
+      .delete(this.apiPath + `/${groupId}/rm-student/${studentId}`)
       .toPromise();
   }
 }

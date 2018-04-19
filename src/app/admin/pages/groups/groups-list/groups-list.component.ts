@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/co
 import { ActivatedRoute } from '@angular/router';
 
 
-import { GroupService } from '../../../../_services';
+import { GroupService } from '../../../../_shared/services';
 import { Pager } from '../../../../_shared/pagination/pager';
-import { Group } from '../../../../_models/index';
+import { Group } from '../../../../_shared/models/index';
 
 import { Observable, Subject } from 'rxjs';
 

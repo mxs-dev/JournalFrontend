@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class GlobalService {
@@ -16,8 +16,8 @@ export class GlobalService {
         this.loadGlobalSettings();
     }
 
-    protected loadGlobalSettings () :void {
-        if (sessionStorage.getItem('frontend-settings') != null){
+    protected loadGlobalSettings (): void {
+        if (sessionStorage.getItem('frontend-settings') != null) {
             this.settings = JSON.parse(sessionStorage.getItem('frontend-setting'));
         }
     }

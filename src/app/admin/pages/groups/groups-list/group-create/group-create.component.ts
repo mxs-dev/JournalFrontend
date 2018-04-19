@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy  } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
-import { Group } from '../../../../../_models/index';
-import { GroupService } from '../../../../../_services/index';
+import { Group } from '../../../../../_shared/models/index';
+import { GroupService } from '../../../../../_shared/services/index';
 
 import { Subject } from 'rxjs';
 

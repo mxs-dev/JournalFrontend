@@ -18,7 +18,7 @@
                     [routerLinkActive]="['active']">
                     <a class='btn btn-link btn-block'>Предметы</a>
                 </li>
-                <li class='list-group-item disabled'
+                <li class='list-group-item'
                     [routerLink]="['teachers']"
                     [routerLinkActive]="['active']">
                     <a class='btn btn-link btn-block'>Преподаватели</a>
@@ -28,6 +28,7 @@
         </div>
 
         <div class='col-9 col-lg-10 col-xl-8'>
+            <app-alert></app-alert>
             <router-outlet></router-outlet>
         </div>
 

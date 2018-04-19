@@ -1,0 +1,12 @@
+<div class="col-12">
+    <h5>Назначенные предметы:</h5>
+    <div *ngFor="let subject of subjects" class="row list-item no-gutters" [class.deleted]="subject.deleted">
+        <div class="col-1 text-center">#{{subject.id}}</div>
+        <div class="col-4 text-center">{{subject.title}}</div>
+        <div class="col-3 text-center">{{subject.createdAt | date}}</div>
+        <div class="col-4">
+            <button class="btn btn-sm btn-outline-warning btn-block"
+                (click)="onDelete.next(subject);">Удалить</button>
+        </div>
+    </div>
+</div>

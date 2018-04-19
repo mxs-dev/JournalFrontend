@@ -1,8 +1,8 @@
 import { Component, ViewChild, ElementRef, OnInit, OnDestroy } from '@angular/core';
 
-import { SubjectService } from '../../../../_services';
+import { SubjectService } from '../../../../_shared/services';
 import { Pager          } from '../../../../_shared/pagination/pager';
-import { Subject        } from '../../../../_models';
+import { Subject        } from '../../../../_shared/models';
 
 import { Observable, Subject as rxSubject } from 'rxjs';
 

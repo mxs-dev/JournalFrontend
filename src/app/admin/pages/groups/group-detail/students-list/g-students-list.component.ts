@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Input, Output } from '@angular/core';
-import { Student } from '../../../../../_models';
+import { Student } from '../../../../../_shared/models';
 
 import { Subject } from 'rxjs';
 

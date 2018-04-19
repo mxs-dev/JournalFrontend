@@ -1,7 +1,7 @@
 import { Component, Input, Output, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup,  Validators } from '@angular/forms';
 
-import { Subject } from '../../../../_models';
+import { Subject } from '../../../../_shared/models';
 
 import { Subject as rxSubject } from 'rxjs';
 

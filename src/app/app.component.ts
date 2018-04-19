@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UserService } from './_services/user.service';
+import { UserService } from './_shared/services/user.service';
 
 @Component({
   selector: 'body',

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, CanActivateChild } from '@angular/router';
-import { AuthService } from '../_services/index';
 
-import { User } from '../_models/index';
+import { AuthService } from '../services/index';
+import { User } from '../models/index';
 
 import { Observable } from 'rxjs';
 
@@ -30,7 +30,7 @@ export class AdminGuard implements CanActivate, CanActivateChild {
         return resolve(true);
       }
 
-      return  resolve(false);;
+      return  resolve(false);
     });
   }
 }

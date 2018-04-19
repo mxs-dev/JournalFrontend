@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 
 import { ApiService } from './api.service';
-import { IApiData, Teacher, ApiError } from '../_models';
+import { IApiData, Teacher, Subject, ApiError } from '../models';
 
-import { Subject } from 'rxjs';
+import { Subject as rxSubject } from 'rxjs';
 
 
 @Injectable() 
 export class TeacherService {
   
   public events = {
-    created: new Subject<Teacher>(),
-    updated: new Subject<Teacher>(),
-    deleted: new Subject<Teacher>(),
+    created: new rxSubject<Teacher>(),
+    updated: new rxSubject<Teacher>(),
+    deleted: new rxSubject<Teacher>(),
   };
 
   protected  readonly apiPath = '/teacher';
@@ -78,7 +78,7 @@ export class TeacherService {
   } 
 
 
-  public async update(id: number, teacherData: Teacher): Promise<Teacher>{
+  public async update(id: number, teacherData: Teacher): Promise<Teacher> {
     return this.apiService.patch(this.apiPath, {
       ...teacherData
     })
@@ -103,6 +103,21 @@ export class TeacherService {
 
         return result;
       })
+      .toPromise();
+  }
+
+
+  public async addAssignedSubject(teacher: Teacher, subject: Subject): Promise<boolean> {
+    return this.apiService
+      .get(this.apiPath + `/${teacher.id}/assign-subject/${subject.id}`)
+      .map((response: IApiData) => response.success)
+      .toPromise();
+  }
+
+
+  public async removeAssignedSubject(teacher: Teacher, subject: Subject): Promise<boolean> {
+    return this.apiService
+      .delete(this.apiPath + `/${teacher.id}/unassign-subject/${subject.id}`)
       .toPromise();
   }
 

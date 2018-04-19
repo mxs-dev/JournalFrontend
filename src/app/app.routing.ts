@@ -8,7 +8,7 @@ import { P404Component       } from './_pages/404.component';
 
 
 // Guards
-import { AuthGuard, AdminGuard } from './_guards/index';
+import { AuthGuard, AdminGuard } from './_shared/guards/index';
 
 
 export const routes: Routes = [

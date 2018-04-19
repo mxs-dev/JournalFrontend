@@ -1,7 +1,7 @@
 import { Component, Input, Output, OnInit, OnDestroy } from '@angular/core';
 
-import { TeacherService } from '../../../../../_services';
-import { Teacher } from '../../../../../_models';
+import { TeacherService } from '../../../../../_shared/services';
+import { Teacher } from '../../../../../_shared/models';
 
 import { Subject } from 'rxjs';
 

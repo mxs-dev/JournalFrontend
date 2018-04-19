@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy, Input, Output } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
-import { StudentService, GroupService } from '../../../../../_services';
-import { Student, Group } from '../../../../../_models';
+import { StudentService, GroupService } from '../../../../../_shared/services';
+import { Student, Group } from '../../../../../_shared/models';
 
 import { Subject } from 'rxjs';
 

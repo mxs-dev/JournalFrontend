@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 
-import { IApiData } from '../_models/index';
+import { IApiData } from '../models/index';
 
 import { AuthService } from './auth.service';
 import { GlobalService } from './global.service';

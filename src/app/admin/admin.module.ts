@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+
+import { SharedModule       } from '../_shared/shared.module';
 import { AdminComponent     } from './admin.component';
 import { AdminRoutingModule } from './admin-routing.module';
 
@@ -14,13 +14,24 @@ import { SUBJECTS_PAGE } from './pages/subjects';
 import { TEACHERS_PAGE } from './pages/teachers';
 
 
+// PerfectScrollbar
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+
+
+
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  suppressScrollX: true
+};
+
+
 
 @NgModule({
   imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    AdminRoutingModule
+    SharedModule,
+    AdminRoutingModule,
+    PerfectScrollbarModule,
   ],
   declarations: [
     AdminComponent,
@@ -29,7 +40,10 @@ import { TEACHERS_PAGE } from './pages/teachers';
     GROUPS_PAGE, STUDENTS_PAGE, SUBJECTS_PAGE, TEACHERS_PAGE
   ],
   providers: [
-    
+    {
+      provide: PERFECT_SCROLLBAR_CONFIG,
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+    } 
   ]
 })
 export class AdminModule { }

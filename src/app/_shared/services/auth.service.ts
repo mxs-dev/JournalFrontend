@@ -2,7 +2,7 @@ import { Injectable, OnInit, OnDestroy } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { JwtHelper, tokenNotExpired } from 'angular2-jwt';
 
-import { IApiData, iJWT, User } from '../_models/index';
+import { IApiData, iJWT, User } from '../models/index';
 import { GlobalService } from './global.service';
 
 import { Observable, Subject } from 'rxjs';

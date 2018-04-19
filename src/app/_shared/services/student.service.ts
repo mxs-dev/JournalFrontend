@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { ApiService } from './api.service';
-import { IApiData, Student, ApiError } from '../_models';
+import { IApiData, Student, ApiError } from '../models';
 
 import { Subject } from 'rxjs';
 
