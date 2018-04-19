@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 import { RoutingAnimationComponent } from './routing-animation/routing-animation.component';
+import { PaginationComponent } from './pagination/pagination.component';
 import { AlertComponent } from './alert/alert.component';
 
 @NgModule({
@@ -15,6 +16,7 @@ import { AlertComponent } from './alert/alert.component';
  declarations: [
     RoutingAnimationComponent,
     AlertComponent,
+    PaginationComponent,
  ],
  exports: [
     FormsModule,
@@ -22,6 +24,7 @@ import { AlertComponent } from './alert/alert.component';
     CommonModule,
     RoutingAnimationComponent,
     AlertComponent,
+    PaginationComponent
  ]
 })
 export class SharedModule { }

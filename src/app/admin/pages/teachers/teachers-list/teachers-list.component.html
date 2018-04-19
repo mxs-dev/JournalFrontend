@@ -1,38 +1,43 @@
 <div class="card">
-  <div class="card-header">
-      <div class="row">
-          <div class="col"><h4>Преподаватели</h4></div>
-          <div class="col"><input #teacherSearch [disabled]="isLoading" class="form-control" type="text" placeholder="Поиск..."></div>
-      </div>
-  </div>
-
-  <div *ngIf="!isLoadingSubjects" class="card-body">
-      <app-teacher-create></app-teacher-create>
-
-    <div *ngIf="pager.pagedItems.length <= 0">
-        <div class="text-warning text-center">Ничего не найдено</div>
-    </div>
-
-
-    <div *ngFor="let teacher of pager.pagedItems" class="row list-item" [class.deleted]="teacher.deleted">
-        <div class="col-2">#{{teacher.id}}</div>
-        <div class="col-6">{{teacher.fullName}}</div>
-        <div class="col-3">
-            <button [routerLink]="[teacher.id]" class="btn btn-sm btn-block btn-outline-primary">Просмотр</button>
-        </div>
-        <div class="col-1">
-            <button (click)="deleteTeacher(teacher);" type="button" class="close" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+    <div class="card-header">
+        <div class="row">
+            <div class="col">
+                <h4>Преподаватели</h4>
+            </div>
+            <div class="col">
+                <input #teacherSearch [disabled]="isLoading" class="form-control" type="text" placeholder="Поиск...">
+            </div>
         </div>
     </div>
 
-    <div class="d-flex row justify-content-center mt-3">
-        <app-pagination [pager]="pager"></app-pagination>   
-    </div>
-  </div>
+    <div *ngIf="!isLoadingSubjects" class="card-body">
+        <app-teacher-create></app-teacher-create>
 
-  <div *ngIf="isLoading" class="card-body">
-      <div class='loader'>Loading...</div>
-  </div> <!-- Loader -->
+        <div *ngIf="pager.pagedItems.length <= 0">
+            <div class="text-warning text-center">Ничего не найдено</div>
+        </div>
+
+
+        <div *ngFor="let teacher of pager.pagedItems" class="row list-item" [class.deleted]="teacher.deleted">
+            <div class="col-2">#{{teacher.id}}</div>
+            <div class="col-6">{{teacher.fullName}}</div>
+            <div class="col-3">
+                <button [routerLink]="[teacher.id]" class="btn btn-sm btn-block btn-outline-primary">Просмотр</button>
+            </div>
+            <div class="col-1">
+                <button (click)="deleteTeacher(teacher);" type="button" class="close" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="d-flex row justify-content-center mt-3">
+            <app-pagination [pager]="pager"></app-pagination>
+        </div>
+    </div>
+
+    <div *ngIf="isLoading" class="card-body">
+        <div class='loader'>Loading...</div>
+    </div>
+    <!-- Loader -->
 </div>

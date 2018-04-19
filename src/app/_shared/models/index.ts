@@ -1,13 +1,14 @@
 import { IApiData } from './i.api-data';
 import { iJWT } from './i.jwt';
-import { ApiError } from './api-error';
+import { ApiError } from './api-error.model';
 
-import { User } from './user';
-import { Group } from './group';
-import { Subject } from './subject';
-import { Student } from './student';
-import { Teacher } from './teacher';
-
+import { User } from './user.model';
+import { Group } from './group.model';
+import { Subject } from './subject.model';
+import { Student } from './student.model';
+import { Teacher } from './teacher.model';
+import { AcademicYear } from './academic-year.model';
+import { Semester } from './semester.model';
 
 const MODELS = [
   User,
@@ -15,7 +16,9 @@ const MODELS = [
   Subject,
   ApiError,
   Student,
-  Teacher
+  Teacher,
+  AcademicYear,
+  Semester
 ];
 
 export {
@@ -28,5 +31,7 @@ export {
   Subject,  
   ApiError,
   Student,
-  Teacher
+  Teacher,
+  AcademicYear,
+  Semester
 };

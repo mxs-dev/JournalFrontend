@@ -1,5 +1,5 @@
-import { User } from './user';
-import { Subject } from './subject';
+import { User } from './user.model';
+import { Subject } from './subject.model';
 
 export class Teacher extends User {
 

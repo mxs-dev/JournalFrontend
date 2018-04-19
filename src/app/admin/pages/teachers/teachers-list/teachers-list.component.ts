@@ -15,7 +15,7 @@ import { Observable, Subject } from 'rxjs';
 })
 export class TeachersListComponent implements OnInit, OnDestroy {
   
-  protected readonly PAGE_SIZE = 5;
+  protected readonly PAGE_SIZE = 7;
 
   @ViewChild('teacherSearch', {read: ElementRef}) teacherSearchInput: ElementRef;
 
@@ -81,11 +81,10 @@ export class TeachersListComponent implements OnInit, OnDestroy {
 
     try {
       this.allTeachers = await this.subjectService.getAll();
-      this.isLoading = false;
-
       this.pager.setItems(this.allTeachers);
     } catch (e) {
       console.log(e);
+    } finally {
       this.isLoading = false;
     }
   }

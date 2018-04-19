@@ -1,23 +1,23 @@
 import { NgModule } from '@angular/core';
 
+// PerfectScrollbar
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+
 
 import { SharedModule       } from '../_shared/shared.module';
 import { AdminComponent     } from './admin.component';
 import { AdminRoutingModule } from './admin-routing.module';
-
-import { PaginationComponent } from '../_shared/pagination/pagination.component';
 
 
 import { GROUPS_PAGE   } from './pages/groups';
 import { STUDENTS_PAGE } from './pages/students';
 import { SUBJECTS_PAGE } from './pages/subjects';
 import { TEACHERS_PAGE } from './pages/teachers';
+import { ACADEMIC_YEARS_PAGE } from './pages/academic_years';
 
 
-// PerfectScrollbar
-import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
-import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 
 
@@ -35,9 +35,12 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   ],
   declarations: [
     AdminComponent,
-    PaginationComponent,
-    
-    GROUPS_PAGE, STUDENTS_PAGE, SUBJECTS_PAGE, TEACHERS_PAGE
+        
+    GROUPS_PAGE,
+    STUDENTS_PAGE, 
+    SUBJECTS_PAGE, 
+    TEACHERS_PAGE, 
+    ACADEMIC_YEARS_PAGE,
   ],
   providers: [
     {

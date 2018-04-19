@@ -1,5 +1,5 @@
-import { User } from './user';
-import { Group } from './group';
+import { User } from './user.model';
+import { Group } from './group.model';
 
 export class Student extends User {
 

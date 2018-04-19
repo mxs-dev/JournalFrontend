@@ -8,7 +8,7 @@ import { GroupService   } from './group.service';
 import { StudentService } from './student.service';
 import { SubjectService } from './subject.service';
 import { TeacherService } from './teacher.service';
-
+import { AcademicYearService } from './academic-year.service';
 
 
 const SERVICES = [
@@ -21,6 +21,7 @@ const SERVICES = [
   SubjectService,
   TeacherService,
   AlertService,
+  AcademicYearService,
 ];
 
 export {
@@ -34,5 +35,6 @@ export {
   StudentService,
   SubjectService,
   TeacherService,
-  AlertService
+  AlertService,
+  AcademicYearService
 };
