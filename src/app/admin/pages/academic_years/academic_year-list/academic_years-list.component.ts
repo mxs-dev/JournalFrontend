@@ -25,7 +25,9 @@ export class AcademicYearsListComponent implements OnInit, OnDestroy {
 
   public constructor (
     private yearService: AcademicYearService,
-  ) {}
+  ) {
+    this.pager = new Pager([], 1, this.PAGE_SIZE);
+  }
   
 
   public ngOnInit () {
@@ -64,6 +66,8 @@ export class AcademicYearsListComponent implements OnInit, OnDestroy {
     try {
       this.allAcademicYears = await this.yearService.getAll();
       this.pager.setItems(this.allAcademicYears);
+
+      console.log(this.allAcademicYears);
     } catch (error) {
       console.log(error);
     } finally {

@@ -8,6 +8,7 @@ import { GroupsListComponent, GroupDetailComponent } from './pages/groups';
 import { TeachersListComponent,  TeacherDetailComponent } from './pages/teachers';
 import { StudentsListComponent, StudentDetailComponent } from './pages/students';
 import { SubjectsListComponent } from './pages/subjects';
+import { AcademicYearsListComponent } from './pages/academic_years';
 
 
 const routes: Routes = [
@@ -45,6 +46,10 @@ const routes: Routes = [
       {
         path: 'teachers/:id',
         component: TeacherDetailComponent,
+      },
+      {
+        path: 'academic-years',
+        component: AcademicYearsListComponent
       }
     ]
   }

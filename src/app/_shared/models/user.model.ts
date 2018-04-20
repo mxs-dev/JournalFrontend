@@ -1,16 +1,17 @@
-export class User {
+import { BaseModel } from './base.model';
+
+export class User extends BaseModel {
     public static readonly ROLE_STUDENT = 'Role[student]';
     public static readonly ROLE_PARENT  = 'Role[parent]';
     public static readonly ROLE_TEACHER = 'Role[teacher]';
     public static readonly ROLE_MODER   = 'Role[moder]';
     public static readonly ROLE_ADMIN   = 'Role[admin]';
 
-    public static readonly STATUS_ACTIVE = 1;
+    public static readonly STATUS_ACTIVE      = 1;
     public static readonly STATUS_UNCONFIRMED = -1;
-    public static readonly STATUS_DELETED  = -99;
-    public static readonly STATUS_DISABLED = 0;
+    public static readonly STATUS_DELETED     = -99;
+    public static readonly STATUS_DISABLED    = 0;
 
-    public id: number;
     public email: string;
 
     public name: string;
@@ -20,18 +21,12 @@ export class User {
     public role: string;
     public status: number;
 
-
-    public createdAt: Date;
-    public createdBy: number;
-    public updatedAt: Date;
-    public updatedBy: number;
-
     public lastLoginAt: Date;
 
-    public deleted?: boolean;
 
     public constructor (data: any) {
-        this.id       = data.id;
+        super(data);
+
         this.email    = data.email;
 
         this.name       = data.name;
@@ -40,11 +35,6 @@ export class User {
 
         this.role   = data.role;
         this.status = data.status;
-
-        this.createdAt = data.createdAt;
-        this.createdBy = data.createdBy;
-        this.updatedAt = data.updatedAt;
-        this.updatedBy = data.updatedBy;
 
         this.lastLoginAt = data.lastLoginAt;
     }
@@ -62,6 +52,11 @@ export class User {
 
     public isStudent() {
         return (this.role === User.ROLE_STUDENT);
+    }
+
+
+    public isActive () {
+        return this.status === User.STATUS_ACTIVE;
     }
 
 

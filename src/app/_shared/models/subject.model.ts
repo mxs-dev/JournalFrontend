@@ -1,22 +1,16 @@
-export class Subject {
+import { BaseModel } from './base.model';
 
-  public id:          number;
+
+export class Subject extends BaseModel {
+
   public title:       string;
   public description: string;
-  public createdAt:   number;
-  public createdBy:   number;
-  public updatedAt:   number;
-  public updatedBy:   number;
 
-  public deleted ?: boolean;
 
   public constructor (data: any) {
-    this.id          = data.id;
+    super(data);
+    
     this.title       = data.title;
     this.description = data.description;
-    this.createdAt   = data.createdAt;
-    this.createdBy   = data.createdBy;
-    this.updatedAt   = data.updatedAt;
-    this.updatedBy   = data.updatedBy;
   }
 }

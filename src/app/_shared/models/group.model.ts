@@ -1,24 +1,16 @@
-export class Group {
+import { BaseModel } from './base.model';
 
-  public id: number;
+
+export class Group extends BaseModel {
+
   public title: string;
   public course: number;
-  public createdAt: number;
-  public createdBy: number;
-  public updatedAt: number;
-  public updatedBy: number;
-
-  public deleted?: boolean;
 
 
   public constructor (data: any) {
-    this.id        = data.id;
+    super(data);
+
     this.title     = data.title;
     this.course    = data.course;
-    this.createdAt = data.createdAt;
-    this.createdBy = data.createdBy;
-
-    this.deleted = false;
   }
-
 }

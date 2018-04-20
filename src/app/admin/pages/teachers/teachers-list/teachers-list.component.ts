@@ -29,7 +29,9 @@ export class TeachersListComponent implements OnInit, OnDestroy {
 
   public constructor (
     private subjectService: TeacherService,
-  ) { }
+  ) {
+    this.pager = new Pager([], 1, this.PAGE_SIZE);
+  }
 
   
   public ngOnInit () {
@@ -39,8 +41,6 @@ export class TeachersListComponent implements OnInit, OnDestroy {
     Observable.fromEvent(this.teacherSearchInput.nativeElement, 'keyup')
       .takeUntil(this.componentDestroyed)
       .subscribe(this.search.bind(this));
-
-    this.pager = new Pager([], 1, this.PAGE_SIZE);
   }
 
 
@@ -50,7 +50,7 @@ export class TeachersListComponent implements OnInit, OnDestroy {
   }
 
 
-  public async deleteTeacher (teacher: Teacher): Promise<void> {teacher.deleted = true;
+  public async deleteTeacher (teacher: Teacher): Promise<void> {teacher._deleted = true;
 
     try {
       const result = await this.subjectService.delete(teacher);
