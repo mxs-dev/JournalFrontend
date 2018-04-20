@@ -58,6 +58,12 @@ export class TeacherFormComponent implements OnInit, OnDestroy {
   public ngOnDestroy (): void {
     this.componentDestroyed.next();
     this.componentDestroyed.complete();
+  } 
+
+
+  public refresh () {
+    this.initForm();
+    this.initFormErrors();
   }
 
 

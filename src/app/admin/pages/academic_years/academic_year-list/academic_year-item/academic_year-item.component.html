@@ -1,0 +1,11 @@
+<div class="row list-item" [class.deleted]="academicYear._deleted">
+  <div class="col-2">#{{academicYear.id}}</div>
+  <div class="col-3">{{academicYear.title}}</div>
+  <div class="col-3">{{academicYear.startDate | date}}</div>
+  <div class="col-3">{{academicYear.endDate | date}}</div>
+  <div class="col-1">
+    <button (click)="onDelete.next(academicYear);" type="button" class="close" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+</div>

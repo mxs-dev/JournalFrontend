@@ -52,11 +52,11 @@ export class StudentsListComponent implements OnInit, OnDestroy {
 
 
   public async deleteStudent(student: Student) {
-    student.deleted = true;
+    student._deleted = true;
 
     try {
-      const result = await this.studentService.delete(student.id);
-      this.removeStudentFromList(student.id);
+      const result = await this.studentService.delete(student);
+      this.removeStudentFromList(student);
 
     } catch (e) {
       const error = <ApiError> e;
@@ -113,7 +113,7 @@ export class StudentsListComponent implements OnInit, OnDestroy {
   }
 
 
-  protected removeStudentFromList (id: number): void {
-    this.students = this.students.filter((s) => s.id !== id);
+  protected removeStudentFromList (student: Student): void {
+    this.students = this.students.filter(item => item.id !== student.id);
   }
 }

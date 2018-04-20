@@ -54,11 +54,11 @@ export class SubjectsListComponent implements OnInit, OnDestroy {
 
 
   public async deleteSubject (subject: Subject): Promise<void> {
-    subject.deleted = true;
+    subject._deleted = true;
 
     try {
-      const result = await this.subjectService.delete(subject.id);
-        this.removeSubjectFromTheList(subject);
+      await this.subjectService.delete(subject);
+      this.removeSubjectFromTheList(subject);
       
     } catch (error) {
       console.log(error);

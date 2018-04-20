@@ -3,6 +3,7 @@ import { Http, Headers, Response } from '@angular/http';
 
 import { User, IApiData } from '../models/index';
 
+import { BaseService   } from './base.service';
 import { GlobalService } from './global.service';
 import { AuthService   } from './auth.service';
 import { ApiService    } from './api.service';
@@ -12,17 +13,22 @@ import { Observable, Subject } from 'rxjs';
 
 
 @Injectable()
-export class UserService {
+export class UserService extends BaseService<User> {
+
+  protected readonly modelClass = User;
+  protected readonly apiPath = '/user';
+
   public isLoggedIn = false;
-  public onLogin = new Subject<User | boolean> ();
+  public onLogin = new Subject<User|boolean> ();
 
   protected _currentUser: User | boolean;
 
   public constructor(
-    private http: Http,
-    private apiService:  ApiService,
-    private authService: AuthService
+    protected apiService:  ApiService,
+    protected authService: AuthService
   ) {
+    super(null);
+
     this.isLoggedIn   = this.authService.isLoggedIn();
     this.authService.getCurrentUser()
       .then( (user: User) => {
@@ -31,12 +37,5 @@ export class UserService {
       .catch( (err) => {
         console.log(err);
       });
-  }
-
-
-  public async get(id: number) {
-    const data = await this.apiService.get(`/user/${id}`);
-
-    return new User(data);
   }
 }

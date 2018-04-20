@@ -1,5 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+
+import { TeacherFormComponent } from '../teacher-form/teacher-form.component';
 
 import { TeacherService, AlertService } from '../../../../_shared/services';
 import { Teacher, Subject } from '../../../../_shared/models';
@@ -15,6 +17,8 @@ import { Subject as rxSubject } from 'rxjs';
 })
 export class TeacherDetailComponent implements OnInit, OnDestroy {
   
+  @ViewChild(TeacherFormComponent) teacherForm: TeacherFormComponent;
+
   public teacher: Teacher;
   public isLoading: boolean;
   public isSubmitted: boolean;
@@ -52,8 +56,9 @@ export class TeacherDetailComponent implements OnInit, OnDestroy {
     this.isSubmitted = true;
 
     try {
-      const res = await this.teacherService.update(this.teacherId, teacherData);
-    
+      await this.teacherService.update(this.teacher, teacherData);
+      console.log(this.teacher);
+      this.teacherForm.refresh();
     } catch (error) {
       console.log(error);
 
@@ -69,7 +74,7 @@ export class TeacherDetailComponent implements OnInit, OnDestroy {
 
 
   public async deleteAssignedSubject (subject: Subject) {
-    subject.deleted = true;
+    subject._deleted = true;
 
     try {
       const res = await this.teacherService.removeAssignedSubject(this.teacher, subject);

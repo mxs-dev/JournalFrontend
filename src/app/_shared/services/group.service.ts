@@ -1,97 +1,25 @@
 import { Injectable } from '@angular/core';
 
+import { BaseService } from './base.service';
 import { ApiService } from './api.service';
 import { IApiData, Group, User, ApiError } from '../models';
 
-import { Subject } from 'rxjs';
-
 
 @Injectable()
-export class GroupService {
+export class GroupService extends BaseService<Group> {
 
-  public events = {
-    created: new Subject<Group>(),
-    updated: new Subject<Group>(),
-    deleted: new Subject<number>()
-  };
-
-  protected apiPath = '/group';
-
-
-  public constructor (
-    private apiService: ApiService
-  ) {}
-
-
-  public async get (id: number): Promise<Group> {
-    return this.apiService.get(this.apiPath + `/${id}`)
-      .map( (response: IApiData) => {
-        return <Group> response.data;
-      })
-      .toPromise();
-  }
-
-
-  public async getAll (): Promise<Group[]> {
-    return this.apiService.get(this.apiPath)
-      .map((response: IApiData) => {
-        return <Group[]> response.data;
-      })
-      .toPromise();
-  }
+  protected readonly modelClass = Group;
+  protected readonly apiPath = '/group';
 
 
   public async create(title: string): Promise<Group> {
-    return this.apiService.post(
-        this.apiPath,
-        {
-          GroupRecord: {
-            title, 
-            course: '1' // TODO: Разобраться с курсами
-          }
-        }
-      )
-      .map(data => {
-        if (data.success) {
-          const g = new Group(data.data);
-          this.events.created.next(g);
-          return g;
-        }
-
-        throw new Error('Error: ' + data.status);
-      })
-      .toPromise();
+    return super.create({GroupRecord: {title, course: 1}});
   }
 
 
-  public async update(id: number, groupData: Group): Promise<Group> {
-    return this.apiService.patch(
-      this.apiPath + `/${id}`,
-      {
-        GroupRecord: groupData
-      }
-    )
-    .map((response: IApiData) => {
-      const group = new Group(response.data);
-      this.events.updated.next(group);
-      return group;
-    })
-    .toPromise();
+  public async update(model: Group, groupData: Group): Promise<Group> {
+    return super.update(model, {GroupRecord: groupData});
   }
-
-
-  public async delete(id: number): Promise<boolean> {
-    return this.apiService.delete(this.apiPath + `/${id}`)
-      .map((result: boolean) => {
-        
-        if (result) {
-          this.events.deleted.next(id);
-        }
-
-        return result;
-      })
-      .toPromise();
-  } 
 
 
   public async search(title: string): Promise<Group[]> {

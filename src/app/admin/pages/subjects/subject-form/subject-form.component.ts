@@ -37,7 +37,7 @@ export class SubjectFormComponent implements OnInit, OnDestroy {
 
 
   public ngOnInit () {
-    this.initSubjectForm();
+    this.initForm();
     this.initFormErrors();
   }
 
@@ -56,6 +56,12 @@ export class SubjectFormComponent implements OnInit, OnDestroy {
   }
 
 
+  public refresh () {
+    this.initForm();
+    this.initFormErrors();
+  }
+
+
   public resetForm () {
     this.formGroup.reset();
     this.onReset.next();
@@ -68,7 +74,7 @@ export class SubjectFormComponent implements OnInit, OnDestroy {
   }
 
 
-  protected initSubjectForm (): void {
+  protected initForm (): void {
     this.formGroup = this.fb.group({
       title: [this.subject ? this.subject.title : '', Validators.compose([
         Validators.required,

@@ -28,7 +28,7 @@ export class TeachersListComponent implements OnInit, OnDestroy {
 
 
   public constructor (
-    private subjectService: TeacherService,
+    private teacherService: TeacherService,
   ) {
     this.pager = new Pager([], 1, this.PAGE_SIZE);
   }
@@ -53,7 +53,7 @@ export class TeachersListComponent implements OnInit, OnDestroy {
   public async deleteTeacher (teacher: Teacher): Promise<void> {teacher._deleted = true;
 
     try {
-      const result = await this.subjectService.delete(teacher);
+      const result = await this.teacherService.delete(teacher);
       this.removeTeacherFromTheList(teacher);
       
     } catch (error) {
@@ -80,7 +80,8 @@ export class TeachersListComponent implements OnInit, OnDestroy {
     this.isLoading = true;
 
     try {
-      this.allTeachers = await this.subjectService.getAll();
+      this.allTeachers = await this.teacherService.getAll();
+      console.log(this.allTeachers);
       this.pager.setItems(this.allTeachers);
     } catch (e) {
       console.log(e);
@@ -106,11 +107,11 @@ export class TeachersListComponent implements OnInit, OnDestroy {
 
 
   protected subscribeOnSubjectEvents (): void {
-    this.subjectService.events.created
+    this.teacherService.events.created
       .takeUntil(this.componentDestroyed)
       .subscribe(this.addTeacherToTheList.bind(this));
 
-    this.subjectService.events.deleted
+    this.teacherService.events.deleted
       .takeUntil(this.componentDestroyed)
       .subscribe(this.removeTeacherFromTheList.bind(this));
   }

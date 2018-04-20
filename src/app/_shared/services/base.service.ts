@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 
 import { ApiService } from './api.service';
-import { IApiData, ApiError } from '../models';
+import { IApiData, ApiError, BaseModel } from '../models';
 
 import { Subject } from 'rxjs';
-import { BaseModel } from '../models/base.model';
 
 
 @Injectable()
@@ -17,7 +16,7 @@ export abstract class BaseService <T extends BaseModel> {
   protected readonly extraFieldUrlParam = 'expand';
 
   public constructor (
-    private apiService: ApiService,
+    protected apiService: ApiService,
   ) {}
 
 
@@ -41,18 +40,6 @@ export abstract class BaseService <T extends BaseModel> {
   }
 
 
-  public async delete (model: T): Promise<boolean> {
-    return this.apiService.delete(this.apiPath + `/${model.id}`)
-      .map((result: boolean) => {
-        if (result) {
-          this.events.deleted.next(model);
-        }
-        return result;
-      })
-      .toPromise();
-  }
-
-
   public async create (modelData: any): Promise<T> {
     return this.apiService.post(this.apiPath, modelData)
       .map((response: IApiData) => {
@@ -68,18 +55,44 @@ export abstract class BaseService <T extends BaseModel> {
   }
 
 
-  public async update (id: number, modelData: any): Promise<T> {
-    return this.apiService.patch(this.apiPath, modelData)
+  public async update (model: T, modelData: any): Promise<T> {
+    return this.apiService.patch(this.apiPath + `/${model.id}`, modelData)
       .map((response: IApiData) => {
         if (response.success) {
-          const model = new this.modelClass(modelData);
-          this.events.updated.next(model);
-          return model;
+          for (const key in response.data) {
+            if (model.hasOwnProperty(key)) {
+              model[key] = response.data[key];
+            }
+          }
         }
+        return model;
       })
       .toPromise();
   }
-  
+
+
+  public async delete (model: T): Promise<boolean> {
+    return this.apiService.delete(this.apiPath + `/${model.id}`)
+      .map((result: boolean) => {
+        if (result) {
+          this.events.deleted.next(model);
+        }
+        return result;
+      })
+      .toPromise();
+  }
+
+
+  public async search (searchModel: any): Promise<T[]> {
+    return this.apiService.post(this.apiPath + `/search`, searchModel)
+      .map((response: IApiData) => {
+        const models = [];
+        response.data.forEach(data => models.push(new this.modelClass(data)));
+        return models;
+      })  
+      .toPromise();
+  }
+
 
   protected encodeExtraFields (extraFields: Array<string> = []): string {
     if (extraFields.length === 0) {

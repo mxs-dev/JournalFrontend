@@ -47,25 +47,21 @@ export class GroupDetailComponent implements OnInit, OnDestroy {
   }
 
 
-  public onSubmitGroup (groupData: any) {
+  public async onSubmitGroup (groupData: any) {
     this.isSubmittedGroup = true;
 
-    this.groupService.update(this.group.id, groupData)
-    .then((res) => {
+    try {
+      await this.groupService.update(this.group, groupData);
+    } catch (error) {
+      console.log(error);
+    } finally {
       this.isSubmittedGroup = false;
-      this.loadGroup();
-      console.log(res);
-    })
-    .catch((err) => {
-      this.isSubmittedGroup = false;
-      
-      console.log(err);
-    });
+    }
   }
 
 
   public async deleteStudent (student: User) {
-    student.deleted = true;
+    student._deleted = true;
 
     try {
       const success = await this.groupService.removeStudent(this.group.id, student.id);
