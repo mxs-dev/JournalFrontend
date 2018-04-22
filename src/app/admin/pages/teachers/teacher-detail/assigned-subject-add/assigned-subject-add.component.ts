@@ -66,7 +66,7 @@ export class AssignedSubjectAddComponent implements OnInit, OnDestroy {
 
 
   public async addSubject (subject: Subject) {
-    subject.deleted  = true;
+    subject._deleted  = true;
     this.isSubmitted = true;
 
     try {
@@ -79,7 +79,7 @@ export class AssignedSubjectAddComponent implements OnInit, OnDestroy {
     } finally {
       this.onSelect.next(subject);
       this.removeSubjectFromTheList(subject);
-      subject.deleted  = false;
+      subject._deleted  = false;
       this.isSubmitted = false;
     }
   }

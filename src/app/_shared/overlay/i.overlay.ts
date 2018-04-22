@@ -1,4 +1,6 @@
-import { Subject } from 'rxjs/Rx';
-export interface IOverlay{
-    onClose :Subject<any>;
+import { Subject } from 'rxjs';
+
+
+export interface IOverlay {
+    onClose: Subject<any>;
 }

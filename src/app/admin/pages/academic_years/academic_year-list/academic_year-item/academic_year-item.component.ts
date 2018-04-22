@@ -12,4 +12,7 @@ import { Subject } from 'rxjs';
 export class AcademicYearItemComponent {
   @Input() academicYear: AcademicYear;
   @Output() onDelete = new Subject<AcademicYear>();
+
+  public isLoading = false;
+  public toggled   = false;
 }

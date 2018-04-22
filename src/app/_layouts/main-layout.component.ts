@@ -13,7 +13,7 @@ import { Subject } from 'rxjs';
 export class MainLayoutComponent implements OnInit, OnDestroy {
 
   public isNavbarCollapsed = true;
-  public currentUser: boolean | User = false;
+  public currentUser: User;
 
   private componetDestroyed = new Subject<void>();
 
@@ -22,12 +22,15 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
   ) {}
 
 
-  public ngOnInit() {
+  public async ngOnInit() {
+
+    this.currentUser = await this.authService.getCurrentUser();
+
     this.authService.onLogin
-      .takeUntil(this.componetDestroyed)
-      .subscribe((user: User) => {
-        this.currentUser = user;
-      });
+    .takeUntil(this.componetDestroyed)
+    .subscribe((user: User) => {
+      this.currentUser = user;
+    });
   }
 
 

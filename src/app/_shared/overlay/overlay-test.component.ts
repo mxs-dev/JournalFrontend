@@ -55,9 +55,9 @@ export class OverlayTestComponent implements IOverlay, OnDestroy{
 
     public onClose = new Subject<any>();
 
-    public data :any;
+    public data: any;
     
-    public ngOnDestroy(){
+    public ngOnDestroy () {
         console.log(`OverlayTest destroy!`);
     }
 }

@@ -13,11 +13,9 @@ export class User extends BaseModel {
     public static readonly STATUS_DISABLED    = 0;
 
     public email: string;
-
     public name: string;
     public surname: string;
     public patronymic: string;
-
     public role: string;
     public status: number;
 
@@ -37,6 +35,17 @@ export class User extends BaseModel {
         this.status = data.status;
 
         this.lastLoginAt = data.lastLoginAt;
+    }
+
+
+    public can (permissionName: string): boolean {
+        if  (USER_PERMISSIONS.hasOwnProperty(this.role)) {
+            const permissions: string[] = USER_PERMISSIONS[this.role];
+
+            return permissions.find(item => item === permissionName) ? true : false;
+        } else {
+            return false;
+        }
     }
 
 
@@ -72,3 +81,12 @@ export class User extends BaseModel {
         return `${this.surname} ${n}.${p}.`;
     }
 }
+
+
+const USER_PERMISSIONS = {
+    'Role[admin]'  : ['Role[admin]', 'Role[moder]',   'Role[teacher]', 'Role[student]', 'Role[parent]'],
+    'Role[moder]'  : ['Role[moder]', 'Role[teacher]', 'Role[student]', 'Role[parent]'],
+    'Role[teacher]': ['Role[teacher]'],
+    'Role[student]': ['Role[student]'],
+    'Role[parent]' : ['Role[parent]']
+};

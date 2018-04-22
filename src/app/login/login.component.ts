@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   protected errorMessage: string;
   protected returnUrl: string;
 
-  protected componentDestroyed = new Subject();
+  protected componentDestroyed = new Subject<void>();
 
   public constructor(
     private authService: AuthService,
@@ -36,68 +36,56 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.returnUrl = this.activatedRoute.snapshot.queryParams['r'] || '/';
 
+    this.initForm();
+    
 
-    this.loginForm = this.formBuilder.group({
-      email:    ['', Validators.compose([Validators.required, Validators.email])],
-      password: ['', Validators.compose([Validators.required, Validators.minLength(4)])]
-    });
-
-    this.formErrors = {
-      email: {
-        valid: true,
-        message: 'Введите корректный email'
-      },
-      password: {
-        valid: true,
-        message: 'Пароль должен содержать не менее 6 символов'
-      }
-    };
 
     this.loginForm.valueChanges
-      .subscribe(
+    .takeUntil(this.componentDestroyed)
+    .subscribe(
       data => {
         this.resetErrorsFromServer();
         this.errorMessage = '';
-      });
+    });
   }
 
 
   public ngOnDestroy() {
-    this.componentDestroyed.next(true);
+    this.componentDestroyed.next();
     this.componentDestroyed.unsubscribe();
   }
 
 
-  public onSubmit(elementValues: any) {
+  public async onSubmit(elementValues: any) {
     this.isSubmitted = true;
-    this.authService.login(elementValues.email, elementValues.password)
-      .subscribe(
-        result => {
-          if (result.success) {
-            this.router.navigate([this.returnUrl]);
-          } else {
-            this.errorMessage = 'Email or password is incorrect.';
-            this.isSubmitted = false;
-          }
-        },
-        error => {
-          this.isSubmitted = false;
-          // Validation error
-          if (Number(error.status) === 422) {
 
-            this.errorMessage = 'Some errors in form. Please check again.';
+    try {
+      const result = await this.authService.login(elementValues.email, elementValues.password);
+      if (result) {
+        console.log('Login success');
+        this.router.navigate([this.returnUrl]);
+      } else {
+        this.errorMessage = 'Email or password is incorrect.';
+        
+      }
+    } catch (error) {
+      if (Number(error.status) === 422) {
 
-            const errorFields = JSON.parse(error.data.message);
-            this.setErrorsFromServer(errorFields);
-          } else {
-            this.errorMessage = error.data;
-          }
-        }
-      );
+        this.errorMessage = 'Some errors in form. Please check again.';
+
+        const errorFields = JSON.parse(error.data.message);
+        this.setErrorsFromServer(errorFields);
+      } else {
+        this.errorMessage = error.data;
+      }
+
+    } finally {
+      this.isSubmitted = false;
+    }
   }
 
 
-  private isValid (field: string): boolean {
+  protected isValid (field: string): boolean {
    
     if (!this.loginForm.controls[field].touched) {
       return true;
@@ -107,7 +95,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
 
-  private resetErrorsFromServer() {
+  protected resetErrorsFromServer() {
     this.serverFormErrors = {
       email: {
         valid: true,
@@ -121,7 +109,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
 
-  private setErrorsFromServer(errorFields: any) {
+  protected setErrorsFromServer(errorFields: any) {
     for (const key in errorFields) {
 
       // skip loop if the property is from prototype
@@ -134,4 +122,27 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.serverFormErrors[key].message = message;
     }
   }
+
+
+  protected initForm () {
+    this.loginForm = this.formBuilder.group({
+      email:    ['', Validators.compose([Validators.required, Validators.email])],
+      password: ['', Validators.compose([Validators.required, Validators.minLength(4)])]
+    });
+  }
+
+
+  protected initFormErrors () {
+    this.formErrors = {
+      email: {
+        valid: true,
+        message: 'Введите корректный email'
+      },
+      password: {
+        valid: true,
+        message: 'Пароль должен содержать не менее 6 символов'
+      }
+    };
+  }
+
 }

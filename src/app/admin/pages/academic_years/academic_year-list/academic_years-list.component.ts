@@ -64,7 +64,7 @@ export class AcademicYearsListComponent implements OnInit, OnDestroy {
     this.isLoading = true;
 
     try {
-      this.allAcademicYears = await this.yearService.getAll();
+      this.allAcademicYears = await this.yearService.getAll([AcademicYear.EF_SEMESTERS]);
       this.pager.setItems(this.allAcademicYears);
 
       console.log(this.allAcademicYears);

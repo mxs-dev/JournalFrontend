@@ -29,7 +29,7 @@
     </form>
 
     <div *ngIf="toggledAddStudentBlock" class="searched-students">
-        <div *ngFor="let student of searchedStudents" class="row list-item no-gutters" [class.deleted]="student.deleted">
+        <div *ngFor="let student of searchedStudents" class="row list-item no-gutters" [class.deleted]="student._deleted">
             <div class="col-1">#{{student.id}}</div>
             <div class="col-6 text-center">{{student.fullName}}</div>
             <div class="col-3">{{student.createdAt | date}}</div>

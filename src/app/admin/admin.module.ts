@@ -18,20 +18,10 @@ import { TEACHERS_PAGE } from './pages/teachers';
 import { ACADEMIC_YEARS_PAGE } from './pages/academic_years';
 
 
-
-
-
-const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-  suppressScrollX: true
-};
-
-
-
 @NgModule({
   imports: [
     SharedModule,
     AdminRoutingModule,
-    PerfectScrollbarModule,
   ],
   declarations: [
     AdminComponent,
@@ -42,11 +32,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     TEACHERS_PAGE, 
     ACADEMIC_YEARS_PAGE,
   ],
-  providers: [
-    {
-      provide: PERFECT_SCROLLBAR_CONFIG,
-      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
-    } 
-  ]
+  providers: []
 })
 export class AdminModule { }

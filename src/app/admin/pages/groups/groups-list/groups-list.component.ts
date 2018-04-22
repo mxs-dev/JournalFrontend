@@ -55,9 +55,9 @@ export class GroupsListComponent implements OnInit, OnDestroy {
 
 
   public deleteGroup (group: Group) {
-    group.deleted = true;
+    group._deleted = true;
 
-    this.groupService.delete(group.id)
+    this.groupService.delete(group)
       .then(deleted => {
         if (deleted) {
           this.removeGroupFromList(group);

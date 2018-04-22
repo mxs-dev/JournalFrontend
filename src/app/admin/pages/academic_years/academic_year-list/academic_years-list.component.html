@@ -17,12 +17,57 @@
             <div class="text-warning text-center">Ничего не найдено</div>
         </div>
 
-        <app-academic-year-item
-            *ngFor="let academicYear of pager.pagedItems"
-            [academicYear]="academicYear"
-        >
-        </app-academic-year-item>
-
+        <table class="table">
+            <thead class='thead-light'>
+                <tr>
+                    <th class="text-center">#</th>
+                    <th class="text-center">Название</th>
+                    <th class="text-center">Дата начала</th>
+                    <th class="text-center">Дата конца</th>
+                    <th class="text-center">...</th>
+                    <th class="text-center">...</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let year of pager.pagedItems">
+                    <tr class="table-info m-0">
+                        <td>{{year.id}}</td>
+                        <td>{{year.title}}</td>
+                        <td>{{year.startDate | date}}</td>
+                        <td>{{year.endDate | date}}</td>
+                        <td>
+                            <button class="btn btn-sm btn-block btn-outline-primary" type="button">Редактировать</button>
+                        </td>
+                        <td>
+                            <button type="button" class="close" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr *ngIf="year.semesters && year.semesters.length > 0">
+                        <td colspan="6" class="p-0 mb-3">
+                            <table class="table">
+                                <tr>
+                                    <th [attr.rowspan]="year.semesters.length + 1">
+                                        <div class="vertical-text">Семестры</div>
+                                    </th>
+                                    <th>#</th>
+                                    <th>Номер</th>
+                                    <th>Начало</th>
+                                    <th>Конец</th>
+                                </tr>   
+                                <tr *ngFor="let semester of year.semesters">
+                                    <td>{{semester.id}}</td>
+                                    <td>{{semester.number}}</td>
+                                    <td>{{semester.startDate | date}}</td>
+                                    <td>{{semester.endDate | date}}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
         <div class="d-flex row justify-content-center mt-3">
             <app-pagination [pager]="pager"></app-pagination>
         </div>

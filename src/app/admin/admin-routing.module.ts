@@ -16,7 +16,7 @@ const routes: Routes = [
     path: '',
     component: AdminComponent,
     data: {
-      title: 'Admin'
+      title: 'Админ панель'
     },
     children: [
       {
@@ -50,7 +50,11 @@ const routes: Routes = [
       {
         path: 'academic-years',
         component: AcademicYearsListComponent
-      }
+      },
+      {
+        path: '',
+        redirectTo: 'groups',
+      },
     ]
   }
 ];

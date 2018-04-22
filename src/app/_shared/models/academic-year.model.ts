@@ -4,7 +4,7 @@ import { BaseModel } from './base.model';
 
 export class AcademicYear extends BaseModel {
 
-  public static readonly EXTRA_FIELDS_SEMESTERS = 'semesters';
+  public static readonly EF_SEMESTERS = 'semesters';
 
   public title: string;
   public startDate: number;

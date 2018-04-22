@@ -2,6 +2,7 @@ import { GlobalService  } from './global.service';
 import { AlertService   } from './alert.service';
 import { AuthService    } from './auth.service';
 import { ApiService     } from './api.service';
+import { OverlayService  } from './overlay.service';
 
 import { UserService    } from './user.service';
 import { GroupService   } from './group.service';
@@ -22,6 +23,7 @@ const SERVICES = [
   TeacherService,
   AlertService,
   AcademicYearService,
+  OverlayService
 ];
 
 export {
@@ -36,5 +38,6 @@ export {
   SubjectService,
   TeacherService,
   AlertService,
-  AcademicYearService
+  AcademicYearService,
+  OverlayService
 };

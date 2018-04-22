@@ -27,7 +27,11 @@ app-layout {
 
 .app {
   &-body{
+    position: relative;
+
     flex-grow: 1;
+    align-items: stretch;
+
     overflow-x: hidden;
     overflow-y: hidden;
 
@@ -40,6 +44,8 @@ app-layout {
   }
 }
 
-.app-body > .container-fluid {
-  height: 100%;
+.vertical-text {
+  width:1px;
+  line-height: 16px;
+  word-wrap: break-word;
 }

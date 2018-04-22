@@ -30,7 +30,7 @@ export class SubjectsListItemComponent {
     this.isSubmitted = true;
 
     try { 
-      const updatedSubject = await this.subjectService.update(this.subject.id, subjectData);
+      const updatedSubject = await this.subjectService.update(this.subject, subjectData);
       this.subject = updatedSubject;
       this.isSubmitted = false;
       this.toggled = false;

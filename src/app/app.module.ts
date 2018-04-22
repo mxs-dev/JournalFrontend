@@ -4,11 +4,6 @@ import { AuthModule        } from 'angular2-jwt';
 import { BrowserModule     } from '@angular/platform-browser';
 import { HttpClientModule  } from '@angular/common/http';
 
-// PerfectScrollbar
-import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
-import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-
 
 // Modules
 import { SharedModule     } from './_shared/shared.module';
@@ -17,6 +12,8 @@ import { LoginModule      } from './login/login.module';
 
 // Components
 import { AppComponent } from './app.component';
+import { INDEX_PAGE, TestComponent   } from './index';
+import { OverlayTestComponent } from './_shared/overlay/overlay-test.component';
 
 // Layouts
 import { MainLayoutComponent } from './_layouts/main-layout.component';
@@ -34,16 +31,10 @@ import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/catch';
 
 
-const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-  suppressScrollX: true
-};
-
-
 @NgModule({
    imports: [
       BrowserModule,
       HttpClientModule,
-      PerfectScrollbarModule,
       SharedModule,
       AppRoutingModule,
       AuthModule,
@@ -52,16 +43,18 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
    ],
    declarations: [
       AppComponent,
+      INDEX_PAGE,
       MainLayoutComponent,
       P404Component,
+      OverlayTestComponent
    ],
    providers: [ 
-     SERVICES, GUARDS,
-      {
-        provide: PERFECT_SCROLLBAR_CONFIG,
-        useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
-      } 
-    ],
-   bootstrap: [ AppComponent ]
+    SERVICES, GUARDS,
+  ],
+  entryComponents: [  
+    TestComponent,
+    OverlayTestComponent
+  ],
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }

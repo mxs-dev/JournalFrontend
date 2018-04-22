@@ -69,7 +69,7 @@ export class GroupStudentAddComponent implements OnInit, OnDestroy {
 
 
   public async addStudent (student: Student) {
-    student.deleted = true;
+    student._deleted = true;
 
     try {
       const result = await this.groupService.addStudent(this.group.id, student.id);
@@ -77,7 +77,7 @@ export class GroupStudentAddComponent implements OnInit, OnDestroy {
       if (result) {
         this.removeStudentFromSearchedStudents(student);
         this.onSelect.next(student);
-        student.deleted = false;
+        student._deleted = false;
       }
 
     } catch (error) {

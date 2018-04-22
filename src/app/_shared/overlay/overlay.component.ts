@@ -1,24 +1,25 @@
 import { IOverlay } from './i.overlay';
 import {
-    Component,
-    ComponentFactoryResolver,
-    ComponentRef,
-    OnDestroy,
-    Type,
-    ViewChild,
-    ViewContainerRef,
+  Component,
+  ComponentFactoryResolver,
+  ComponentRef,
+  OnDestroy,
+  Type,
+  ViewChild,
+  ViewContainerRef,
 } from '@angular/core';
 
 import { Subject } from 'rxjs/Rx';
 
+
 @Component({
-    selector: `overlay`,
-    template: `
+  selector: `app-overlay`,
+  template: `
         <div (click)="onCloseListener()" class="close-btn"><i class="fa fa-times"></i></div>
         <ng-template #container></ng-template>
     `,
-    styles: [`
-        :host{
+  styles: [`
+       : host{
             z-index: 999;
 
             position: fixed;
@@ -45,37 +46,39 @@ import { Subject } from 'rxjs/Rx';
             color: #000;
             cursor: pointer;
         }
-    `] 
+    `]
 })
-export class OverlayComponent implements IOverlay, OnDestroy{
-    
-    public onClose = new Subject<any>();
+export class OverlayComponent implements IOverlay, OnDestroy {
 
-    @ViewChild('container', {read: ViewContainerRef}) private container :ViewContainerRef;
+  @ViewChild('container', { read: ViewContainerRef }) private container: ViewContainerRef;
 
-    public constructor( private componentFactoryResolver :ComponentFactoryResolver ){ }   
+  public onClose = new Subject<any>();
 
-    public ngAfterViewInit(){
-        console.log(this.container);
-    }
+  
+  public constructor(
+    private componentFactoryResolver: ComponentFactoryResolver
+  ) { }
 
-    public insertComponent(componentType :Type<any>, data ?: any){
-        let popupComponentFactory   = this.componentFactoryResolver.resolveComponentFactory(componentType);
-        
-        let popupComponentRef :ComponentRef<any> = this.container.createComponent(popupComponentFactory);
-        popupComponentRef.instance.onClose.subscribe( () => {
-            this.onClose.next();
-        });
-        popupComponentRef.instance.data = data;
 
-        return popupComponentRef;
-    }
-    
-    public ngOnDestroy(){
-        console.log(`OverlayComponent Destroy!`);
-    }
+  public insertComponent(componentType: Type<any>, data?: any) {
+    const popupComponentFactory = this.componentFactoryResolver.resolveComponentFactory(componentType);
 
-    public onCloseListener(){
-        this.onClose.next(true);
-    }    
+    const popupComponentRef: ComponentRef<any> = this.container.createComponent(popupComponentFactory);
+    popupComponentRef.instance.onClose.subscribe(() => {
+      this.onClose.next();
+    });
+    popupComponentRef.instance.data = data;
+
+    return popupComponentRef;
+  }
+
+
+  public ngOnDestroy() {
+    console.log(`OverlayComponent Destroy!`);
+  }
+
+
+  public onCloseListener() {
+    this.onClose.next(true);
+  }
 }

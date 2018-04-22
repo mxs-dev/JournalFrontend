@@ -50,7 +50,7 @@ export class AuthService implements OnDestroy {
   }
 
 
-  public login(email: string, password: string): Observable<any> {
+  public login(email: string, password: string): Promise<any> {
     return this.http
       .post(
       this.globalService.apiHost + '/user/login',
@@ -78,7 +78,8 @@ export class AuthService implements OnDestroy {
 
         return response;
       })
-      .catch(this.handleError);
+      .catch(this.handleError)
+      .toPromise();
   }
 
 
