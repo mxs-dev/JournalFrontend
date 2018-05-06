@@ -54,18 +54,15 @@ export class GroupsListComponent implements OnInit, OnDestroy {
   }
 
 
-  public deleteGroup (group: Group) {
+  public async deleteGroup (group: Group) {
     group._deleted = true;
 
-    this.groupService.delete(group)
-      .then(deleted => {
-        if (deleted) {
-          this.removeGroupFromList(group);
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    try {
+      const result = await this.groupService.delete(group);
+      this.removeGroupFromList(group);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   
@@ -94,20 +91,17 @@ export class GroupsListComponent implements OnInit, OnDestroy {
   }
 
 
-  protected loadAllGroups (): void {
+  protected async loadAllGroups () {
     this.isLoadingGroupsList = true;
-
-    this.groupService.getAll()
-      .then( (groups: Group[]) => {
-        this.allGroups = groups;
-        this.pager.setItems(this.allGroups);
-        
-        this.isLoadingGroupsList = false;
-      })
-      .catch( err => {
-        console.log(err);
-        this.isLoadingGroupsList = false;
-      });
+    
+    try {
+      this.allGroups = await this.groupService.getAll();
+      this.pager.setItems(this.allGroups);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      this.isLoadingGroupsList = false;
+    }
   }
 
 

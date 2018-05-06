@@ -11,15 +11,17 @@
         <div *ngIf="!isLoadingGroupsList" class='card-body'>
             <app-group-create class="mb-3"></app-group-create>
 
+            <hr>
+
             <div *ngIf="pager.pagedItems.length <= 0">
                 <div class="text-warning text-center">Ничего не найдено</div>
             </div>
 
-            <div *ngFor="let group of pager.pagedItems" class="row list-item" [class.deleted]="group.deleted">
+            <div *ngFor="let group of pager.pagedItems" class="row list-item no-gutters" [class.deleted]="group._deleted">
                     <div class="col-2 text-center">#{{group.id}}</div>
                     <div class="col-4 text-center">{{group.title}}</div>
                     <div class="col-2">
-                        <button [routerLink]="[group.id]" class="btn btn-sm btn-block btn-outline-primary">Уч. план</button>
+                        <button [routerLink]="[group.id]" class="btn btn-sm btn-outline-primary">Уч. план</button>
                     </div>
                     <div class="col-3">
                         <button [routerLink]="[group.id]" class="btn btn-sm btn-block btn-outline-primary">Просмотр</button>

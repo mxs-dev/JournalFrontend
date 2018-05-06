@@ -8,7 +8,7 @@ import { GroupsListComponent, GroupDetailComponent } from './pages/groups';
 import { TeachersListComponent,  TeacherDetailComponent } from './pages/teachers';
 import { StudentsListComponent, StudentDetailComponent } from './pages/students';
 import { SubjectsListComponent } from './pages/subjects';
-import { AcademicYearsListComponent } from './pages/academic_years';
+import { AcademicYearsListComponent, AcademicYearDetailComponent } from './pages/academic_years';
 
 
 const routes: Routes = [
@@ -52,8 +52,13 @@ const routes: Routes = [
         component: AcademicYearsListComponent
       },
       {
+        path: 'academic-years/:id',
+        component: AcademicYearDetailComponent
+      },
+      {
         path: '',
         redirectTo: 'groups',
+        pathMatch: 'full'
       },
     ]
   }

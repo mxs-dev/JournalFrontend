@@ -10,10 +10,11 @@ import {
   OnDestroy,
 } from '@angular/core';
 
-import { OverlayComponent } from './overlay.component';
+import { OverlayComponent } from './overlay/overlay.component';
 import { OverlayService } from '../services/overlay.service';
 
 import { Subject } from 'rxjs';
+import { IOverlayOptions, IOverlay, IOverlayComponent } from './i.overlay';
 
 
 @Component({
@@ -24,7 +25,12 @@ export class OverlayHostComponent implements OnInit, OnDestroy {
 
   @ViewChild('overlay_container', { read: ViewContainerRef }) private container: ViewContainerRef;
 
+  public overlayOpened    = new Subject<void>();
+  public overlayDestroyed = new Subject<void>();
+
+
   protected componentDestroyed = new Subject<void>();
+
 
   public constructor(
     private overlayService: OverlayService,
@@ -32,33 +38,38 @@ export class OverlayHostComponent implements OnInit, OnDestroy {
   ) { }
 
 
-  ngOnInit () {
+  public ngOnInit () {
     this.overlayService.registerHost(this);
   }
 
 
-  ngOnDestroy () {
+  public ngOnDestroy () {
     this.componentDestroyed.next();
     this.componentDestroyed.complete();
+
+    this.overlayOpened.unsubscribe();
+    this.overlayDestroyed.unsubscribe();
   }
 
 
-  openComponentInPopup(componentType: Type<any>, data?: any): { overlayComponentRef: ComponentRef<OverlayComponent>, popupComponentRef: ComponentRef<any> } {
-   
+  public openComponentInPopup (componentType: Type<IOverlayComponent>, data?: any, options ?: IOverlayOptions): 
+    { overlayComponentRef: ComponentRef<IOverlay>, popupComponentRef: ComponentRef<IOverlayComponent> } {
+    
     const overlayComponentFactory = this.componentFactoryResolver.resolveComponentFactory(OverlayComponent);
-    const overlayComponentRef: ComponentRef<OverlayComponent> = this.container.createComponent(overlayComponentFactory);
+    const overlayComponentRef: ComponentRef<IOverlay> = this.container.createComponent(overlayComponentFactory);
 
-    overlayComponentRef.instance.onClose
-    .takeUntil(this.componentDestroyed)
-    .subscribe(() => {
-      console.log('Close overlay');
-      overlayComponentRef.destroy();
-    });
+    overlayComponentRef.instance.componentDestroyed
+      .takeUntil(this.componentDestroyed)
+      .subscribe(() => { 
+        overlayComponentRef.destroy(); 
+        this.overlayDestroyed.next();
+      });
 
     const popupComponentRef = overlayComponentRef.instance.insertComponent(componentType, data);
+    
+    this.overlayOpened.next();
 
     return { overlayComponentRef, popupComponentRef };
   }
-
 }
 

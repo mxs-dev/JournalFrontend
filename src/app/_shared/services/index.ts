@@ -10,7 +10,7 @@ import { StudentService } from './student.service';
 import { SubjectService } from './subject.service';
 import { TeacherService } from './teacher.service';
 import { AcademicYearService } from './academic-year.service';
-
+import { SemesterService } from './semester.service';
 
 const SERVICES = [
   GlobalService,
@@ -23,7 +23,8 @@ const SERVICES = [
   TeacherService,
   AlertService,
   AcademicYearService,
-  OverlayService
+  OverlayService,
+  SemesterService
 ];
 
 export {
@@ -39,5 +40,6 @@ export {
   TeacherService,
   AlertService,
   AcademicYearService,
-  OverlayService
+  OverlayService,
+  SemesterService
 };

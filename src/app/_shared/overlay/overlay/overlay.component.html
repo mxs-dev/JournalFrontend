@@ -1,0 +1,10 @@
+<div class="overlay-main" [ngStyle]="{opacity: options.opacity }">
+    <div (click)="onCloseListener()" class="close-btn">
+        <span>&times;</span>
+    </div>
+    
+    <div class="overlay-container">
+        <ng-template #container></ng-template>
+    </div>
+</div>
+

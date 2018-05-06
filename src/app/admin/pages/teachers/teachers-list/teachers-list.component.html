@@ -10,7 +10,7 @@
         </div>
     </div>
 
-    <div *ngIf="!isLoadingSubjects" class="card-body">
+    <div *ngIf="!isLoading" class="card-body">
         <app-teacher-create></app-teacher-create>
 
         <div *ngIf="pager.pagedItems.length <= 0">
@@ -18,7 +18,7 @@
         </div>
 
 
-        <div *ngFor="let teacher of pager.pagedItems" class="row list-item" [class.deleted]="teacher._deleted">
+        <div *ngFor="let  teacher of pager.pagedItems" class="row list-item" [class.deleted]="teacher._deleted">
             <div class="col-2">#{{teacher.id}}</div>
             <div class="col-6">{{teacher.fullName}}</div>
             <div class="col-3">

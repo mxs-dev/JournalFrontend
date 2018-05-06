@@ -3,7 +3,7 @@ import { NgbModule         } from '@ng-bootstrap/ng-bootstrap';
 import { AuthModule        } from 'angular2-jwt';
 import { BrowserModule     } from '@angular/platform-browser';
 import { HttpClientModule  } from '@angular/common/http';
-
+import { AdminModule } from './admin/admin.module';
 
 // Modules
 import { SharedModule     } from './_shared/shared.module';
@@ -12,8 +12,7 @@ import { LoginModule      } from './login/login.module';
 
 // Components
 import { AppComponent } from './app.component';
-import { INDEX_PAGE, TestComponent   } from './index';
-import { OverlayTestComponent } from './_shared/overlay/overlay-test.component';
+import { INDEX_PAGE } from './index';
 
 // Layouts
 import { MainLayoutComponent } from './_layouts/main-layout.component';
@@ -35,25 +34,22 @@ import 'rxjs/add/operator/catch';
    imports: [
       BrowserModule,
       HttpClientModule,
+      NgbModule.forRoot(),
       SharedModule,
       AppRoutingModule,
-      AuthModule,
-      NgbModule.forRoot(),
       LoginModule,
+      AuthModule,
    ],
    declarations: [
       AppComponent,
       INDEX_PAGE,
       MainLayoutComponent,
-      P404Component,
-      OverlayTestComponent
+      P404Component
    ],
    providers: [ 
     SERVICES, GUARDS,
   ],
-  entryComponents: [  
-    TestComponent,
-    OverlayTestComponent
+  entryComponents: [
   ],
   bootstrap: [ AppComponent ]
 })

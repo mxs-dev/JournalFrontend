@@ -1,0 +1,17 @@
+<div *ngIf="!toggled" class="row no-gutters list-item text-center" [class.deleted]="semester._deleted">
+    <div class="col-2">{{semester.number}}</div>
+    <div class="col-3">{{semester.startDate | date}}</div>
+    <div class="col-3">{{semester.endDate | date}}</div>
+    <div class="col-3">
+        <button class="btn btn-sm btn-outline-primary btn-block" (click)="toggled=true">Редактировать</button>
+    </div>
+    <div class="col-1">
+        <button (click)="onDelete.next(semester)" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+</div>
+
+<div *ngIf="toggled" class="row no-gutters list-item">
+    <app-semester-form [model]="semester" [academicYear]="academicYear" (onCancel)="toggled=false;">
+    </app-semester-form>
+</div>

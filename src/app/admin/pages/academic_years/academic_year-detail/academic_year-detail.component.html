@@ -1,0 +1,36 @@
+<div class="card">
+    <div class="card-header">
+        <h4 *ngIf="isLoadingYear">Учебный год ...загружается</h4>
+        <h4 *ngIf="!isLoadingYear">Учебный год {{academicYear.title}}</h4>
+    </div>
+
+    <div *ngIf="isLoadingYear" class="card-body">
+        <div class='loader'>Loading...</div>
+    </div>
+
+    <div *ngIf="!isLoadingYear" class="card-body">
+        <h4>Редактировать учебный год:</h4>
+        <app-academic-year-form
+            [model]="academicYear"
+            (onSubmit)="onSubmitAcademicYear($event)">
+        </app-academic-year-form>
+
+        <hr>
+
+        <h4>Cеместры:</h4> 
+        <app-semester-create
+            (onCreate)="addSemester($event)"
+            [academicYear]="academicYear"
+        ></app-semester-create>
+
+        <hr>
+
+        <app-semesters-list-item
+            *ngFor="let semester of academicYear.semesters"
+            [semester]="semester"
+            [academicYear]="academicYear"
+            (onDelete)="deleteSemester($event)">
+        </app-semesters-list-item>
+        
+    </div>
+</div>

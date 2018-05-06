@@ -51,6 +51,15 @@ export class AcademicYearsListComponent implements OnInit, OnDestroy {
     this.pager.setItems(this.allAcademicYears.filter((year) => {
       return year.title.search(re) >= 0;
     }));
+  } 
+
+
+  public deleteYear (year: AcademicYear) {
+    try {
+      this.yearService.delete(year);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
 

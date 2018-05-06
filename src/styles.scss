@@ -27,8 +27,6 @@ app-layout {
 
 .app {
   &-body{
-    position: relative;
-
     flex-grow: 1;
     align-items: stretch;
 
@@ -37,6 +35,10 @@ app-layout {
 
     height:     calc(100% - #{$header-height} - #{$footer-height});
     min-height: calc(100% - #{$header-height} - #{$footer-height});
+
+    > .container-fluid {
+      position: relative;
+    }
   }
   &-footer{
     display: flex;
@@ -48,4 +50,14 @@ app-layout {
   width:1px;
   line-height: 16px;
   word-wrap: break-word;
+}
+
+
+body.modal-open app-layout {
+  filter: blur(1px);
+}
+
+.navbar-collapse.show {
+  z-index: 999;
+  background-color: white;
 }

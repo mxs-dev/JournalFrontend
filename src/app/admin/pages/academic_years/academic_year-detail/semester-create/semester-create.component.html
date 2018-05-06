@@ -1,15 +1,17 @@
-<div class="row justify-content-between">
-    <div class="col-6">
-        <h5>Добавить учебный год:</h5>
+<div class="row">
+    <div class="col-8">
+        <h5>Добавить семестр:</h5>
     </div>
-    <div class="col-3">
+    <div class="col-4">
         <button *ngIf="!toggled" (click)="toggled=!toggled" class="btn btn-link btn-block btn-sm text-right">Развернуть</button>
         <button *ngIf="toggled" (click)="toggled=!toggled"  class="btn btn-link btn-block btn-sm text-right">Свернуть</button>
     </div>
 </div>
 
-<app-academic-year-form
+<app-semester-form
     *ngIf="toggled"
+    [academicYear]="academicYear"
+    (onSubmit)="createSemester($event)"
     [isSubmitted]="isSubmitted"
-    (onSubmit)="onSubmit($event)"
-></app-academic-year-form>
+    [serverErrors]="serverErrors">
+</app-semester-form>

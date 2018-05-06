@@ -1,0 +1,54 @@
+<form [formGroup]="formGroup" class="col-12" (ngSubmit)="submitForm(formGroup.value)">
+    <div class="form-group">
+        <label>Введите номер семестра:</label>
+        <input class="form-control" type="text" [formControlName]="'number'">
+    </div>
+
+    <div class="form-group">
+        <label>Введите дату начала семестра</label>
+        <div class="input-group">
+            <input class="form-control" 
+                [ngClass]="{'is-invalid': !isValid('startDate')}"
+                [formControl]="formGroup.controls['startDate']" 
+                placeholder="yyyy-mm-dd" 
+                ngbDatepicker 
+                #d1="ngbDatepicker">
+
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button">
+                    <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                </button>
+            </div>
+
+            <div [hidden]="isValid('startDate', 'required')"         class="invalid-feedback">{{formErrors.required}}</div>
+            <div [hidden]="isValid('startDate', 'dateOverflow')"     class="invalid-feedback">{{formErrors.startDate.dateOverflow}}</div>
+            <div [hidden]="isValid('startDate', 'yearDateOverflow')" class="invalid-feedback">{{formErrors.startDate.yearDateOverflow}}</div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Введите дату конца семестра</label>
+        <div class="input-group">
+            <input class="form-control"
+                [ngClass]="{'is-invalid': !isValid('endDate')}" 
+                [formControl]="formGroup.controls['endDate']" 
+                placeholder="yyyy-mm-dd" 
+                ngbDatepicker 
+                #d2="ngbDatepicker">
+
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" (click)="d2.toggle()" type="button">
+                    <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                </button>
+            </div>
+
+            <div [hidden]="isValid('endDate', 'required')"         class="invalid-feedback">{{formErrors.required}}</div>
+            <div [hidden]="isValid('endDate', 'dateOverflow')"     class="invalid-feedback">{{formErrors.endDate.dateOverflow}}</div>
+            <div [hidden]="isValid('endDate', 'yearDateOverflow')" class="invalid-feedback">{{formErrors.endDate.yearDateOverflow}}</div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <button class="btn btn-outline-primary" [disabled]="!formGroup.valid" type="submit">Сохранить</button>
+    </div>
+</form>

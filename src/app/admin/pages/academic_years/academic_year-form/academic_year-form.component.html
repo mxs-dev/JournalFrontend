@@ -1,0 +1,58 @@
+<form class="col-12 form" *ngIf="!isSubmitted" [formGroup]="formGroup" (ngSubmit)="submitForm(formGroup.value)">
+
+    <div class="form-group">
+        <label>Введите начало учебного года</label>
+        <div class="input-group">
+            <input class="form-control" 
+                [ngClass]="{'is-invalid': !isValid('startDate')}"
+                [formControl]="formGroup.controls['startDate']" 
+                placeholder="yyyy-mm-dd" 
+                ngbDatepicker 
+                #d1="ngbDatepicker">
+
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button">
+                    <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                </button>
+            </div>
+
+            <div [hidden]="isValid('startDate', 'required')"  class="invalid-feedback">{{formErrors.required}}</div>
+            <div [hidden]="isValid('startDate', 'dateOverflow')" class="invalid-feedback">{{formErrors.startDate.message}}</div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Введите конец учебного года</label>
+        <div class="input-group">
+            <input class="form-control"
+                [ngClass]="{'is-invalid': !isValid('endDate')}" 
+                [formControl]="formGroup.controls['endDate']" 
+                placeholder="yyyy-mm-dd" 
+                ngbDatepicker 
+                #d2="ngbDatepicker">
+
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" (click)="d2.toggle()" type="button">
+                    <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                </button>
+            </div>
+
+            <div [hidden]="isValid('endDate', 'required')"  class="invalid-feedback">{{formErrors.required}}</div>
+            <div [hidden]="isValid('endDate', 'dateOverflow')" class="invalid-feedback">{{formErrors.endDate.message}}</div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <button class="btn btn-outline-primary" [disabled]="!formGroup.valid" type="submit">Сохранить</button>
+    </div>
+</form>
+
+<div *ngIf="isSubmitted" class="row">
+    <div class="sk-wave">
+        <div class="sk-rect sk-rect1"></div>
+        <div class="sk-rect sk-rect2"></div>
+        <div class="sk-rect sk-rect3"></div>
+        <div class="sk-rect sk-rect4"></div>
+        <div class="sk-rect sk-rect5"></div>
+    </div>
+</div> <!-- Preloader -->

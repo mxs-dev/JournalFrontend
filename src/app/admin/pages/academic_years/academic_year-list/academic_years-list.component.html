@@ -11,13 +11,16 @@
     </div>
 
     <div *ngIf="!isLoading" class="card-body">
+        
         <app-academic-year-create></app-academic-year-create>
+
+        <hr>
 
         <div *ngIf="pager.pagedItems.length <= 0">
             <div class="text-warning text-center">Ничего не найдено</div>
         </div>
 
-        <table class="table">
+        <table *ngIf="pager.pagedItems.length > 0" class="table">   
             <thead class='thead-light'>
                 <tr>
                     <th class="text-center">#</th>
@@ -33,19 +36,19 @@
                     <tr class="table-info m-0">
                         <td>{{year.id}}</td>
                         <td>{{year.title}}</td>
-                        <td>{{year.startDate | date}}</td>
-                        <td>{{year.endDate | date}}</td>
+                        <td>{{year.startDate | date:'yyyy-MM-dd'}}</td>
+                        <td>{{year.endDate | date:'yyyy-MM-dd'}}</td>
                         <td>
-                            <button class="btn btn-sm btn-block btn-outline-primary" type="button">Редактировать</button>
+                            <button [routerLink]="[year.id]" class="btn btn-sm btn-block btn-outline-primary" type="button">Редактировать</button>
                         </td>
                         <td>
-                            <button type="button" class="close" aria-label="Close">
+                            <button (click)="deleteYear(year)" class="close" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </td>
                     </tr>
                     <tr *ngIf="year.semesters && year.semesters.length > 0">
-                        <td colspan="6" class="p-0 mb-3">
+                        <td colspan="6" class="p-0 mb-2">
                             <table class="table">
                                 <tr>
                                     <th [attr.rowspan]="year.semesters.length + 1">
@@ -59,15 +62,16 @@
                                 <tr *ngFor="let semester of year.semesters">
                                     <td>{{semester.id}}</td>
                                     <td>{{semester.number}}</td>
-                                    <td>{{semester.startDate | date}}</td>
-                                    <td>{{semester.endDate | date}}</td>
+                                    <td>{{semester.startDate | date:'yyyy-MM-dd'}}</td>
+                                    <td>{{semester.endDate | date:'yyyy-MM-dd'}}</td>
                                 </tr>
                             </table>
                         </td>
                     </tr>
                 </ng-container>
             </tbody>
-        </table>
+        </table> <!-- Таблица учебных годов -->
+
         <div class="d-flex row justify-content-center mt-3">
             <app-pagination [pager]="pager"></app-pagination>
         </div>

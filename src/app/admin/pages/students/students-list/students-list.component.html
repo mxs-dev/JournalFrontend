@@ -15,7 +15,9 @@
     <div *ngIf="!isLoadingStudentsList" class='card-body'>
         <app-student-create></app-student-create>
 
-        <div *ngFor="let student of pager.pagedItems" class="row list-item" [class.deleted]="student._deleted">
+        <hr>
+
+        <div *ngFor="let student of pager.pagedItems" class="row no-gutters list-item" [class.deleted]="student._deleted">
             <div class="col-2">#{{student.id}}</div>
             <div class="col-6">{{student.fullName}}</div>
             <div class="col-3">

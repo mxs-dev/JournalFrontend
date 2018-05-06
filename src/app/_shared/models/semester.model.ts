@@ -4,10 +4,13 @@ import { BaseModel } from './base.model';
 
 export class Semester extends BaseModel {
 
+  public static readonly EF_ACADEMIC_YEAR = 'academic_year';
+
+  
   public yearId:    number;
   public number:    number;
-  public startDate: number;
-  public endDate:   number;
+  public startDate: Date;
+  public endDate:   Date;
 
 
   public constructor (data) {
@@ -15,7 +18,7 @@ export class Semester extends BaseModel {
 
     this.yearId    = data.yearId;
     this.number    = data.number;
-    this.startDate = data.startDate;
-    this.endDate   = data.endDate;
+    this.startDate = new Date(data.startDate + ' 00:00:00');
+    this.endDate   = new Date(data.endDate + ' 00:00:00');
   }
 }
