@@ -50,17 +50,22 @@ export class User extends BaseModel {
 
 
     public isAdmin() {
-        return (this.role === User.ROLE_ADMIN);
+        return this.role === User.ROLE_ADMIN;
     }
 
 
     public isTeacher() {
-        return (this.role === User.ROLE_TEACHER);
+        return this.role === User.ROLE_TEACHER;
+    }
+
+
+    public isModer () {
+      return this.role === User.ROLE_MODER;
     }
 
 
     public isStudent() {
-        return (this.role === User.ROLE_STUDENT);
+        return this.role === User.ROLE_STUDENT;
     }
 
 
@@ -70,7 +75,7 @@ export class User extends BaseModel {
 
 
     public get fullName() {
-        return `${this.name} ${this.surname} ${this.patronymic}`;
+        return `${this.surname} ${this.name} ${this.patronymic}`;
     }
 
 

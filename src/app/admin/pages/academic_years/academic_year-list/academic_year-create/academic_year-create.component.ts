@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { IOverlayComponent } from '../../../../../_shared/overlay';
 import { AcademicYearService, AlertService, SemesterService } from '../../../../../_shared/services';
 import { AcademicYear, ApiError } from '../../../../../_shared/models';
 
@@ -32,7 +31,7 @@ export class AcademicYearCreateComponent {
 
     try {
       year = await this.yearService.create(formData);
-    
+
     } catch (error) {
       console.log(error);
       this.alertService.error(error.data.message);
@@ -44,4 +43,4 @@ export class AcademicYearCreateComponent {
     this.alertService.success('Учебный год успешно создан.', true);
     this.router.navigate(['admin/academic-years/', year.id]);
   }
-} 
+}

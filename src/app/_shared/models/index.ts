@@ -1,15 +1,17 @@
 import { IApiData } from './i.api-data';
-import { iJWT } from './i.jwt';
+import { iJWT     } from './i.jwt';
 import { ApiError } from './api-error.model';
 
-import { BaseModel } from './base.model';
-import { User } from './user.model';
-import { Group } from './group.model';
-import { Subject } from './subject.model';
-import { Student } from './student.model';
-import { Teacher } from './teacher.model';
+import { BaseModel    } from './base.model';
+import { User         } from './user.model';
+import { Group        } from './group.model';
+import { Subject      } from './subject.model';
+import { Student      } from './student.model';
+import { Teacher      } from './teacher.model';
 import { AcademicYear } from './academic-year.model';
-import { Semester } from './semester.model';
+import { Semester     } from './semester.model';
+import { Teaches      } from './teaches.model';
+
 
 const MODELS = [
   BaseModel,
@@ -20,8 +22,10 @@ const MODELS = [
   Student,
   Teacher,
   AcademicYear,
-  Semester
+  Semester,
+  Teaches
 ];
+
 
 export {
   MODELS,
@@ -31,10 +35,11 @@ export {
   BaseModel,
   User,
   Group,
-  Subject,  
+  Subject,
   ApiError,
   Student,
   Teacher,
   AcademicYear,
-  Semester
+  Semester,
+  Teaches
 };

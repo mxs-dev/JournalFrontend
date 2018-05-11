@@ -1,4 +1,4 @@
-<div *ngIf="!toggled" class="row list-item" [class.deleted]="subject.deleted">
+<div *ngIf="!toggled" class="row list-item no-gutters" [class.deleted]="subject._deleted">
     <div class="col-1">#{{subject.id}}</div>
     <div class="col-3 text-center">{{subject.title}}</div>
     <div class="col-4">{{subject.description}}</div>

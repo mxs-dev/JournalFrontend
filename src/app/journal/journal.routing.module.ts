@@ -11,9 +11,10 @@ const routes: Routes = [
   {
     path: 'teacher',
     component: TeacherComponent,
-    data: {
-      title: 'Журнал|Преподаватель',
-    }
+  },
+  {
+    path: 'teacher/:id',
+    component: TeacherComponent,
   }
 ];
 

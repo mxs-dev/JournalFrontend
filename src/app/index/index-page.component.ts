@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 
 
-import { OverlayService } from '../_shared/services';
-
 import { Subject } from 'rxjs';
 
 
@@ -12,11 +10,7 @@ import { Subject } from 'rxjs';
 })
 export class IndexPageComponent {
 
-  public constructor (
-    private overlayService: OverlayService,
-  ) {}
+  public constructor () {}
 
 
-  public openOverlay() {
-  }
-} 
+}

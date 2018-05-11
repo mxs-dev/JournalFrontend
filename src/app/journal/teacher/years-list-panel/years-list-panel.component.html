@@ -1,0 +1,20 @@
+<div class="row ">
+    <div class="col-1 text-center"><img src="assets/img/icons/back.svg"></div>
+    <div class="col-10 text-center">
+        <div class="btn btn-sm btn-outline-primary"
+          *ngFor="let year of years"
+          (click)="selectYear(year);"
+          [ngClass]="{'btn-success': selectedYear && year.id == selectedYear.id}">
+          {{year.title}}
+        </div>
+    </div>
+    <div class="col-1 text-center"><img src="assets/img/icons/next.svg" alt=""></div>
+</div>
+<div *ngIf="selectedYear" class="row mt-2">
+  <div *ngFor="let semester of selectedYear.semesters" class="col">
+    <button
+      (click)="selectSemester(semester);"
+      [ngClass]="{'selected': selectedSemester && selectedSemester.id == semester.id}"
+      class="btn btn-sm btn-outline-secondary btn-block">Семестр {{semester.number}}</button>
+  </div>
+</div>

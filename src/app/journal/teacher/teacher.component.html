@@ -1,0 +1,32 @@
+<div class="card" *ngIf="!isLoadingTeacher">
+  <div class="card-header">{{teacher.fullName}}</div>
+
+  <div class="card-body">
+      <app-years-list
+        (onSelect)="viewTeaches($event);"
+        [years]="teacher.teachingYears">
+      </app-years-list>
+
+      <div class="row mt-3">
+        <div *ngFor="let teaches of displayTeaches" class="col-12 col-sm-6 col-md-4">
+          <div class="card">
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-12">{{teaches.subject.title}}</div>
+                    <div class="col-12 mt-1">{{teaches.group.title}}</div>
+                    <div class="col-12 mt-1">
+                      <button class="btn btn-sm btn-outline-primary btn-block">К журналу</button>
+                    </div>
+                  </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+<div class="card" *ngIf="isLoadingTeacher">
+  <div class="loader"></div>
+</div>
+
+

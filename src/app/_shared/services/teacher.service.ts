@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { BaseService } from './base.service';
 import { ApiService } from './api.service';
-import { IApiData, Teacher, Subject } from '../models';
+import { IApiData, Teacher, Subject, Teaches, Semester } from '../models';
 
 
 @Injectable()
@@ -37,6 +37,18 @@ export class TeacherService extends BaseService<Teacher> {
   public async removeAssignedSubject(teacher: Teacher, subject: Subject): Promise<boolean> {
     return this.apiService
       .delete(this.apiPath + `/${teacher.id}/unassign-subject/${subject.id}`)
+      .toPromise();
+  }
+
+
+  public async getTeachesBySemester(teacher: Teacher, semester: Semester): Promise<Teaches[]> {
+    return this.apiService
+      .get(this.apiPath + `/${teacher.id}/teaches-by-semester/${semester.id}`)
+      .map((response: IApiData) => {
+        const teaches = new Array<Teaches>();
+        response.data.forEach(dataItem => teaches.push(new Teaches(dataItem)));
+        return teaches;
+      })
       .toPromise();
   }
 }

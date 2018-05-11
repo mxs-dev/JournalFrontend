@@ -2,7 +2,6 @@ import { GlobalService  } from './global.service';
 import { AlertService   } from './alert.service';
 import { AuthService    } from './auth.service';
 import { ApiService     } from './api.service';
-import { OverlayService  } from './overlay.service';
 
 import { UserService    } from './user.service';
 import { GroupService   } from './group.service';
@@ -12,10 +11,11 @@ import { TeacherService } from './teacher.service';
 import { AcademicYearService } from './academic-year.service';
 import { SemesterService } from './semester.service';
 
+
 const SERVICES = [
   GlobalService,
-  UserService,
   AuthService,
+  UserService,
   ApiService,
   GroupService,
   StudentService,
@@ -23,9 +23,9 @@ const SERVICES = [
   TeacherService,
   AlertService,
   AcademicYearService,
-  OverlayService,
   SemesterService
 ];
+
 
 export {
   SERVICES,
@@ -40,6 +40,5 @@ export {
   TeacherService,
   AlertService,
   AcademicYearService,
-  OverlayService,
   SemesterService
 };

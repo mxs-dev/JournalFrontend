@@ -26,9 +26,9 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
 
     this.currentUser = await this.authService.getCurrentUser();
 
-    this.authService.onLogin
+    this.authService.onAuthChange
     .takeUntil(this.componetDestroyed)
-    .subscribe((user: User) => {
+    .subscribe((user: User|null) => {
       this.currentUser = user;
     });
   }

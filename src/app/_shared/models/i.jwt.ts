@@ -1,3 +1,5 @@
+import { User } from './user.model';
+
 export interface iJWT {
 
   /** User Id
@@ -5,7 +7,7 @@ export interface iJWT {
    */
   jti: number;
 
-  /** Token expiration date 
+  /** Token expiration date
    * @var exp number
    */
   exp: number;
@@ -16,5 +18,6 @@ export interface iJWT {
   iat: number;
 
   aud: string;
-  iss: string;  
+  iss: string;
+  model: User;
 }

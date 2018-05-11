@@ -10,10 +10,10 @@ export abstract class BaseModel {
   public createdBy: number;
   public updatedBy: number;
 
-  public _deleted?: boolean;
-  public _selected?: boolean;
+  public _deleted  ?: boolean;
+  public _selected ?: boolean;
 
-  public createdByUser?: User;
+  public createdByUser ?: User;
 
   public constructor(data: any) {
     this._deleted = false;
@@ -22,9 +22,10 @@ export abstract class BaseModel {
     this.id        = data.id;
     this.createdAt = new Date(data.createdAt);
     this.updatedAt = new Date(data.updatedAt);
-    this.createdBy = data.createdBy;
-    this.updatedBy = data.updatedBy;
 
+
+    this.createdBy     = data.createdBy;
+    this.updatedBy     = data.updatedBy;
     this.createdByUser = data.createdByUser || null;
   }
 }

@@ -1,8 +1,8 @@
 import { NgModule          } from '@angular/core';
 import { NgbModule         } from '@ng-bootstrap/ng-bootstrap';
-import { AuthModule        } from 'angular2-jwt';
+// import { AuthModule        } from 'angular2-jwt';
 import { BrowserModule     } from '@angular/platform-browser';
-import { HttpClientModule  } from '@angular/common/http';
+import { HttpModule  } from '@angular/http';
 import { AdminModule } from './admin/admin.module';
 
 // Modules
@@ -18,9 +18,9 @@ import { INDEX_PAGE } from './index';
 import { MainLayoutComponent } from './_layouts/main-layout.component';
 import { P404Component } from './_pages/404.component';
 
-import { SERVICES  } from './_shared/services/index';
-import { GUARDS    } from './_shared/guards/index';
-
+import { SERVICES  } from './_shared/services';
+import { GUARDS    } from './_shared/guards';
+import { DIRECTIVES } from './_shared/directives';
 
 // RxJs
 import 'rxjs/Observable';
@@ -33,12 +33,12 @@ import 'rxjs/add/operator/catch';
 @NgModule({
    imports: [
       BrowserModule,
-      HttpClientModule,
+      HttpModule,
       NgbModule.forRoot(),
       SharedModule,
       AppRoutingModule,
       LoginModule,
-      AuthModule,
+      // AuthModule,
    ],
    declarations: [
       AppComponent,
@@ -46,7 +46,7 @@ import 'rxjs/add/operator/catch';
       MainLayoutComponent,
       P404Component
    ],
-   providers: [ 
+   providers: [
     SERVICES, GUARDS,
   ],
   entryComponents: [
