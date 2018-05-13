@@ -30,12 +30,6 @@ export class UserService extends BaseService<User> {
     super(null);
 
     this.isLoggedIn   = this.authService.isLoggedIn();
-    this.authService.getCurrentUser()
-      .then( (user: User) => {
-        this._currentUser = user;
-      })
-      .catch( (err) => {
-        console.log(err);
-      });
+    this._currentUser = this.authService.getCurrentUser();
   }
 }

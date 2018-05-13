@@ -1,0 +1,31 @@
+<div class="card">
+
+  <div class="card-header">
+    <div class="row">
+      <div class="col-9">
+          Предмет:
+          <b>{{teaches.subject.title}}</b>
+      </div>
+      <div *ngIf="moderAccess" class="col-3">
+        <div ngbDropdown>
+            <button class="btn btn-sm btn-outline-secondary" ngbDropdownToggle></button>
+          <div ngbDropdownMenu>
+            <a class="dropdown-item" [routerLink]="['/academic-plan', teaches.id]">Редактировать.</a>
+            <div class="dropdown-divider"></div>
+            <button class="btn btn-sm btn-outline-danger btn-block">Удалить</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <div class="row text-center">
+      <div class="col-12">Группа: <b>{{teaches.group.title}}</b></div>
+      <div class="col-12 mt-1">
+        <button class="btn btn-sm btn-outline-primary btn-block">К журналу</button>
+      </div>
+    </div>
+  </div>
+
+</div>

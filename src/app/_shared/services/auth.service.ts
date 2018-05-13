@@ -14,14 +14,14 @@ export class AuthService {
 
   protected jwtHelper   = new JwtHelper();
 
-  protected _isLogginedIn = false;
+  protected _isLogginedIn: boolean;
   protected _isLoadingCurrentUser = false;
   protected _currentUser: User;
 
 
   public redirectUrl: string;
 
-  public onAuthChange = new EventEmitter<User|null>();
+  public onAuthChange = new Subject<User|null>();
 
 
   public constructor(private http: Http, private globalService: GlobalService) {
@@ -38,17 +38,18 @@ export class AuthService {
   }
 
 
-  public getCurrentUserFromJWT (): User {
-    return new User(this.getJWT().model);
+  public getCurrentUser(): User {
+    if (!this._isLogginedIn) {
+      return null;
+    }
+
+    return this._currentUser;
   }
 
 
-  public async getCurrentUser(): Promise<User | any> {
-    if (!this._isLogginedIn) {
-      return Promise.resolve(null);
-    }
 
-    return Promise.resolve(this._currentUser);
+  public getCurrentUserFromJWT (): User {
+    return new User(this.getJWT().model);
   }
 
 

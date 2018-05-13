@@ -1,15 +1,16 @@
-import { GlobalService  } from './global.service';
-import { AlertService   } from './alert.service';
-import { AuthService    } from './auth.service';
-import { ApiService     } from './api.service';
+import { GlobalService } from './global.service';
+import { AlertService  } from './alert.service';
+import { AuthService   } from './auth.service';
+import { ApiService    } from './api.service';
 
-import { UserService    } from './user.service';
-import { GroupService   } from './group.service';
-import { StudentService } from './student.service';
-import { SubjectService } from './subject.service';
-import { TeacherService } from './teacher.service';
+import { UserService         } from './user.service';
+import { GroupService        } from './group.service';
+import { StudentService      } from './student.service';
+import { SubjectService      } from './subject.service';
+import { TeacherService      } from './teacher.service';
 import { AcademicYearService } from './academic-year.service';
-import { SemesterService } from './semester.service';
+import { SemesterService     } from './semester.service';
+import { LessonService       } from './lesson.service';
 
 
 const SERVICES = [
@@ -23,7 +24,8 @@ const SERVICES = [
   TeacherService,
   AlertService,
   AcademicYearService,
-  SemesterService
+  SemesterService,
+  LessonService
 ];
 
 
@@ -40,5 +42,6 @@ export {
   TeacherService,
   AlertService,
   AcademicYearService,
-  SemesterService
+  SemesterService,
+  LessonService
 };

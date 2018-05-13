@@ -6,6 +6,7 @@ import { JournalRoutingModule } from './journal.routing.module';
 
 // Pages
 import { TEACHER_PAGE   } from './teacher';
+import { ACADEMIC_PLAN_PAGE } from './academic-plan-view';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { TEACHER_PAGE   } from './teacher';
   ],
   declarations: [
     TEACHER_PAGE,
+    ACADEMIC_PLAN_PAGE,
   ],
   providers: [
 

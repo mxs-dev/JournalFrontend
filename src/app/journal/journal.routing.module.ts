@@ -5,6 +5,7 @@ import { SharedModule } from '../_shared/shared.module';
 
 // Components
 import { TeacherComponent   } from './teacher';
+import { AcademicPlanViewComponent } from './academic-plan-view';
 
 
 const routes: Routes = [
@@ -15,6 +16,10 @@ const routes: Routes = [
   {
     path: 'teacher/:id',
     component: TeacherComponent,
+  },
+  {
+    path: 'academic-plan/:id',
+    component: AcademicPlanViewComponent
   }
 ];
 

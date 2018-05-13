@@ -15,21 +15,20 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
   public isNavbarCollapsed = true;
   public currentUser: User;
 
-  private componetDestroyed = new Subject<void>();
+  protected componetDestroyed = new Subject<void>();
 
   public constructor(
     public authService: AuthService
   ) {}
 
 
-  public async ngOnInit() {
-
-    this.currentUser = await this.authService.getCurrentUser();
+  public ngOnInit() {
+    this.currentUser = this.authService.getCurrentUser();
 
     this.authService.onAuthChange
     .takeUntil(this.componetDestroyed)
     .subscribe((user: User|null) => {
-      this.currentUser = user;
+      setTimeout(() => this.currentUser = user, 1);
     });
   }
 

@@ -31,13 +31,14 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
   public ngOnInit() {
+    this.initFormErrors();
     this.resetErrorsFromServer();
     this.authService.logout();
 
     this.returnUrl = this.activatedRoute.snapshot.queryParams['r'] || '/';
 
     this.initForm();
-    
+
 
 
     this.loginForm.valueChanges
@@ -66,7 +67,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.router.navigate([this.returnUrl]);
       } else {
         this.errorMessage = 'Email or password is incorrect.';
-        
+
       }
     } catch (error) {
       if (Number(error.status) === 422) {
@@ -86,11 +87,11 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
   protected isValid (field: string): boolean {
-   
+
     if (!this.loginForm.controls[field].touched) {
       return true;
     }
-      
+
     return this.loginForm.controls[field].valid;
   }
 

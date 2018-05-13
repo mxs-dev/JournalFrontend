@@ -11,6 +11,8 @@ import { Teacher      } from './teacher.model';
 import { AcademicYear } from './academic-year.model';
 import { Semester     } from './semester.model';
 import { Teaches      } from './teaches.model';
+import { Lesson       } from './lesson.model';
+import { Grade        } from './grade.model';
 
 
 const MODELS = [
@@ -23,7 +25,9 @@ const MODELS = [
   Teacher,
   AcademicYear,
   Semester,
-  Teaches
+  Teaches,
+  Lesson,
+  Grade
 ];
 
 
@@ -41,5 +45,7 @@ export {
   Teacher,
   AcademicYear,
   Semester,
-  Teaches
+  Teaches,
+  Lesson,
+  Grade
 };
