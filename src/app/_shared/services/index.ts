@@ -11,6 +11,7 @@ import { TeacherService      } from './teacher.service';
 import { AcademicYearService } from './academic-year.service';
 import { SemesterService     } from './semester.service';
 import { LessonService       } from './lesson.service';
+import { TeachesService      } from './teaches.service';
 
 
 const SERVICES = [
@@ -25,7 +26,8 @@ const SERVICES = [
   AlertService,
   AcademicYearService,
   SemesterService,
-  LessonService
+  LessonService,
+  TeachesService
 ];
 
 
@@ -43,5 +45,6 @@ export {
   AlertService,
   AcademicYearService,
   SemesterService,
-  LessonService
+  LessonService,
+  TeachesService
 };

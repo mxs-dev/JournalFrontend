@@ -11,7 +11,7 @@ import { Semester, AcademicYear } from '../../../../_shared/models';
   styles: [``]
 })
 export class SemesterFormComponent extends BaseReactiveFormComponent<Semester> {
-  
+
   @Input() academicYear: AcademicYear;
 
 
@@ -30,7 +30,7 @@ export class SemesterFormComponent extends BaseReactiveFormComponent<Semester> {
 
       const startDate = this.getDateFromNgbDateModel(this.formGroup.controls.startDate.value);
       const endDate   = this.getDateFromNgbDateModel(this.formGroup.controls.endDate.value);
-      
+
       if (startDate > endDate) {
         return {'dateOverflow': {value: control.value}};
       }
@@ -50,7 +50,7 @@ export class SemesterFormComponent extends BaseReactiveFormComponent<Semester> {
 
       const startDate = this.getDateFromNgbDateModel(this.formGroup.controls.startDate.value);
       const endDate   = this.getDateFromNgbDateModel(this.formGroup.controls.endDate.value);
-      
+
       if (startDate > endDate) {
         return {'dateOverflow': {value: control.value}};
       }
@@ -78,9 +78,7 @@ export class SemesterFormComponent extends BaseReactiveFormComponent<Semester> {
         [Validators.required, this.endDateValidator()]
       ]
     });
-
-    console.log(this.formGroup);
-  } 
+  }
 
 
   protected initFormErrors () {
@@ -94,7 +92,7 @@ export class SemesterFormComponent extends BaseReactiveFormComponent<Semester> {
         'dateOverflow': 'Дата окончания не может быть меньше даты начала.',
         'yearDateOverflow': 'Дата конца не может быть больше даты конца учебного года.',
       }
-    }; 
+    };
   }
 
 }

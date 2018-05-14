@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
-import { BaseService } from './base.service';
 
+import { BaseService } from './base.service';
+import { ApiService  } from './api.service';
 import { Lesson, Teaches } from '../models';
+
+import * as moment from 'moment';
 
 @Injectable()
 export class LessonService extends BaseService<Lesson> {
@@ -10,16 +13,22 @@ export class LessonService extends BaseService<Lesson> {
 
 
   public async create(modelData: Lesson): Promise<Lesson> {
-    return super.create({'LessonRecord': modelData});
+    return super.create({'LessonRecord': {
+      ...modelData,
+      date: moment(modelData.date).format('YYYY-MM-DD')
+    }});
   }
 
 
   public async update(model: Lesson, modelData: Lesson):  Promise<Lesson> {
-    return super.update(model, {'LessonRecord': modelData});
+    return super.update(model, {'LessonRecord': {
+      ...modelData,
+      date: moment(modelData.date).format('YYYY-MM-DD')
+    }});
   }
 
 
-  public async getForTeaches(teaches: Teaches): Promise<Lesson[]> {
+  public async getAllForTeachesId(teachesId: number): Promise<Lesson[]> {
     return;
   }
 }

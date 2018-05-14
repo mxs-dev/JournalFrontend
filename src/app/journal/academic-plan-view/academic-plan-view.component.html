@@ -1,0 +1,41 @@
+<div class="row justify-content-center mt-3">
+  <div class="col-lg-10 col-xl-8" *ngIf="!isLoadingTeaches">
+    <app-alert></app-alert>
+    <div class="card">
+      <div class="row card-header justify-content-between">
+        <div class="col-6">
+          Группа <b>{{viewedTeaches.group.title}}</b> - Предмет <b>{{viewedTeaches.subject.title}}</b>
+        </div>
+        <div class="col-6">
+          Семестр {{viewedTeaches.semester.startDate | date}} - {{viewedTeaches.semester.endDate | date}}
+        </div>
+      </div>
+
+      <div class="card-body">
+        <app-lesson-create [teaches]="viewedTeaches" (onCreate)="onCreate($event)"></app-lesson-create>
+
+        <hr>
+
+        <div class="row list-item no-gutters" [class.deleted]="lesson._deleted"
+          *ngFor="let lesson of viewedTeaches.lessons; let i = index;">
+          <div class="col">#{{i + 1}}</div>
+          <div class="col-2">{{lesson.type == 1 ? "Лекция" : "Практика"}}</div>
+          <div class="col-2">{{lesson.date | date }}</div>
+          <div class="col-4">{{lesson.description}}</div>
+          <div class="col-2">
+            <button class="btn btn-sm btn-outline-primary btn-block">Редактировать</button>
+          </div>
+          <div class="col-1">
+            <button (click)="deleteLesson(lesson)" class="close" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card col-lg-10 col-xl-8" *ngIf="isLoadingTeaches">
+    <div class="loader"></div>
+  </div>
+</div>
