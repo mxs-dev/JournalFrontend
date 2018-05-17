@@ -4,7 +4,7 @@ export class Grade extends BaseModel {
 
   public userId:     number;
   public lessonId:   number;
-  public attandance: boolean;
+  public attendance: boolean;
   public value:      number;
 
   public constructor (data: any) {
@@ -12,7 +12,7 @@ export class Grade extends BaseModel {
 
     this.userId     = data.userId;
     this.lessonId   = data.lessonId;
-    this.attandance = data.attandance;
+    this.attendance = data.attendance;
     this.value      = data.value;
   }
 }

@@ -2,6 +2,55 @@
   <h1 class="page-title">Журнал</h1>
 </div>
 
-<div class="card">
+<div class="card" *ngIf="!isLoadingTeaches">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-6">
+        <div class="card">
+          <div class="card-header">Преподаватель</div>
+          <div class="card-footer">{{teaches.teacher.fullName}}</div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="card">
+          <div class="card-header">Группа</div>
+          <div class="card-footer">{{teaches.group.title}}</div>
+        </div>
+      </div>
+    </div>
 
+    <div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th></th>
+            <th *ngFor="let lesson of teaches.lessons">{{lesson.date | date:'d.MM'}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let student of studentsWithGrades">
+            <td>{{student.shortFullName}}</td>
+            <td
+              *ngFor="let grade of student.grades"
+              [ngClass]="{'text-success' : grade.attendance === 1, 'text-danger' : grade.attendance === 0}"
+              [ngSwitch]="grade.attendance">
+
+              <span *ngSwitchCase="1">{{grade.value ? grade.value : '-'}}</span>
+              <span *ngSwitchCase="0"><i class="fe fe-user-minus"></i></span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
+
+
+
+<div class="card" *ngIf="isLoadingTeaches">
+    <div class="card-body d-flex justify-content-center align-items-center">
+      <div class="mt-5 mb-5">
+        <div class="loader"></div>
+      </div>
+    </div>
+  </div>

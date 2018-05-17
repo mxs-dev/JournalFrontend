@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { TeachesService, LessonService, AuthService, AlertService } from '../../_shared/services';
-import { Teaches } from '../../_shared/models';
+import { Teaches, Grade, Student } from '../../_shared/models';
 
 import { Subject } from 'rxjs';
 
@@ -18,6 +18,9 @@ export class JournalComponent implements OnInit, OnDestroy {
 
   public teaches: Teaches;
   public isLoadingTeaches = true;
+
+
+  public studentsWithGrades: Student[];
 
 
   protected componentDestroyed = new Subject<void>();
@@ -73,10 +76,36 @@ export class JournalComponent implements OnInit, OnDestroy {
     }
 
     console.log(this.teaches);
+    this.createStudentWithGradesObj();
+    console.log(this.studentsWithGrades);
   }
 
 
   protected checkAccess () {
     return true;
+  }
+
+
+  protected createStudentWithGradesObj () {
+    this.studentsWithGrades = [];
+
+    this.teaches.group.students.forEach(student => {
+      const grades = [];
+
+      // Для каждого занятия находим соответствующую оценку или создаем пустую
+      this.teaches.lessons.forEach(lesson => {
+        const foundGrade = lesson.grades.find((item) => {
+          return item.userId === student.id;
+        });
+
+        grades.push(foundGrade ? foundGrade : new Grade({
+          userId: student.id,
+          lessonId: lesson.id
+        }));
+      });
+
+      student.grades = grades;
+      this.studentsWithGrades.push(student);
+    });
   }
 }

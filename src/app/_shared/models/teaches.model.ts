@@ -40,6 +40,12 @@ export class Teaches extends BaseModel {
       this.group = new Group(data.group);
     }
 
+
+    if (data.teacher) {
+      this.teacher = new Teacher(data.teacher);
+    }
+
+
     if (data.lessons) {
       this.lessons = [];
       data.lessons.forEach(item => this.lessons.push(new Lesson(item)));
