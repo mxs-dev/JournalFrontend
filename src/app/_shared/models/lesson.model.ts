@@ -2,8 +2,11 @@ import { BaseModel } from './base.model';
 import { Subject   } from './subject.model';
 import { Teaches   } from './teaches.model';
 import { Grade     } from './grade.model';
+import { TeachesService } from '../services';
 
 export class Lesson extends BaseModel {
+
+  public static readonly EF_GRADES = 'grades';
 
   public static readonly TYPE_LECTURE  = 1;
   public static readonly TYPE_PRACTICE = 2;
@@ -13,10 +16,9 @@ export class Lesson extends BaseModel {
   public type: number;
   public description: string;
 
-
   public subject ?: Subject;
-  public teaches ?: Teaches;
-  public grades ?: Grade[];
+  public grades  ?: Grade[];
+
 
   public constructor (data: any) {
     super(data);
@@ -26,8 +28,18 @@ export class Lesson extends BaseModel {
     this.type        = data.type;
     this.description = data.description;
 
-    this.subject = data.subject || null;
-    this.teaches = data.teaches || null;
-    this.grades  = data.grades  || null;
+    this.createEFAttributes(data);
+  }
+
+
+  protected createEFAttributes (data) {
+    if (data.subject) {
+      this.subject = new Subject(data);
+    }
+
+    if (data.grades) {
+      this.grades = [];
+      data.grades.forEach(gradeData => this.grades.push(new Grade(gradeData)));
+    }
   }
 }

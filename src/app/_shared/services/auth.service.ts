@@ -47,8 +47,7 @@ export class AuthService {
   }
 
 
-
-  public getCurrentUserFromJWT (): User {
+  protected getCurrentUserFromJWT (): User {
     return new User(this.getJWT().model);
   }
 

@@ -12,6 +12,8 @@ export class Teaches extends BaseModel {
   public static readonly EF_SUBJECT  = 'subject';
   public static readonly EF_GROUP    = 'group';
   public static readonly EF_SEMESTER = 'semester';
+  public static readonly EF_GROUP_STUDENTS = 'group.students';
+  public static readonly EF_LESSONS_GRADES = 'lessons.grades';
 
   public userId:    number;
   public subjectId: number;

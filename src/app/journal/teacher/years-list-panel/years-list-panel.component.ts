@@ -18,8 +18,8 @@ import {  } from 'protractor';
       background-color: #007bff26;
       border-color: #007bff26;
     }
-    img{
-      height: 20px;
+    i{
+      font-size: 40px;
       cursor: pointer;
     }
   `]

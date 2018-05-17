@@ -1,6 +1,8 @@
-<div class="row ">
-    <div class="col-1 text-center"><img src="assets/img/icons/back.svg"></div>
-    <div class="col-10 text-center">
+<div class="row">
+  <div class="col-1 d-flex align-items-center"><i class="fe fe-chevron-left"></i></div>
+
+  <div class="col-10">
+    <div class="row justify-content-center">
         <div class="btn btn-sm btn-outline-primary"
           *ngFor="let year of years"
           (click)="selectYear(year);"
@@ -8,13 +10,16 @@
           {{year.title}}
         </div>
     </div>
-    <div class="col-1 text-center"><img src="assets/img/icons/next.svg" alt=""></div>
-</div>
-<div *ngIf="selectedYear" class="row mt-2">
-  <div *ngFor="let semester of selectedYear.semesters" class="col">
-    <button
-      (click)="selectSemester(semester);"
-      [ngClass]="{'btn-outline-success': selectedSemester && selectedSemester.id == semester.id}"
-      class="btn btn-sm btn-outline-secondary btn-block">Семестр {{semester.number}}</button>
+
+    <div *ngIf="selectedYear" class="row justify-content-center mt-2 ">
+      <div *ngFor="let semester of selectedYear.semesters" class="col-3">
+        <button
+          (click)="selectSemester(semester);"
+          [ngClass]="{'btn-outline-success': selectedSemester && selectedSemester.id == semester.id}"
+          class="btn btn-sm btn-outline-secondary btn-block">Семестр {{semester.number}}</button>
+      </div>
+    </div>
   </div>
+
+  <div class="col-1 d-flex align-items-center"><i class="fe fe-chevron-right"></i></div>
 </div>

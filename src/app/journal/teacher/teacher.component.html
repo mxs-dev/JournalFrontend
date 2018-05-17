@@ -1,30 +1,42 @@
-<div class="row justify-content-center mt-3">
-  <div class="col-lg-10 col-xl-8" *ngIf="!isLoadingTeacher">
-    <div class="card">
-      <div class="card-header">
-        <h5>Преподаватель
-          <b>{{viewedTeacher.fullName}}</b>
-        </h5>
-      </div>
+<div class="page-header">
+  <h1 class="page-title">
+    Страница преподавателя
+  </h1>
+</div>
 
+
+<div class="card" *ngIf="!isLoadingTeacher">
+  <div class="card-header">
+    <h5><b>{{viewedTeacher.fullName}}</b></h5>
+  </div>
+
+  <div class="card-body">
+    <div class="card mb-0">
       <div class="card-body">
         <app-years-list (onSelect)="viewTeaches($event);" [years]="viewedTeacher.teachingYears" [semesterIdFromUrlStringToSelect]="semesterId">
         </app-years-list>
+      </div>
+    </div>
 
-        <div *ngIf="!isLoadingTeaches" class="row">
+    <ng-container [ngSwitch]="isLoadingTeaches">
+        <div *ngSwitchCase="false" class="row">
           <app-teaches-item class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3" *ngFor="let teaches of displayTeaches" [teaches]="teaches"
             [moderAccess]="moderAccess">
           </app-teaches-item>
         </div>
 
-        <div *ngIf="isLoadingTeaches" class="row mt-3">
+        <div *ngSwitchCase="true" class="mt-5 mb-5 d-flex justify-content-center align-items-center">
           <div class="loader"></div>
         </div>
-      </div>
-    </div>
+    </ng-container>
   </div>
+</div>
 
-  <div class="card col-lg-10 col-xl-8" *ngIf="isLoadingTeacher">
-    <div class="loader"></div>
+
+<div class="card" *ngIf="isLoadingTeacher">
+  <div class="card-body d-flex justify-content-center align-items-center">
+    <div class="mt-5 mb-5">
+      <div class="loader"></div>
+    </div>
   </div>
 </div>
