@@ -26,6 +26,16 @@ export const routes: Routes = [
   {
     path: '',
     component: MainLayoutComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: 'app/auth/auth.module#AuthModule',
+      }
+    ]
+  },
+  {
+    path: '',
+    component: MainLayoutComponent,
     canActivate: [AuthGuard],
     children: [
       {
@@ -43,16 +53,6 @@ export const routes: Routes = [
       {
         path: '',
         loadChildren: 'app/admin/admin.module#AdminModule'
-      }
-    ]
-  },
-  {
-    path: 'login',
-    component: MainLayoutComponent,
-    children: [
-      {
-        path: '',
-        loadChildren: 'app/login/login.module#LoginModule',
       }
     ]
   },

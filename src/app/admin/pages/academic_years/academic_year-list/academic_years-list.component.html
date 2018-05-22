@@ -1,84 +1,80 @@
 <div class="card">
-    <div class="card-header">
-        <div class="row">
-            <div class="col">
-                <h4>Учебные годы</h4>
-            </div>
-            <div class="col">
-                <input #acYearSearch [disabled]="isLoading" type="text" class="form-control" placeholder="Поиск...">
-            </div>
-        </div>
+  <div class="card-header">
+    <h4>Учебные годы</h4>
+    <div class="card-options">
+      <input #acYearSearch [disabled]="isLoading" type="text" class="form-control" placeholder="Поиск...">
+    </div>
+  </div>
+
+  <div *ngIf="!isLoading" class="card-body">
+    <app-academic-year-create></app-academic-year-create>
+
+    <hr>
+
+    <div *ngIf="pager.pagedItems.length <= 0">
+      <div class="text-warning text-center">Ничего не найдено</div>
     </div>
 
-    <div *ngIf="!isLoading" class="card-body">
-        
-        <app-academic-year-create></app-academic-year-create>
-
-        <hr>
-
-        <div *ngIf="pager.pagedItems.length <= 0">
-            <div class="text-warning text-center">Ничего не найдено</div>
-        </div>
-
-        <table *ngIf="pager.pagedItems.length > 0" class="table">   
-            <thead class='thead-light'>
+    <table *ngIf="pager.pagedItems.length > 0" class="table">
+      <thead class='thead-light'>
+        <tr>
+          <th class="text-center">#</th>
+          <th class="text-center">Название</th>
+          <th class="text-center">Дата начала</th>
+          <th class="text-center">Дата конца</th>
+          <th class="text-center">...</th>
+          <th class="text-center">...</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let year of pager.pagedItems">
+          <tr class="table-info m-0">
+            <td>{{year.id}}</td>
+            <td>{{year.title}}</td>
+            <td>{{year.startDate | date:'yyyy-MM-dd'}}</td>
+            <td>{{year.endDate | date:'yyyy-MM-dd'}}</td>
+            <td>
+              <button [routerLink]="[year.id]" class="btn btn-sm btn-block btn-outline-primary" type="button">Редактировать</button>
+            </td>
+            <td>
+              <button (click)="deleteYear(year)" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="year.semesters && year.semesters.length > 0">
+            <td colspan="6" class="p-0 mb-2">
+              <table class="table">
                 <tr>
-                    <th class="text-center">#</th>
-                    <th class="text-center">Название</th>
-                    <th class="text-center">Дата начала</th>
-                    <th class="text-center">Дата конца</th>
-                    <th class="text-center">...</th>
-                    <th class="text-center">...</th>
+                  <th [attr.rowspan]="year.semesters.length + 1">
+                    <div class="vertical-text">Семестры</div>
+                  </th>
+                  <th>#</th>
+                  <th>Номер</th>
+                  <th>Начало</th>
+                  <th>Конец</th>
                 </tr>
-            </thead>
-            <tbody>
-                <ng-container *ngFor="let year of pager.pagedItems">
-                    <tr class="table-info m-0">
-                        <td>{{year.id}}</td>
-                        <td>{{year.title}}</td>
-                        <td>{{year.startDate | date:'yyyy-MM-dd'}}</td>
-                        <td>{{year.endDate | date:'yyyy-MM-dd'}}</td>
-                        <td>
-                            <button [routerLink]="[year.id]" class="btn btn-sm btn-block btn-outline-primary" type="button">Редактировать</button>
-                        </td>
-                        <td>
-                            <button (click)="deleteYear(year)" class="close" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr *ngIf="year.semesters && year.semesters.length > 0">
-                        <td colspan="6" class="p-0 mb-2">
-                            <table class="table">
-                                <tr>
-                                    <th [attr.rowspan]="year.semesters.length + 1">
-                                        <div class="vertical-text">Семестры</div>
-                                    </th>
-                                    <th>#</th>
-                                    <th>Номер</th>
-                                    <th>Начало</th>
-                                    <th>Конец</th>
-                                </tr>   
-                                <tr *ngFor="let semester of year.semesters">
-                                    <td>{{semester.id}}</td>
-                                    <td>{{semester.number}}</td>
-                                    <td>{{semester.startDate | date:'yyyy-MM-dd'}}</td>
-                                    <td>{{semester.endDate | date:'yyyy-MM-dd'}}</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </ng-container>
-            </tbody>
-        </table> <!-- Таблица учебных годов -->
+                <tr *ngFor="let semester of year.semesters">
+                  <td>{{semester.id}}</td>
+                  <td>{{semester.number}}</td>
+                  <td>{{semester.startDate | date:'yyyy-MM-dd'}}</td>
+                  <td>{{semester.endDate | date:'yyyy-MM-dd'}}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+    <!-- Таблица учебных годов -->
 
-        <div class="d-flex row justify-content-center mt-3">
-            <app-pagination [pager]="pager"></app-pagination>
-        </div>
+    <div class="d-flex row justify-content-center mt-3">
+      <app-pagination [pager]="pager"></app-pagination>
     </div>
+  </div>
 
-    <div *ngIf="isLoading" class="card-body">
-        <div class='loader'>Loading...</div>
-    </div>
-    <!-- Loader -->
+  <div *ngIf="isLoading" class="card-body d-flex p-3 justify-content-center align-content-center">
+    <div class='loader'></div>
+  </div>
+  <!-- Loader -->
 </div>

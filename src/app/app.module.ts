@@ -8,7 +8,6 @@ import { AdminModule } from './admin/admin.module';
 // Modules
 import { SharedModule     } from './_shared/shared.module';
 import { AppRoutingModule } from './app.routing';
-import { LoginModule      } from './login/login.module';
 
 // Components
 import { AppComponent } from './app.component';
@@ -37,8 +36,6 @@ import 'rxjs/add/operator/catch';
       NgbModule.forRoot(),
       SharedModule,
       AppRoutingModule,
-      LoginModule,
-      // AuthModule,
    ],
    declarations: [
       AppComponent,

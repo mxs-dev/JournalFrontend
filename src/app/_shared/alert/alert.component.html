@@ -1,4 +1,4 @@
 <div *ngIf="message" [ngClass]="{ 'alert': message, 'alert-success': message.type === 'success', 'alert-danger': message.type === 'error' }">
   {{message.text}}
-  <div class="close" aria-hidden="true" (click)="cancel()">&times;</div>
+  <div class="close" aria-hidden="true" (click)="cancel()"></div>
 </div>

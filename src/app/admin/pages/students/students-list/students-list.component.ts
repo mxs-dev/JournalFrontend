@@ -15,7 +15,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['students-list.component.scss']
 })
 export class StudentsListComponent implements OnInit, OnDestroy {
-  
+
   private readonly PAGE_SIZE = 5;
 
   @ViewChild('studentSearch', {read: ElementRef}) studentSearchInput: ElementRef;
@@ -26,7 +26,7 @@ export class StudentsListComponent implements OnInit, OnDestroy {
 
   public pager: Pager;
 
-  
+
 
   protected componentDestroyed = new Subject<any>();
 
@@ -69,7 +69,7 @@ export class StudentsListComponent implements OnInit, OnDestroy {
     this.componentDestroyed.next();
     this.componentDestroyed.complete();
   }
-  
+
 
   protected search () {
     const searchString = this.studentSearchInput.nativeElement.value;
@@ -84,11 +84,11 @@ export class StudentsListComponent implements OnInit, OnDestroy {
     this.isLoadingStudentsList = true;
 
     try {
-      this.students = await this.studentService.getAll([Student.EXTRA_FIELD_GROUP]);
+      this.students = await this.studentService.getAll([Student.EF_GROUP]);
 
       this.pager.setItems(this.students);
       this.isLoadingStudentsList = false;
-    
+
     } catch (e) {
       const error = <ApiError> e;
       console.log('StudentList got error', error);

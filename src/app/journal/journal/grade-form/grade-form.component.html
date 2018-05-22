@@ -1,0 +1,25 @@
+<form *ngIf="!isSubmitted" [formGroup]="formGroup" (ngSubmit)="onSubmit.next(formGroup.value)">
+  <div class="form-group">
+    <label>Студент</label>
+    <select class="form-control" formControlName="attendance" >
+      <option value="1" selected>присутствует</option>
+      <option value="-1">отсутствует</option>
+      <option value="0">отсутствует (ув)</option>
+    </select>
+  </div>
+
+  <div [hidden]="! isAttend()" class="form-group">
+    <label>Оценка ({{model.lesson.minGradeValue}} - {{model.lesson.maxGradeValue}})</label>
+    <input type="number" class="form-control" formControlName="value" [ngClass]="{'is-invalid': !isValid('value')}">
+    <div [hidden]="isValid('value')" class="invalid-feedback">Оценка не соответсвует допустимому промежутку</div>
+  </div>
+
+  <div class="d-flex justify-content-between">
+    <button [disabled]="! formGroup.valid" class="btn btn-sm btn-outline-success" type="submit">Сохранить</button>
+    <button class="btn btn-sm btn-outline-warning" type="button" (click)="onCancel.next();">Отменить</button>
+  </div>
+</form>
+
+<div *ngIf="isSubmitted">
+  <div class="loader"></div>
+</div>

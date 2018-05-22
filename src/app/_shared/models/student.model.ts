@@ -1,5 +1,5 @@
 import { User } from './user.model';
-import { Group } from './group.model';
+// import { Group } from './group.model';
 import { Grade } from './grade.model';
 
 export class Student extends User {
@@ -8,7 +8,7 @@ export class Student extends User {
   static readonly EF_GRADES = 'grades';
 
 
-  public group  ?: Group;
+  public group  ?: any;
   public grades ?: Grade[];
 
   public constructor (data: any) {
@@ -20,7 +20,7 @@ export class Student extends User {
 
   protected createEFAttributes (data: any) {
     if (data.group) {
-      this.group = new Group(data.group);
+      //this.group = new Group(data.group);
     }
 
     if (data.grades) {

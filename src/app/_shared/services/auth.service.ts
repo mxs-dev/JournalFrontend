@@ -12,24 +12,17 @@ import { Observable, Subject } from 'rxjs';
 export class AuthService {
   protected readonly ACCESS_TOKEN_LS_KEY = `Journal.accessToken`;
 
-  protected jwtHelper   = new JwtHelper();
-
-  protected _isLogginedIn: boolean;
-  protected _isLoadingCurrentUser = false;
-  protected _currentUser: User;
-
-
   public redirectUrl: string;
 
-  public onAuthChange = new Subject<User|null>();
+  public onAuthChange = new Subject<User>();
+
+  protected jwtHelper   = new JwtHelper();
+  protected _isLogginedIn: boolean;
+  protected _isLoadingCurrentUser = false;
 
 
   public constructor(private http: Http, private globalService: GlobalService) {
     this._isLogginedIn = this.isValidToken();
-
-    if (this._isLogginedIn) {
-      this._currentUser = this.getCurrentUserFromJWT();
-    }
   }
 
 
@@ -43,7 +36,7 @@ export class AuthService {
       return null;
     }
 
-    return this._currentUser;
+    return this.getCurrentUserFromJWT();
   }
 
 
@@ -72,7 +65,6 @@ export class AuthService {
         } else {
           this.removeAccessToken();
           this._isLogginedIn = false;
-          this.resetCurrentUser();
         }
 
         return response;
@@ -88,11 +80,31 @@ export class AuthService {
 
     this.onAuthChange.next();
 
-    this.resetCurrentUser();
+    this.removeAccessToken();
   }
 
 
-  public confirmRegistration() {
+  public confirmRegistration(emailConfirmToken: string, password: string): Promise<boolean> {
+    return this.http.post(
+      this.globalService.apiHost + '/user/confirm-registration',
+      JSON.stringify({
+        'EmailConfirmForm': {
+          'emailConfirmToken': emailConfirmToken,
+          'newPassword': password
+        }
+      }),
+      {headers: this.getHeaders()}
+    )
+    .map((response: Response) => response.json())
+    .map((response: IApiData) => {
+      if (response.success) {
+        return true;
+      } else {
+        return false;
+      }
+    })
+    .catch(this.handleError)
+    .toPromise();
   }
 
 
@@ -114,33 +126,6 @@ export class AuthService {
 
   public getAccessToken(): string {
     return localStorage.getItem(this.ACCESS_TOKEN_LS_KEY);
-  }
-
-
-  protected async loadCurrentUser(): Promise<void> {
-    if (this._isLoadingCurrentUser) {
-      return;
-    }
-
-    this._isLoadingCurrentUser = true;
-    const user = await this.http
-      .get(
-        this.globalService.apiHost + `/user/${this.getJWT().jti}`,
-        { headers: this.getHeaders() }
-      )
-      .map((response: Response) => response.json())
-      .map((response: IApiData) => new User(response.data))
-      .toPromise();
-
-    this._currentUser = user;
-    this.onAuthChange.next(this._currentUser);
-
-    this._isLoadingCurrentUser = false;
-  }
-
-
-  protected resetCurrentUser() {
-    this._currentUser = null;
   }
 
 

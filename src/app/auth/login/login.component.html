@@ -1,0 +1,35 @@
+<div class="d-flex h-100 justify-content-center">
+   <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)" class="form col-sm-10 col-md-6 col-xl-4">
+      <h2>Войти</h2>
+
+      <div class="form-group">
+         <label for="username">Email</label>
+         <input [formControl]="loginForm.controls['email']" [ngClass]="{'is-invalid': !isValid('email') || !serverFormErrors.email.valid}" type="text" class="form-control"
+            name="email">
+         <div [hidden]="isValid('email')" class="invalid-feedback">{{formErrors.email.message}}</div>
+         <div [hidden]="serverFormErrors.email.valid" class="invalid-feedback">{{serverFormErrors.email.message}}</div>
+      </div>
+
+      <div class="form-group">
+         <label for="password">Пароль</label>
+         <input [formControl]="loginForm.controls['password']" [ngClass]="{'is-invalid': !isValid('password') || !serverFormErrors.password.valid}" type="password" class="form-control"
+            name="password">
+         <div [hidden]="isValid('password')" class="invalid-feedback">{{formErrors.password.message}}</div>
+         <div [hidden]="serverFormErrors.password.valid" class="invalid-feedback">{{serverFormErrors.password.message}}</div>
+      </div>
+
+      <div *ngIf="errorMessage" class="form-group">
+        <div class="alert alert-danger">{{errorMessage}}</div>
+      </div>
+
+      <div *ngIf="!isSubmitted" class="form-group d-flex justify-content-between">
+        <button [disabled]="!loginForm.valid || isSubmitted" class="btn btn-outline-primary" type="submit">Войти</button>
+        <button [disabled]="isSubmitted" class="btn btn-outline-warning" type="reset">Отмена</button>
+      </div>
+
+      <div *ngIf="isSubmitted" class="row justify-content-center p-1">
+        <div class="loader"></div>
+      </div>
+   </form>
+
+</div>

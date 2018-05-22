@@ -1,30 +1,28 @@
 <div class="card">
-    <div class="card-header">
-        <div class="row">
-            <div class="col"><h4>Предметы</h4></div>
-            <div class="col"><input #subjectSearch [disabled]="isLoadingSubjects" class="form-control" type="text" placeholder="Поиск..."></div>
-        </div>
+  <div class="card-header">
+    <h4>Предметы</h4>
+    <div class="card-options">
+      <input #subjectSearch [disabled]="isLoadingSubjects" class="form-control" type="text" placeholder="Поиск...">
+    </div>
+  </div>
+
+  <div *ngIf="!isLoadingSubjects" class="card-body">
+    <app-subject-create></app-subject-create>
+
+    <div *ngIf="pager.pagedItems.length <= 0">
+      <div class="text-warning text-center">Ничего не найдено</div>
     </div>
 
-    <div *ngIf="!isLoadingSubjects" class="card-body">
-        <app-subject-create></app-subject-create>
+    <app-subject-list-item *ngFor="let subject of pager.pagedItems" [subject]="subject" (onDelete)="deleteSubject($event);">
+    </app-subject-list-item>
 
-        <div *ngIf="pager.pagedItems.length <= 0">
-            <div class="text-warning text-center">Ничего не найдено</div>
-        </div>
-        
-        <app-subject-list-item 
-            *ngFor="let subject of pager.pagedItems" 
-            [subject]="subject"
-            (onDelete)="deleteSubject($event);">
-        </app-subject-list-item>
-
-        <div class="d-flex row justify-content-center mt-3">
-            <app-pagination [pager]="pager"></app-pagination>   
-        </div>
+    <div class="d-flex row justify-content-center mt-3">
+      <app-pagination [pager]="pager"></app-pagination>
     </div>
+  </div>
 
-    <div *ngIf="isLoadingSubjects" class="card-body">
-        <div class='loader'>Loading...</div>
-    </div> <!-- Loader -->
+  <div *ngIf="isLoadingSubjects" class="card-body d-flex p-3 justify-content-center align-content-center">
+    <div class='loader'></div>
+  </div>
+  <!-- Loader -->
 </div>

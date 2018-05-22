@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute       } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
-import { AuthService } from '../_shared/services/index';
+import { AuthService } from '../../_shared/services/index';
 
 import { Subject } from 'rxjs';
 
@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   public isSubmitted: boolean;
 
   protected errorMessage: string;
-  protected returnUrl: string;
+  protected returnUrl:    string;
 
   protected componentDestroyed = new Subject<void>();
 
@@ -38,7 +38,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.returnUrl = this.activatedRoute.snapshot.queryParams['r'] || '/';
 
     this.initForm();
-
 
 
     this.loginForm.valueChanges
@@ -63,16 +62,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     try {
       const result = await this.authService.login(elementValues.email, elementValues.password);
       if (result) {
-        console.log('Login success');
         this.router.navigate([this.returnUrl]);
       } else {
-        this.errorMessage = 'Email or password is incorrect.';
-
+        this.errorMessage = 'Неверный логин или пароль.';
       }
     } catch (error) {
       if (Number(error.status) === 422) {
 
-        this.errorMessage = 'Some errors in form. Please check again.';
+        this.errorMessage = 'Форма авторизации заполнена неверно.';
 
         const errorFields = JSON.parse(error.data.message);
         this.setErrorsFromServer(errorFields);
@@ -127,8 +124,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   protected initForm () {
     this.loginForm = this.formBuilder.group({
-      email:    ['', Validators.compose([Validators.required, Validators.email])],
-      password: ['', Validators.compose([Validators.required, Validators.minLength(4)])]
+      email:    ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(4)]]
     });
   }
 
@@ -145,5 +142,4 @@ export class LoginComponent implements OnInit, OnDestroy {
       }
     };
   }
-
 }

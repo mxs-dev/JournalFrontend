@@ -18,7 +18,7 @@ export class JournalComponent implements OnInit, OnDestroy {
 
   public teaches: Teaches;
   public isLoadingTeaches = true;
-
+  public currentDate: Date;
 
   public studentsWithGrades: Student[];
 
@@ -39,6 +39,8 @@ export class JournalComponent implements OnInit, OnDestroy {
   public ngOnInit () {
     this.route.params.takeUntil(this.componentDestroyed)
       .subscribe(this.getRouteParamsAndLoadData.bind(this));
+
+    this.currentDate = new Date((new Date).getFullYear(), (new Date).getMonth(), (new Date).getDay());
   }
 
 
@@ -94,14 +96,19 @@ export class JournalComponent implements OnInit, OnDestroy {
 
       // Для каждого занятия находим соответствующую оценку или создаем пустую
       this.teaches.lessons.forEach(lesson => {
-        const foundGrade = lesson.grades.find((item) => {
+        let grade = lesson.grades.find((item) => {
           return item.userId === student.id;
         });
 
-        grades.push(foundGrade ? foundGrade : new Grade({
-          userId: student.id,
-          lessonId: lesson.id
-        }));
+        if (!grade) {
+          grade = new Grade({
+            userId: student.id,
+            lessonId: lesson.id,
+          });
+        }
+
+        grade.lesson = lesson;
+        grades.push(grade);
       });
 
       student.grades = grades;

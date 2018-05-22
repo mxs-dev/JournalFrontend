@@ -12,6 +12,7 @@ import { AcademicYearService } from './academic-year.service';
 import { SemesterService     } from './semester.service';
 import { LessonService       } from './lesson.service';
 import { TeachesService      } from './teaches.service';
+import { GradeService        } from './grade.service';
 
 
 const SERVICES = [
@@ -27,7 +28,8 @@ const SERVICES = [
   AcademicYearService,
   SemesterService,
   LessonService,
-  TeachesService
+  TeachesService,
+  GradeService
 ];
 
 
@@ -46,5 +48,6 @@ export {
   AcademicYearService,
   SemesterService,
   LessonService,
-  TeachesService
+  TeachesService,
+  GradeService
 };

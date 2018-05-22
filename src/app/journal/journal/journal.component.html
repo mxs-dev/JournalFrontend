@@ -24,19 +24,14 @@
         <thead>
           <tr>
             <th></th>
-            <th *ngFor="let lesson of teaches.lessons">{{lesson.date | date:'d.MM'}}</th>
+            <th *ngFor="let lesson of teaches.lessons" class="text-center">{{lesson.date | date:'d.MM'}}</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let student of studentsWithGrades">
             <td>{{student.shortFullName}}</td>
-            <td
-              *ngFor="let grade of student.grades"
-              [ngClass]="{'text-success' : grade.attendance === 1, 'text-danger' : grade.attendance === 0}"
-              [ngSwitch]="grade.attendance">
-
-              <span *ngSwitchCase="1">{{grade.value ? grade.value : '-'}}</span>
-              <span *ngSwitchCase="0"><i class="fe fe-user-minus"></i></span>
+            <td *ngFor="let grade of student.grades" class="p-0">
+              <app-journal-cell [grade]="grade" [currentDate]="currentDate" [moderAccess]="true"></app-journal-cell>
             </td>
           </tr>
         </tbody>

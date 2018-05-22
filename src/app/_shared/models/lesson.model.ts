@@ -16,6 +16,9 @@ export class Lesson extends BaseModel {
   public type: number;
   public description: string;
 
+  public minGradeValue: number;
+  public maxGradeValue: number;
+
   public subject ?: Subject;
   public grades  ?: Grade[];
 
@@ -23,10 +26,12 @@ export class Lesson extends BaseModel {
   public constructor (data: any) {
     super(data);
 
-    this.teachesId   = data.teachesId;
-    this.date        = new Date(data.date);
-    this.type        = data.type;
-    this.description = data.description;
+    this.teachesId     = data.teachesId;
+    this.date          = new Date(data.date);
+    this.type          = data.type;
+    this.description   = data.description;
+    this.minGradeValue = data.minGradeValue;
+    this.maxGradeValue = data.maxGradeValue;
 
     this.createEFAttributes(data);
   }

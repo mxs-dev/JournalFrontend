@@ -14,7 +14,7 @@ import { Observable, Subject } from 'rxjs';
   `]
 })
 export class TeachersListComponent implements OnInit, OnDestroy {
-  
+
   protected readonly PAGE_SIZE = 7;
 
   @ViewChild('teacherSearch', {read: ElementRef}) teacherSearchInput: ElementRef;
@@ -33,7 +33,7 @@ export class TeachersListComponent implements OnInit, OnDestroy {
     this.pager = new Pager([], 1, this.PAGE_SIZE);
   }
 
-  
+
   public ngOnInit () {
     this.loadAllTeachers();
     this.subscribeOnSubjectEvents();
@@ -55,7 +55,7 @@ export class TeachersListComponent implements OnInit, OnDestroy {
     try {
       const result = await this.teacherService.delete(teacher);
       this.removeTeacherFromTheList(teacher);
-      
+
     } catch (error) {
       console.log(error);
     }
@@ -68,7 +68,7 @@ export class TeachersListComponent implements OnInit, OnDestroy {
 
     try {
       re = new RegExp(searchingString, 'i');
-    } catch (e) { console.log(e); }
+    } catch (err) { console.log(err); }
 
     this.pager.setItems(this.allTeachers.filter((teacher) => {
       return teacher.fullName.search(re) >= 0;
@@ -81,10 +81,9 @@ export class TeachersListComponent implements OnInit, OnDestroy {
 
     try {
       this.allTeachers = await this.teacherService.getAll();
-      console.log(this.allTeachers);
       this.pager.setItems(this.allTeachers);
-    } catch (e) {
-      console.log(e);
+    } catch (err) {
+      console.log(err);
     } finally {
       this.isLoading = false;
     }
@@ -93,7 +92,7 @@ export class TeachersListComponent implements OnInit, OnDestroy {
 
   protected addTeacherToTheList (teacher: Teacher): void {
     this.allTeachers.push(teacher);
-    this.pager.setItems(this.allTeachers);    
+    this.pager.setItems(this.allTeachers);
   }
 
 
@@ -102,7 +101,7 @@ export class TeachersListComponent implements OnInit, OnDestroy {
       return teacher.id !== item.id;
     });
 
-    this.pager.setItems(this.allTeachers);    
+    this.pager.setItems(this.allTeachers);
   }
 
 

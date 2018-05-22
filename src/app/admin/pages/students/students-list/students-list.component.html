@@ -1,15 +1,10 @@
 <div class="card">
     <div class="card-header">
-        <div class="row">
-            <h4  class="col-6">Cтуденты</h4>
-            <div class="col-6">
-                <input #studentSearch [disabled]="isLoadingStudentsList" class="form-control" type="text" placeholder="Поиск...">
-            </div>            
-        </div>
-    </div>
 
-    <div *ngIf="isLoadingStudentsList" class='card-body'>
-        <div class='loader'>Loading...</div>
+            <h4>Cтуденты</h4>
+            <div class="card-options">
+                <input #studentSearch [disabled]="isLoadingStudentsList" class="form-control" type="text" placeholder="Поиск...">
+            </div>
     </div>
 
     <div *ngIf="!isLoadingStudentsList" class='card-body'>
@@ -25,14 +20,16 @@
                     class="btn btn-sm btn-block btn-outline-primary">Просмотр</button>
             </div>
             <div class="col-1">
-                <button (click)="deleteStudent(student);" type="button" class="close" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button (click)="deleteStudent(student);" type="button" class="close" aria-label="Close"></button>
             </div>
         </div>
 
         <div class="d-flex row justify-content-center mt-3">
-            <app-pagination [pager]="pager"></app-pagination>   
+            <app-pagination [pager]="pager"></app-pagination>
         </div>
     </div>
+
+    <div *ngIf="isLoadingStudentsList" class='card-body p-3 d-flex justify-content-center align-content-center'>
+        <div class='loader'></div>
+    </div>  <!-- Loader -->
 </div>

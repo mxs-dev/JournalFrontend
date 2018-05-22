@@ -1,0 +1,24 @@
+<div class="cell d-flex justify-content-around" [class.active]="grade.lesson.date == currentDate">
+
+  <span [ngSwitch]="grade.attendance" [ngClass]="{
+    'text-success' : (grade.value >= grade.lesson.minGradeValue && grade.attendance == 1) ,
+    'text-warning' : grade.value < grade.lesson.minGradeValue || grade.attendance == 0,
+    'text-danger'  : grade.attendance == -1
+  }">
+    <ng-container *ngSwitchCase="1">{{grade.value}}</ng-container>
+    <ng-container *ngSwitchCase="0"><i class="fe fe-user-minus"></i></ng-container>
+    <ng-container *ngSwitchCase="-1"><i class="fe fe-user-minus"></i></ng-container>
+  </span>
+
+
+  <span *ngIf="!grade.id">-</span>
+
+
+  <a [hidden]="!moderAccess" #popover="ngbPopover" container="body" [ngbPopover]="popoverContent" [ngbTooltip]="popover.isOpen() ? 'Закрыть' : 'Редактировать'">
+    <i class="fe fe-edit"></i>
+  </a>
+
+  <ng-template #popoverContent>
+    <app-grade-form [model]="grade" [isSubmitted]="isSubmitted" (onSubmit)="saveGrade($event)" (onCancel)="popover.close()"></app-grade-form>
+  </ng-template>
+</div>

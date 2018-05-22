@@ -1,0 +1,25 @@
+<div class="d-flex h-100 justify-content-center align-items-center">
+  <div class="card col-12 col-md-8 col-lg-6">
+    <div class="card-header">
+      <h4>Подверждение регистрации в сервисе</h4>
+    </div>
+
+    <div class="card-body">
+      <app-confirm-registration-form
+        *ngIf="!result"
+        [isSubmitted]="isSubmitted"
+        (onSubmit)="confirm($event)">
+      </app-confirm-registration-form>
+
+      <div *ngIf="result && result.status == false">
+        <span class="text-danger">{{result.message}}</span>
+      </div>
+
+      <div *ngIf="result && result.status == true">
+        <span class="text-success">Активация акаунта прошла успешно</span>
+        <hr>
+        <button class="btn btn-outline-primary">Войти</button>
+      </div>
+    </div>
+  </div>
+</div>
