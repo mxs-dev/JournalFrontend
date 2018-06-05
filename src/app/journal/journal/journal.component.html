@@ -1,51 +1,100 @@
 <div class="page-header">
-  <h1 class="page-title">Журнал</h1>
+  <h1 class="page-title">Журнал успеваемости</h1>
 </div>
 
+
 <div class="card" *ngIf="!isLoadingTeaches">
+  <div class="card-header">
+    <div class="d-flex flex-column flex-md-row w-100">
+      <div class="col-12 col-md-6 d-flex flex-column">
+        <div>
+          <span class="text-muted">Преподаватель</span> {{teaches.teacher.shortFullName}}</div>
+        <div>
+          <span class="text-muted">Группа</span> {{teaches.group.title}}</div>
+      </div>
+
+      <div class="col-12 col-md-6">
+          <span class="text-muted">Семестр {{teaches.semester.number}}</span>
+          ({{teaches.semester.startDate | date:"yyyy.MM.dd"}} - {{teaches.semester.endDate | date:"yyyy.MM.dd"}})
+        </div>
+    </div>
+  </div>
+
   <div class="card-body">
     <div class="row">
-      <div class="col-6">
-        <div class="card">
-          <div class="card-header">Преподаватель</div>
-          <div class="card-footer">{{teaches.teacher.fullName}}</div>
-        </div>
+      <div class="col-12 col-md-6">
+        <span class="text-muted">Процент посещаемости по группе</span>
+        <span [ngClass]="{
+                  'text-danger': attendancePercent  >= 0  && attendancePercent < 50,
+                  'text-warning': attendancePercent >= 50 && attendancePercent < 70,
+                  'text-success': attendancePercent >= 70
+                }"> {{attendancePercent}}%</span>
       </div>
-      <div class="col-6">
-        <div class="card">
-          <div class="card-header">Группа</div>
-          <div class="card-footer">{{teaches.group.title}}</div>
-        </div>
+      <div class="col-12 col-md-6">
+        <span class="text-muted">Процент успеваемости по группе</span>
+        <span [ngClass]="{
+                  'text-danger': attendancePercent  >= 0  && attendancePercent < 50,
+                  'text-warning': attendancePercent >= 50 && attendancePercent < 70,
+                  'text-success': attendancePercent >= 70
+                }"> {{performancePercent}}%</span>
       </div>
     </div>
 
-    <div>
-      <table class="table">
-        <thead>
-          <tr>
-            <th></th>
-            <th *ngFor="let lesson of teaches.lessons" class="text-center">{{lesson.date | date:'d.MM'}}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let student of studentsWithGrades">
-            <td>{{student.shortFullName}}</td>
-            <td *ngFor="let grade of student.grades" class="p-0">
-              <app-journal-cell [grade]="grade" [currentDate]="currentDate" [moderAccess]="true"></app-journal-cell>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <hr class="m-1">
+
+    <button *ngIf="!isCalculatingTotal" class="btn btn-sm btn-outline-primary" (click)="calculateTotalGrades()">Рассчитать итоговые оценки</button>
+    <button *ngIf="isCalculatingTotal" class="btn btn-sm btn-outline-primary" (click)="calculateTotalGrades()"><div class="loader"></div></button>
+  </div>
+
+  <div class="card-body p-0 table-responsive">
+    <table class="table table">
+      <thead>
+        <tr>
+          <th></th>
+          <th [attr.colspan]="teaches.lessons.length" class="text-center">Занятия</th>
+        </tr>
+        <tr>
+          <th>
+            <div class="text-right">Дата</div>
+            <hr class="m-0 p-0">
+            <div class="text-left">Студенты</div>
+          </th>
+          <th *ngFor="let lesson of teaches.lessons" class="text-center">
+            <div>{{lesson.date | date:'d.MM'}}</div>
+            <hr class="m-0 p-0">
+            <div [ngClass]="{
+               'label-practice': lesson.type == 2,
+               'label-kr'      : lesson.type == 3,
+               'label-exam'    : lesson.type == 4
+              }">{{lesson.getShortTypeLabel()}}</div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let student of studentsWithGrades">
+          <td>{{student.shortFullName}}</td>
+          <td *ngFor="let grade of student.grades" class="p-0">
+            <app-journal-cell [grade]="grade" [currentDate]="currentDate" [moderAccess]="true"></app-journal-cell>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div> <!-- CardBody -->
+
+  <div class="card-footer">
+      <div class="badge badge-default mr-1"><b>Л</b> - Лекция</div>
+      <div class="badge badge-practice mr-1"><b>ПР</b> - Практическое занятие</div>
+      <div class="badge badge-kr mr-1"><b>КР</b> - Контрольная работа</div>
+      <div class="badge badge-exam mr-1"><b>Экз</b> - Экзамен</div>
   </div>
 </div>
 
 
 
 <div class="card" *ngIf="isLoadingTeaches">
-    <div class="card-body d-flex justify-content-center align-items-center">
-      <div class="mt-5 mb-5">
-        <div class="loader"></div>
-      </div>
+  <div class="card-body d-flex justify-content-center align-items-center">
+    <div class="mt-5 mb-5">
+      <div class="loader"></div>
     </div>
   </div>
+</div>

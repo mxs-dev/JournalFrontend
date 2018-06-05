@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormGroup, Validators, FormBuilder, AbstractControl, ValidatorFn } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder, AbstractControl, ValidatorFn } from '@angular/forms';
 
 import { BaseReactiveFormComponent } from '../../../_shared/base-components/base-reactive-form.component';
 import { Grade } from '../../../_shared/models';
@@ -16,10 +16,11 @@ export class GradeFormComponent extends BaseReactiveFormComponent<Grade> {
 
   public initForm () {
     this.formGroup = this.fB.group({
-      'value': [
-        this.model ? this.model.value : '',
-        this.validateValue()
-      ],
+      'value': new FormControl({
+        value: this.model ? this.model.value : '',
+         disabled: this.isAttend()
+        }, this.validateValue()
+      ),
       'attendance': [this.model ? this.model.attendance : 1],
     });
   }
@@ -28,10 +29,11 @@ export class GradeFormComponent extends BaseReactiveFormComponent<Grade> {
   public validateValue () {
     return (control: AbstractControl): {[key: string]: any} => {
       if (!this.formGroup) return;
+      if (!this.isAttend()) return;
 
       const value = Number(this.formGroup.controls['value'].value);
 
-      if (value < 0 || value > this.model.lesson.maxGradeValue) {
+      if (value < this.model.lesson.minGradeValue || value > this.model.lesson.maxGradeValue) {
         return {'value-false': {value: control.value}};
       }
 
@@ -41,7 +43,7 @@ export class GradeFormComponent extends BaseReactiveFormComponent<Grade> {
 
 
   public isAttend () {
-    return this.formGroup.controls['attendance'].value > 0;
+    return this.formGroup && this.formGroup.controls['attendance'].value > 0;
   }
 
 

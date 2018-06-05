@@ -5,9 +5,10 @@ import { Routes, RouterModule } from '@angular/router';
 import { JournalLayoutComponent } from './journal-layout.component';
 
 // Components
-import { TeacherComponent   } from './teacher';
+import { TeacherScheduleComponent   } from './teacher-schedule';
 import { AcademicPlanViewComponent } from './academic-plan-view';
 import { JournalComponent } from './journal';
+import { GroupScheduleComponent } from './group-schedule';
 
 
 
@@ -18,11 +19,15 @@ const routes: Routes = [
     children: [
       {
         path: 'teacher',
-        component: TeacherComponent,
+        component: TeacherScheduleComponent,
       },
       {
         path: 'teacher/:id',
-        component: TeacherComponent,
+        component: TeacherScheduleComponent,
+      },
+      {
+        path: 'group-schedule/:id',
+        component: GroupScheduleComponent,
       },
       {
         path: 'academic-plan/:id',

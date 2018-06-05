@@ -16,10 +16,17 @@
 
   <div class="form-group">
     <label>Выберите тип занятия</label>
-    <select [formControl]="formGroup.controls['type']" class='form-control'>
+    <select [formControlName]="'type'" class='form-control'>
       <option value="1">Лекция</option>
       <option value="2">Практика</option>
+      <option value="3">Контрольная работа</option>
+      <option value="4">Экзамен</option>
     </select>
+  </div>
+
+  <div class="form-group">
+    <label>Введите вес оценки:</label>
+    <input class="form-control" [formControlName]="'weight'">
   </div>
 
   <div class="form-group">

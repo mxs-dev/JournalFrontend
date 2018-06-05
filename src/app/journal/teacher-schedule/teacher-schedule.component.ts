@@ -11,9 +11,9 @@ import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-teacher',
-  templateUrl: './teacher.component.html'
+  templateUrl: './teacher-schedule.component.html'
 })
-export class TeacherComponent implements OnInit, OnDestroy {
+export class TeacherScheduleComponent implements OnInit, OnDestroy {
   protected teacherId: number;
 
   public isLoadingTeacher = true;

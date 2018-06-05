@@ -20,6 +20,11 @@ export class LessonFormComponent extends BaseReactiveFormComponent<Lesson> {
   }
 
 
+  public isLection () {
+    return Number(this.formGroup.controls['type'].value) === Lesson.TYPE_LECTURE;
+  }
+
+
   protected dateValidator () {
     return (control: AbstractControl): {[key: string]: any} => {
       if (!this.formGroup) return;
@@ -48,6 +53,10 @@ export class LessonFormComponent extends BaseReactiveFormComponent<Lesson> {
       'type': [
         this.model ? this.model.type : Lesson.TYPE_LECTURE
       ],
+      'weight': [
+        this.model ? this.model.weight : 1,
+        Validators.required
+      ],
       'description': [
         this.model ? this.model.description : ''
       ]
@@ -63,4 +72,6 @@ export class LessonFormComponent extends BaseReactiveFormComponent<Lesson> {
       }
     };
   }
+
+
 }

@@ -1,19 +1,19 @@
-import { TeacherComponent } from './teacher.component';
+import { TeacherScheduleComponent } from './teacher-schedule.component';
 import { YearsListComponent } from './years-list-panel/years-list-panel.component';
 import { TeachesItemComponent } from './teaches-item/teaches-item.component';
 
 
-const TEACHER_PAGE = [
-  TeacherComponent,
+const TEACHER_SCHEDULE_PAGE = [
+  TeacherScheduleComponent,
   YearsListComponent,
   TeachesItemComponent
 ];
 
 
 export {
-  TEACHER_PAGE,
+  TEACHER_SCHEDULE_PAGE,
 
-  TeacherComponent,
+  TeacherScheduleComponent,
   YearsListComponent,
   TeachesItemComponent
 };

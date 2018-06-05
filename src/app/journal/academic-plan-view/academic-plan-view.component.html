@@ -18,10 +18,11 @@
     <hr>
 
     <div class="row list-item no-gutters" [class.deleted]="lesson._deleted" *ngFor="let lesson of viewedTeaches.lessons; let i = index;">
-      <div class="col">#{{i + 1}}</div>
-      <div class="col-2">{{lesson.type == 1 ? "Лекция" : "Практика"}}</div>
-      <div class="col-2">{{lesson.date | date }}</div>
-      <div class="col-4">{{lesson.description}}</div>
+      <div class="col text-center">#{{i + 1}}</div>
+      <div class="col-2 text-center">{{lesson.getTypeLabel()}}</div>
+      <div class="col-1 text-center">Вес {{lesson.weight}}</div>
+      <div class="col-2 text-center">{{lesson.date | date:"dd.MM" }}</div>
+      <div class="col-3 text-center">{{lesson.description}}</div>
       <div class="col-2">
         <button class="btn btn-sm btn-outline-primary btn-block">Редактировать</button>
       </div>

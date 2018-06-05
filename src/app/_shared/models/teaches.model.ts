@@ -15,9 +15,11 @@ export class Teaches extends BaseModel {
   public static readonly EF_GROUP_STUDENTS = 'group.students';
   public static readonly EF_LESSONS_GRADES = 'lessons.grades';
 
-  public userId:    number;
-  public subjectId: number;
-  public groupId:   number;
+  public userId:     number;
+  public subjectId:  number;
+  public groupId:    number;
+  public semesterId: number;
+  public hoursCount: number;
 
   public teacher  ?: Teacher;
   public lessons  ?: Lesson[];
@@ -27,9 +29,11 @@ export class Teaches extends BaseModel {
 
   public constructor (data: any) {
     super(data);
-    this.userId    = data.userId;
-    this.groupId   = data.groupId;
-    this.subjectId = data.subjectId;
+    this.userId     = data.userId;
+    this.groupId    = data.groupId;
+    this.subjectId  = data.subjectId;
+    this.semesterId = data.semesterId;
+    this.hoursCount = data.hoursCount;
 
     this.createEFAttributes(data);
   }

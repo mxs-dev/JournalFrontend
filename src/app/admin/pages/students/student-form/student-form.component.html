@@ -39,7 +39,7 @@
             <div [hidden]="isValid('email', 'maxlength')" class="invalid-feedback">{{formErrors.email.maxlength}}</div>
             <div [hidden]="isValid('email', 'email')"     class="invalid-feedback">{{formErrors.email.email}}</div>
     </div> <!-- Email -->
- 
+
     <button class="btn btn-outline-success" [disabled]="!formGroup.valid || isSubmitted" type="submit">Сохранить</button>
 </form>
 

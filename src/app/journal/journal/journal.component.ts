@@ -2,23 +2,49 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { TeachesService, LessonService, AuthService, AlertService } from '../../_shared/services';
-import { Teaches, Grade, Student } from '../../_shared/models';
+import { TeachesService, LessonService, GradeService, AuthService, AlertService } from '../../_shared/services';
+import { Teaches, Grade, Student, Lesson } from '../../_shared/models';
 
 import { Subject } from 'rxjs';
 
 
 @Component({
   selector: 'app-journal',
-  templateUrl: 'journal.component.html'
+  templateUrl: 'journal.component.html',
+  styles: [`
+    .label-practice {
+      color:Gold;
+    }
+    .label-kr {
+      color: MediumVioletRed;
+    }
+    .label-exam {
+      color: Red;
+    }
+    .badge-practice {
+      color: #555;
+      background-color: LemonChiffon;
+    }
+    .badge-kr {
+      background-color: MediumVioletRed;
+    }
+    .badge-exam {
+      background-color: Red;
+    }
+  `]
 })
 export class JournalComponent implements OnInit, OnDestroy {
   protected teachesId: number;
   protected currentUser = this.authService.getCurrentUser();
 
   public teaches: Teaches;
-  public isLoadingTeaches = true;
+  public isLoadingTeaches   = true;
+  public isCalculatingTotal = false;
   public currentDate: Date;
+
+  public attendancePercent:  number;
+  public performancePercent: number;
+
 
   public studentsWithGrades: Student[];
 
@@ -28,6 +54,7 @@ export class JournalComponent implements OnInit, OnDestroy {
   public constructor (
     private teachesService: TeachesService,
     private lessonService: LessonService,
+    private gradeService: GradeService,
     private authService: AuthService,
     private alertService: AlertService,
     private route: ActivatedRoute,
@@ -50,12 +77,26 @@ export class JournalComponent implements OnInit, OnDestroy {
   }
 
 
-  protected getRouteParamsAndLoadData (params: any) {
+  protected async getRouteParamsAndLoadData (params: any) {
     this.teachesId = params['id'];
 
     if (!this.checkAccess()) return;
 
-    this.loadTeaches();
+    await this.loadTeaches();
+    this.createStudentWithGradesObj();
+    this.calculateAttendancePercent();
+    this.calculatePerformancePercent();
+  }
+
+
+  public async calculateTotalGrades () {
+    this.isCalculatingTotal = true;
+    await this.teachesService.calculateTotalGrades(this.teachesId);
+    await this.loadTeaches();
+    this.createStudentWithGradesObj();
+    this.calculateAttendancePercent();
+    this.calculatePerformancePercent();
+    this.isCalculatingTotal = false;
   }
 
 
@@ -63,7 +104,7 @@ export class JournalComponent implements OnInit, OnDestroy {
     this.isLoadingTeaches = true;
     try {
       this.teaches = await this.teachesService.get(this.teachesId, [
-        Teaches.EF_GROUP_STUDENTS, Teaches.EF_TEACHER, Teaches.EF_LESSONS_GRADES
+        Teaches.EF_GROUP_STUDENTS, Teaches.EF_TEACHER, Teaches.EF_LESSONS_GRADES, Teaches.EF_SEMESTER
       ]);
     } catch (err) {
       console.log(err);
@@ -78,7 +119,7 @@ export class JournalComponent implements OnInit, OnDestroy {
     }
 
     console.log(this.teaches);
-    this.createStudentWithGradesObj();
+
     console.log(this.studentsWithGrades);
   }
 
@@ -114,5 +155,58 @@ export class JournalComponent implements OnInit, OnDestroy {
       student.grades = grades;
       this.studentsWithGrades.push(student);
     });
+  }
+
+
+  protected calculateAttendancePercent () {
+    let summGrades = 0;
+    let attendGrades = 0;
+
+    this.studentsWithGrades.forEach(student => {
+      student.grades.forEach(grade => {
+        if (!grade.id) return;
+
+        summGrades++;
+        if (grade.attendance > 0) {
+          attendGrades++;
+        }
+      });
+    });
+
+    this.attendancePercent = Math.round(attendGrades / summGrades * 100);
+  }
+
+
+  protected calculatePerformancePercent () {
+    let allGrades = 0;
+    let performGrades = 0;
+
+    this.studentsWithGrades.forEach(student => {
+      student.grades.forEach(grade => {
+        if (!grade.id) return;
+
+        allGrades++;
+        if (grade.value >= grade.lesson.minGradeValue) {
+          performGrades++;
+        }
+      });
+    });
+
+    this.performancePercent = Math.round(performGrades / allGrades * 100);
+  }
+
+
+  protected isAllGradesExists (grades: Grade[]) {
+    let result = true;
+    grades.forEach(grade => {
+      if (!grade.id)
+        result = false;
+    });
+
+    return result;
+  }
+
+  protected getTotalLesson () {
+    return this.teaches.lessons.find(lesson => lesson.type === Lesson.TYPE_TOTAL);
   }
 }

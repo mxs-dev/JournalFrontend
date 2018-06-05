@@ -20,7 +20,7 @@ export class Student extends User {
 
   protected createEFAttributes (data: any) {
     if (data.group) {
-      //this.group = new Group(data.group);
+      // this.group = new Group(data.group);
     }
 
     if (data.grades) {

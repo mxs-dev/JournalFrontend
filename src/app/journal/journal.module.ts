@@ -6,7 +6,8 @@ import { JournalRoutingModule } from './journal.routing.module';
 import { JournalLayoutComponent } from './journal-layout.component';
 
 // Pages
-import { TEACHER_PAGE   } from './teacher';
+import { TEACHER_SCHEDULE_PAGE   } from './teacher-schedule';
+import { GROUP_SCHEDULE_PAGE } from './group-schedule';
 import { ACADEMIC_PLAN_PAGE } from './academic-plan-view';
 import { JOURNAl_PAGE } from './journal';
 
@@ -18,7 +19,8 @@ import { JOURNAl_PAGE } from './journal';
   ],
   declarations: [
     JournalLayoutComponent,
-    TEACHER_PAGE,
+    TEACHER_SCHEDULE_PAGE,
+    GROUP_SCHEDULE_PAGE,
     ACADEMIC_PLAN_PAGE,
     JOURNAl_PAGE,
   ],
