@@ -30,9 +30,9 @@ export class SemesterCreateComponent {
 
     try {
       semester = await this.semesterService.create({
-        yearId: this.academicYear.id,        
+        yearId: this.academicYear.id,
         ...modelData,
-      });
+      } as Semester);
     } catch (err) {
       if (err.status === 422) {
         this.serverErrors = JSON.parse(err.data.message);

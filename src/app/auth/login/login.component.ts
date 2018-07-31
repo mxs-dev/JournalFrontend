@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   public serverFormErrors: any;
   public isSubmitted: boolean;
 
-  protected errorMessage: string;
+  public errorMessage: string;
   protected returnUrl:    string;
 
   protected componentDestroyed = new Subject<void>();
@@ -83,7 +83,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
 
-  protected isValid (field: string): boolean {
+  public isValid (field: string): boolean {
 
     if (!this.loginForm.controls[field].touched) {
       return true;

@@ -1,0 +1,63 @@
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">Учебный год
+      <span class="text-primary">{{year.title}}</span></div>
+    <div class="card-options">
+      <button class="btn btn-outline-primary" (click)="toggled=!toggled">{{toggled? 'Свернуть' : 'Развернуть'}}</button>
+    </div>
+  </div>
+
+  <div class="card-body" *ngIf="toggled">
+    <div class="card" *ngFor="let semester of year.semesters">
+      <div class="card-header">
+        Семестр {{semester.number}} |
+        <span class="text-muted pl-1">
+            {{semester.startDate | date:"yyyy.MM.dd"}}-{{semester.endDate | date:"yyyy.MM.dd"}}
+        </span>
+      </div>
+
+      <div class="card-body" *ngIf="semester.teaches && semester.teaches.length > 0">
+        <table class="table" *ngFor="let scheduleItem of semester.teaches">
+          <thead>
+            <tr>
+              <th [attr.colspan]="scheduleItem.lessons.length + 1" class="text-center">
+                Дисциплина: <span class="text-muted">{{ scheduleItem.subject.title }}</span>
+              </th>
+            </tr>
+            <tr>
+              <th>Контрольная точка</th>
+              <th *ngFor="let lesson of scheduleItem.lessons">
+                <div>{{lesson.date | date:'d.MM'}}</div>
+                <hr class="m-0 p-0">
+                <div [ngClass]="{
+                  'label-practice': lesson.type == 2,
+                  'label-kr'      : lesson.type == 3,
+                  'label-exam'    : lesson.type == 4
+                 }">{{lesson.getShortTypeLabel()}}</div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="scheduleItem.lessons.length > 0">
+              <td>Оценки:</td>
+              <td *ngFor="let lesson of scheduleItem.lessons">
+                <div [ngClass]="{
+                  'text-danger':  lesson.grades[0].value  < lesson.minGradeValue || lesson.grades[0].attendance == -1,
+                  'text-warning': lesson.grades[0].attendance == 0,
+                  'text-success': lesson.grades[0].value >= lesson.minGradeValue
+                }" *ngIf="lesson.grades.length > 0">
+                <div *ngIf="lesson.grades[0].attendance > 0">{{lesson.grades[0].value}}</div>
+                <div *ngIf="lesson.grades[0].attendance <= 0"><i class="fe fe-user-minus"></i></div>
+                </div>
+                <div *ngIf="lesson.grades.length <= 0">-</div>
+              </td>
+            </tr>
+            <tr *ngIf="scheduleItem.lessons.length == 0" >
+              <td class="text-center text-warning">Занятия отсутствуют</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

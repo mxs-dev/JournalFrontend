@@ -15,14 +15,17 @@ import { Subject } from 'rxjs';
 export class GroupScheduleComponent implements OnInit, OnDestroy {
   protected groupId: number;
 
+  public toggledAddBlock = true;
+
   public isLoadingGroup = true;
   public group: Group;
-  public displayTeaches: Teaches[];
+  public displayTeaches: Teaches[] = [];
 
   public currentUser = this.authService.getCurrentUser();
   public moderAccess: boolean;
 
   protected semesterId: number;
+  protected currentSemester: Semester;
   protected componentDestroyed = new Subject<void>();
 
 
@@ -60,14 +63,20 @@ export class GroupScheduleComponent implements OnInit, OnDestroy {
   }
 
 
-  public async viewTeaches (semester: Semester) {
+  public setSemester (semester) {
+    this.currentSemester = semester;
     this.setSemesterIdToUrlParam(semester);
-    this.displayTeaches = this.group.teaches.filter(item => +item.semesterId === +semester.id);
+    this.viewTeaches();
+  }
+
+
+  public viewTeaches () {
+    this.displayTeaches = this.group.teaches.filter(item => +item.semesterId === +this.currentSemester.id);
   }
 
 
   public async loadGroupWithShedule () {
-    if (this.checkAccess()){
+    if (this.checkAccess()) {
       this.isLoadingGroup = true;
       try {
         this.group = await this.groupService.get(this.groupId, [Group.EF_TEACHES_SUBJECT_TEACHER, Group.EF_STUDYING_YEARS]);
@@ -80,6 +89,12 @@ export class GroupScheduleComponent implements OnInit, OnDestroy {
       this.alertService.error('Ошибка: Отказано в доступе', true);
       this.router.navigate(['/']);
     }
+  }
+
+
+  public addScheduleElement (elem) {
+    this.group.teaches.push(elem);
+    this.viewTeaches();
   }
 
 

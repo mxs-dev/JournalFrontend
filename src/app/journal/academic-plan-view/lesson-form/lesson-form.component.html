@@ -30,6 +30,16 @@
   </div>
 
   <div class="form-group">
+    <label>Введите минимальное значение оценки:</label>
+    <input class="form-control" [formControlName]="'minGradeValue'">
+  </div>
+
+  <div class="form-group">
+    <label>Введите максимальное значение оценки:</label>
+    <input class="form-control" [formControlName]="'maxGradeValue'">
+  </div>
+
+  <div class="form-group">
     <label>Описание занятия:</label>
     <textarea [formControl]="formGroup.controls['description']" class="form-control" rows="3"></textarea>
   </div>

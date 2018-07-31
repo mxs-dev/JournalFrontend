@@ -1,5 +1,6 @@
 import { AcademicYear } from './academic-year.model';
 import { BaseModel } from './base.model';
+import { Teaches } from './teaches.model';
 
 
 export class Semester extends BaseModel {
@@ -13,6 +14,7 @@ export class Semester extends BaseModel {
   public endDate:   Date;
 
   public academicYear ?: AcademicYear;
+  public teaches      ?: Teaches[];
 
   public constructor (data) {
     super(data);
@@ -28,6 +30,11 @@ export class Semester extends BaseModel {
   public createEFAttributes (data) {
     if (data.academicYear) {
       this.academicYear = new AcademicYear(data.academicYear);
+    }
+
+    if (data.teaches) {
+      this.teaches = [];
+      data.teaches.forEach(teachesData => this.teaches.push(new Teaches(teachesData)));
     }
   }
 }

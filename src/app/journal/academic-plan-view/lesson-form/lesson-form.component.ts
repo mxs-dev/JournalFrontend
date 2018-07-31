@@ -57,6 +57,14 @@ export class LessonFormComponent extends BaseReactiveFormComponent<Lesson> {
         this.model ? this.model.weight : 1,
         Validators.required
       ],
+      'minGradeValue': [
+        this.model ? this.model.minGradeValue : 3,
+        Validators.required
+      ],
+      'maxGradeValue': [
+        this.model ? this.model.maxGradeValue : 5,
+        Validators.required
+      ],
       'description': [
         this.model ? this.model.description : ''
       ]

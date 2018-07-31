@@ -12,7 +12,7 @@ export class AcademicYear extends BaseModel {
 
   public semesters ?: Semester[];
 
-  
+
   public constructor (data: any) {
     super(data);
 
@@ -20,6 +20,14 @@ export class AcademicYear extends BaseModel {
     this.startDate = new Date(data.startDate + ' 00:00:00');
     this.endDate   = new Date(data.endDate + ' 00:00:00');
 
-    this.semesters = data.semesters || null;
+    this.createEFAttributes(data);
   }
-} 
+
+
+  public createEFAttributes (data) {
+    if (data.semesters) {
+      this.semesters = [];
+      data.semesters.forEach(semesterData => this.semesters.push(new Semester(semesterData)));
+    }
+  }
+}

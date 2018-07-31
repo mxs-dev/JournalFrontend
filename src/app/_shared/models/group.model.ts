@@ -1,7 +1,7 @@
-import { BaseModel } from './base.model';
-import { Student   } from './student.model';
-import { Teaches   } from './teaches.model';
-import { AcademicYear } from '.';
+import { BaseModel    } from './base.model';
+import { Student      } from './student.model';
+import { Teaches      } from './teaches.model';
+import { AcademicYear } from './academic-year.model';
 
 
 export class Group extends BaseModel {
@@ -13,16 +13,15 @@ export class Group extends BaseModel {
   public title: string;
   public course: number;
 
-  public students ?: Student[];
-  public teaches ?: Teaches[];
-  public studyingYears ?: AcademicYear[];
+  public students        ?: Student[];
+  public teaches         ?: Teaches[];
+  public studyingYears   ?: AcademicYear[];
+
 
   public constructor (data: any) {
     super(data);
-
     this.title     = data.title;
     this.course    = data.course;
-
     this.createEFAttributes(data);
   }
 

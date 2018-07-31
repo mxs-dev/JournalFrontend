@@ -1,0 +1,23 @@
+<div class="page-header d-flex">
+  <div class="col-6">
+    <h1 class="page-title">Страница студента</h1>
+  </div>
+  <div class="col-6" *ngIf="!isLoadingStudent">
+      {{student.fullName}} -
+      <span class="text-muted">{{student.group.title}}</span>
+  </div>
+</div>
+
+<div *ngIf="!isLoadingStudent">
+  <app-academic-performance *ngFor="let year of student.academicPerformance; let i = index;"
+    [year]="year" [toggled]="i == 0">
+  </app-academic-performance>
+</div>
+
+<div class="card" *ngIf="isLoadingStudent">
+  <div class="card-body d-flex justify-content-center align-items-center">
+    <div class="mt-5 mb-5">
+      <div class="loader"></div>
+    </div>
+  </div>
+</div>

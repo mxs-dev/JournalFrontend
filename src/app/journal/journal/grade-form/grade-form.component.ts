@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, OnChanges } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, AbstractControl, ValidatorFn } from '@angular/forms';
 
 import { BaseReactiveFormComponent } from '../../../_shared/base-components/base-reactive-form.component';
@@ -9,7 +9,7 @@ import { Grade } from '../../../_shared/models';
   selector: 'app-grade-form',
   templateUrl: 'grade-form.component.html'
 })
-export class GradeFormComponent extends BaseReactiveFormComponent<Grade> {
+export class GradeFormComponent extends BaseReactiveFormComponent<Grade> implements OnChanges {
 
   @Output() onSubmit = new EventEmitter<Grade>();
   @Output() onCancel = new EventEmitter<void>();
@@ -33,12 +33,19 @@ export class GradeFormComponent extends BaseReactiveFormComponent<Grade> {
 
       const value = Number(this.formGroup.controls['value'].value);
 
-      if (value < this.model.lesson.minGradeValue || value > this.model.lesson.maxGradeValue) {
+      if (value < 0 || value > this.model.lesson.maxGradeValue) {
         return {'value-false': {value: control.value}};
       }
 
       return;
     };
+  }
+
+
+  public ngOnChanges () {
+    if (this.formGroup && this.formGroup.controls['attendance'].value <= 0) {
+      this.formGroup.controls['value'].setValue(0);
+    }
   }
 
 

@@ -10,14 +10,22 @@
     <h5><span class="text-muted">Группа</span> <b>{{group.title}}</b></h5>
 
     <div class="card-options">
-      <button class="btn btn-outline-primary">Добавить предмет</button>
+      <button (click)="toggledAddBlock = !toggledAddBlock" class="btn" [ngClass]="{'btn-outline-primary': toggledAddBlock, 'btn-outline-warning': !toggledAddBlock}">
+        {{toggledAddBlock? 'Добавить предмет' : 'Отменить'}}
+      </button>
     </div>
   </div>
+
+
+  <div class="card-body" *ngIf="!toggledAddBlock">
+    <app-schedule-add [group]="group" (onCreate)="addScheduleElement($event);"></app-schedule-add>
+  </div>
+
 
   <div class="card-body">
     <div class="card mb-0">
       <div class="card-body">
-        <app-years-list (onSelect)="viewTeaches($event);" [years]="group.studyingYears" [semesterIdFromUrlStringToSelect]="semesterId">
+        <app-years-list (onSelect)="setSemester($event);" [years]="group.studyingYears" [semesterIdFromUrlStringToSelect]="semesterId">
         </app-years-list>
       </div>
     </div>
@@ -30,7 +38,7 @@
     </div>
 
     <div *ngIf="displayTeaches.length <= 0" class="d-flex justify-content-center p-5">
-      <div class="text-warning">Элементы расписания отсутствуют для данного семестра.</div>
+      <div class="text-warning">Элементы расписания отсутствуют.</div>
     </div>
   </div>
   </div>

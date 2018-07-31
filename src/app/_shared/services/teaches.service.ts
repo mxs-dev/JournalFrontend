@@ -16,4 +16,8 @@ export class TeachesService extends BaseService<Teaches> {
       })
       .toPromise();
   }
+
+  public async create (modelData: Teaches): Promise<Teaches> {
+    return super.create({'TeachesRecord': modelData});
+  }
 }

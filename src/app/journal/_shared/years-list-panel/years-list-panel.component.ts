@@ -26,8 +26,8 @@ import {  } from 'protractor';
 })
 export class YearsListComponent implements OnInit, OnDestroy {
 
-  @Input() years: AcademicYear[];
-  @Input() semesterIdFromUrlStringToSelect: number;
+  @Input()  years: AcademicYear[] = [];
+  @Input()  semesterIdFromUrlStringToSelect: number;
   @Output() onSelect = new EventEmitter<Semester>();
 
   public selectedYear:     AcademicYear;
@@ -44,7 +44,9 @@ export class YearsListComponent implements OnInit, OnDestroy {
     }
 
     this.selectedYear = year;
-    this.selectedSemester = null;
+    this.selectedSemester = year.semesters && year.semesters.length > 0 ? year.semesters[0] : null;
+    if (this.selectedSemester)
+      this.selectSemester(this.selectedSemester);
   }
 
 
@@ -56,6 +58,12 @@ export class YearsListComponent implements OnInit, OnDestroy {
 
 
   public ngOnInit () {
+
+    this.years.sort((a, b) => {
+      if (a.title > a.title) return -1;
+      return 1;
+    });
+
 
     if (this.semesterIdFromUrlStringToSelect) {
       this.years.forEach(year => {

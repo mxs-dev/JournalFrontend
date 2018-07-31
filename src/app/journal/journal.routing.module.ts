@@ -7,6 +7,7 @@ import { JournalLayoutComponent } from './journal-layout.component';
 // Components
 import { TeacherScheduleComponent   } from './teacher-schedule';
 import { AcademicPlanViewComponent } from './academic-plan-view';
+import { StudentPageComponent } from './student';
 import { JournalComponent } from './journal';
 import { GroupScheduleComponent } from './group-schedule';
 
@@ -24,6 +25,10 @@ const routes: Routes = [
       {
         path: 'teacher/:id',
         component: TeacherScheduleComponent,
+      },
+      {
+        path: 'student/:id',
+        component: StudentPageComponent
       },
       {
         path: 'group-schedule/:id',

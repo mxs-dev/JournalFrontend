@@ -1,0 +1,61 @@
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">Добавить предмет к расписанию</div>
+  </div>
+
+  <div class="card-body" *ngIf="!isLoading">
+    <div class="form-group">
+      <label>Выберите учебный год</label>
+      <select #yearSelect class="form-control" [(ngModel)]="selectedYearId">
+        <option [value]="year.id" *ngFor="let year of years">{{year.title}}</option>
+      </select>
+    </div>
+
+    <div class="form-group pl-3">
+      <label>Выберите семестр</label>
+      <select *ngIf="selectedYearId" class="form-control" [(ngModel)]="selectedSemesterId">
+        <option [value]="semester.id" *ngFor="let semester of getSemestersForSelectedYear()">
+          {{semester.number}} | {{semester.startDate | date:"yyyy.MM.d"}}-{{semester.endDate | date:"yyyy.MM.d"}}
+        </option>
+      </select>
+      <div *ngIf="!selectedYearId">
+        <span class="text-warning">Необходимо выбрать учебный год</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Выберите дисциплину</label>
+      <select #yearSelect class="form-control" [(ngModel)]="selectedSubjectId">
+        <option [value]="subject.id" *ngFor="let subject of subjects">{{subject.title}}</option>
+      </select>
+    </div>
+
+    <div class="form-group pl-3">
+      <label>Выберите преподавателя</label>
+      <select *ngIf="selectedSubjectId" class="form-control" [(ngModel)]="selectedTeacherId">
+        <option [value]="teacher.id" *ngFor="let teacher of getAllowedTeachersForSelectedSubject()">{{teacher.shortFullName}}</option>
+      </select>
+      <div *ngIf="!selectedSubjectId">
+        <span class="text-warning">Необходимо выбрать дисциплину</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Выберите количество часов</label>
+      <input [(ngModel)]="hoursCount">
+    </div>
+
+    <div class="form-group">
+      <button class="btn btn-outline-success" (click)="send()">Сохранить</button>
+      <button class="btn btn-outline-warning">Отменить</button>
+    </div>
+  </div>
+
+
+
+  <div *ngIf="isLoading" class="card-body d-flex justify-content-center align-items-center">
+    <div class="mt-5 mb-5">
+      <div class="loader"></div>
+    </div>
+  </div>
+</div>

@@ -19,7 +19,7 @@
       <div class="col-2 text-center">#{{group.id}}</div>
       <div class="col-4 text-center">{{group.title}}</div>
       <div class="col-2">
-        <button [routerLink]="[group.id]" class="btn btn-sm btn-outline-primary">Уч. план</button>
+        <button [routerLink]="['/group-schedule',group.id]" class="btn btn-sm btn-outline-primary">Расписание</button>
       </div>
       <div class="col-3">
         <button [routerLink]="[group.id]" class="btn btn-sm btn-block btn-outline-primary">Просмотр</button>
